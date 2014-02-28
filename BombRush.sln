@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombRush", "BombRush\BombRush\BombRush.csproj", "{8C5FBCB2-936E-4F60-B1F0-A9ED6967E8C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombRushContent", "BombRush\BombRushContent\BombRushContent.contentproj", "{BB1A8422-299F-499C-93D8-570A33828DC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombRushData", "BombRushData\BombRushData.csproj", "{878E808E-C51E-409F-838A-90DAE2ED95B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game2DFramework", "Game2DFramework\Game2DFramework.csproj", "{3943E03F-8B56-41EB-87D0-F6C962C7D952}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombRush.Logic", "BombRush.Logic\BombRush.Logic.csproj", "{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombRush.Interfaces", "BombRush.Interfaces\BombRush.Interfaces.csproj", "{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombRush.Networking", "BombRush.Networking\BombRush.Networking.csproj", "{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombRush.Server", "BombRush.Server\BombRush.Server.csproj", "{38350B9C-3434-4741-A8FC-386E40315639}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C5FBCB2-936E-4F60-B1F0-A9ED6967E8C5}.Debug|x86.ActiveCfg = Debug|x86
+		{8C5FBCB2-936E-4F60-B1F0-A9ED6967E8C5}.Debug|x86.Build.0 = Debug|x86
+		{8C5FBCB2-936E-4F60-B1F0-A9ED6967E8C5}.Release|x86.ActiveCfg = Release|x86
+		{8C5FBCB2-936E-4F60-B1F0-A9ED6967E8C5}.Release|x86.Build.0 = Release|x86
+		{BB1A8422-299F-499C-93D8-570A33828DC7}.Debug|x86.ActiveCfg = Debug|x86
+		{BB1A8422-299F-499C-93D8-570A33828DC7}.Release|x86.ActiveCfg = Release|x86
+		{878E808E-C51E-409F-838A-90DAE2ED95B9}.Debug|x86.ActiveCfg = Debug|x86
+		{878E808E-C51E-409F-838A-90DAE2ED95B9}.Debug|x86.Build.0 = Debug|x86
+		{878E808E-C51E-409F-838A-90DAE2ED95B9}.Release|x86.ActiveCfg = Release|x86
+		{878E808E-C51E-409F-838A-90DAE2ED95B9}.Release|x86.Build.0 = Release|x86
+		{3943E03F-8B56-41EB-87D0-F6C962C7D952}.Debug|x86.ActiveCfg = Debug|x86
+		{3943E03F-8B56-41EB-87D0-F6C962C7D952}.Debug|x86.Build.0 = Debug|x86
+		{3943E03F-8B56-41EB-87D0-F6C962C7D952}.Release|x86.ActiveCfg = Release|x86
+		{3943E03F-8B56-41EB-87D0-F6C962C7D952}.Release|x86.Build.0 = Release|x86
+		{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}.Debug|x86.ActiveCfg = Debug|x86
+		{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}.Debug|x86.Build.0 = Debug|x86
+		{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}.Release|x86.ActiveCfg = Release|x86
+		{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}.Release|x86.Build.0 = Release|x86
+		{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}.Debug|x86.ActiveCfg = Debug|x86
+		{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}.Debug|x86.Build.0 = Debug|x86
+		{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}.Release|x86.ActiveCfg = Release|x86
+		{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}.Release|x86.Build.0 = Release|x86
+		{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}.Debug|x86.ActiveCfg = Debug|x86
+		{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}.Debug|x86.Build.0 = Debug|x86
+		{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}.Release|x86.ActiveCfg = Release|x86
+		{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}.Release|x86.Build.0 = Release|x86
+		{38350B9C-3434-4741-A8FC-386E40315639}.Debug|x86.ActiveCfg = Debug|x86
+		{38350B9C-3434-4741-A8FC-386E40315639}.Debug|x86.Build.0 = Debug|x86
+		{38350B9C-3434-4741-A8FC-386E40315639}.Release|x86.ActiveCfg = Release|x86
+		{38350B9C-3434-4741-A8FC-386E40315639}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

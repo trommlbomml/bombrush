@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Game2DFramework</RootNamespace>
+    <AssemblyName>Game2DFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Windows</XnaPlatform>
+    <XnaProfile>HiDef</XnaProfile>
+    <XnaCrossPlatformGroupID>462c8b2d-225f-4f66-99b0-3e056b0473b6</XnaCrossPlatformGroupID>
+    <XnaOutputType>Library</XnaOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collision\Circle.cs" />
+    <Compile Include="Drawing\AnimatedSprite.cs" />
+    <Compile Include="Drawing\DepthRenderer.cs" />
+    <Compile Include="Drawing\IDepthSortable.cs" />
+    <Compile Include="Drawing\Particles\DefaultEmitter.cs" />
+    <Compile Include="Drawing\Particles\IParticleEmitter.cs" />
+    <Compile Include="Drawing\Particles\IParticleRenderer.cs" />
+    <Compile Include="Drawing\Particles\Particle.cs" />
+    <Compile Include="Drawing\Particles\ParticleSystem.cs" />
+    <Compile Include="Drawing\Particles\SpriteParticleRenderer.cs" />
+    <Compile Include="Drawing\Particles\SpriteParticleSystem.cs" />
+    <Compile Include="Drawing\ShapeRenderer.cs" />
+    <Compile Include="Extensions\PointExtension.cs" />
+    <Compile Include="Extensions\SpriteBatchExtension.cs" />
+    <Compile Include="Extensions\Vector2Extension.cs" />
+    <Compile Include="Game2D.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="Input\GamePadEx.cs" />
+    <Compile Include="Input\KeyboardEx.cs" />
+    <Compile Include="Input\MouseEx.cs" />
+    <Compile Include="Interaction\ActionTimer.cs" />
+    <Compile Include="Interaction\Storyboard.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="PriorityQueue.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sound\SoundService.cs" />
+    <Compile Include="States\Event.cs" />
+    <Compile Include="States\EventManager.cs" />
+    <Compile Include="States\InitializableState.cs" />
+    <Compile Include="States\State.cs" />
+    <Compile Include="States\StateChangeInformation.cs" />
+    <Compile Include="States\Transitions\BlendTransition.cs" />
+    <Compile Include="States\Transitions\CardTransition.cs" />
+    <Compile Include="States\Transitions\FlipTransition.cs" />
+    <Compile Include="States\Transitions\GrowTransition.cs" />
+    <Compile Include="States\Transitions\ITransition.cs" />
+    <Compile Include="States\Transitions\SlideTransition.cs" />
+    <Compile Include="States\Transitions\ThrowAwayTransition.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>

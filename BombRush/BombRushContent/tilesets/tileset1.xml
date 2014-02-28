@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <Asset Type="BombRushData.TilesetData">
+    <Texture>Textures/tileset</Texture>
+    <Templates>
+      <Item>
+        <BlockType>Ground</BlockType>
+        <SourceRectangle>0 0 32 32</SourceRectangle>
+      </Item>
+
+      <Item>
+        <BlockType>Wall</BlockType>
+        <SourceRectangle>64 0 32 32</SourceRectangle>
+      </Item>
+
+      <Item>
+        <BlockType>Box</BlockType>
+        <SourceRectangle>32 0 32 32</SourceRectangle>
+      </Item>
+
+      <Item>
+        <BlockType>TreadmillLeft</BlockType>
+        <SourceRectangle>32 0 32 32</SourceRectangle>
+      </Item>
+
+      <Item>
+        <BlockType>TreadmillRight</BlockType>
+        <SourceRectangle>0 256 32 32</SourceRectangle>
+      </Item>
+
+      <Item>
+        <BlockType>TreadmillUp</BlockType>
+        <SourceRectangle>32 256 32 32</SourceRectangle>
+      </Item>
+
+      <Item>
+        <BlockType>TreadmillDown</BlockType>
+        <SourceRectangle>96 256 32 32</SourceRectangle>
+      </Item>
+
+    </Templates>
+  </Asset>
+</XnaContent>

@@ -1,0 +1,41 @@
+﻿<Level>
+    <ItemBombCount>10</ItemBombCount>
+    <ItemFireCount>10</ItemFireCount>
+    <ItemSpeedCount>6</ItemSpeedCount>
+    <ItemPunishCount>4</ItemPunishCount>
+    <ItemMaxRangeBombCount>1</ItemMaxRangeBombCount>
+    <Player1StartupPosition>1 1</Player1StartupPosition>
+    <Player2StartupPosition>13 11</Player2StartupPosition>
+    <Player3StartupPosition>13 1</Player3StartupPosition>
+    <Player4StartupPosition>1 11</Player4StartupPosition>
+    <GroundLayer>
+      2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+      2 0 0 0 0 0 0 0 0 0 0 0 0 0 2
+      2 0 2 0 2 0 2 0 2 0 2 0 2 0 2
+      2 0 0 0 0 0 0 0 0 0 0 0 0 0 2
+      2 0 2 0 2 0 2 0 2 0 2 0 2 0 2
+      2 0 0 0 0 0 0 0 0 0 0 0 0 0 2
+      2 0 2 0 2 0 2 0 2 0 2 0 2 0 2
+      2 0 0 0 0 0 0 0 0 0 0 0 0 0 2
+      2 0 2 0 2 0 2 0 2 0 2 0 2 0 2
+      2 0 0 0 0 0 0 0 0 0 0 0 0 0 2
+      2 0 2 0 2 0 2 0 2 0 2 0 2 0 2
+      2 0 0 0 0 0 0 0 0 0 0 0 0 0 2
+      2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    </GroundLayer>
+    <FringeLayer>
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 1 1 1 1 1 1 1 1 1 0 0 0
+      0 0 0 1 0 1 0 1 0 1 0 1 0 0 0
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      0 0 0 1 0 1 0 1 0 1 0 1 0 0 0
+      0 0 0 1 1 1 1 1 1 1 1 1 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    </FringeLayer>
+  </Level>
