@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using BombRush.Networking;
 
-namespace BombRush.Server
+namespace BombRush.Server.Instance
 {
     abstract class ServerSessionBase
     {
@@ -18,7 +15,6 @@ namespace BombRush.Server
         protected ServerSessionBase(MasterServer masterServer)
         {
             MasterServer = masterServer;
-            SessionId = MasterServer.GenerateNewId();
             _incomingMessages = new Queue<Message>();
             _outgoingMessages = new Queue<Message>();
         }
@@ -41,7 +37,7 @@ namespace BombRush.Server
 
         protected void InsertOutgoingMessage(Message message)
         {
-            MasterServer.PutMessageToSend(message);
+            //MasterServer.PutMessageToSend(message);
         }
 
         public abstract void Activate();

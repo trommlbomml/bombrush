@@ -14,6 +14,7 @@ namespace BombRush.States
         private StackedMenu _stackedMenu;
         private StateChangeInformation _stateChangeInformation;
         private InputMenuItem _hostAddressMenuItem;
+        private InputMenuItem _playerNameMenuItem;
 
         private Border _tableBackgroundBorder;
         private DataTableView _listOfGameInstances;
@@ -23,7 +24,8 @@ namespace BombRush.States
             base.OnInitialize(enterInformation);
 
             _stackedMenu = new StackedMenu(Game) { Title = "Network Game" };
-            _hostAddressMenuItem = _stackedMenu.AppendMenuItem(new InputMenuItem(Game, "Server IP", 15, InputType.IpAddress) { InputText = "127.0.0.1" });
+            _hostAddressMenuItem = _stackedMenu.AppendMenuItem(new InputMenuItem(Game, "Server IP", 15, InputType.HostNames) { InputText = "localhost" });
+            _playerNameMenuItem = _stackedMenu.AppendMenuItem(new InputMenuItem(Game, "Your Name", 15, InputType.AlphaNumeric) { InputText = "guest" });
             _stackedMenu.AppendMenuItem(new ActionMenuItem(Game, "Connect", OnConnect, ActionTriggerKind.IsAccept));
             _stackedMenu.AppendMenuItem(new ActionMenuItem(Game, "Back", OnBack, ActionTriggerKind.IsAccept));
 
@@ -69,7 +71,8 @@ namespace BombRush.States
         private void OnConnect()
         {
             var host = _hostAddressMenuItem.InputText;
-            _gameCreationSession.ConnectToServer(host);
+            var name = _playerNameMenuItem.InputText;
+            _gameCreationSession.ConnectToServer(host, name);
         }
 
         protected override void OnEntered(object enterInformation)
@@ -97,7 +100,7 @@ namespace BombRush.States
             if (_lastState == GameCreationSessionState.ConnectingToServer &&
                 _gameCreationSession.State == GameCreationSessionState.ConnectionToServerFailed)
             {
-                _timedSplash.Start("Unable to connect to server.", 1.0f);
+                _timedSplash.Start("Unable to connect:" + _gameCreationSession.ConnectionFailedMessage, 2.0f);
             }
             _lastState = _gameCreationSession.State;
 
@@ -107,9 +110,6 @@ namespace BombRush.States
         public override void OnDraw(float elapsedTime)
         {
             base.OnDraw(elapsedTime);
-
-            _tableBackgroundBorder.Draw();
-            _listOfGameInstances.Draw();
 
             if (_gameCreationSession.State == GameCreationSessionState.Connected)
             {

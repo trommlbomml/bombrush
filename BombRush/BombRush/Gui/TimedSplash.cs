@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Game2DFramework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -8,7 +11,7 @@ namespace BombRush.Gui
     class TimedSplash : GameObject
     {
         private readonly Border _border;
-        private String _text;
+        private List<string> _text;
         private float _lifeTime;
         private float _elapsed;
         private const int Padding = 10;
@@ -20,17 +23,42 @@ namespace BombRush.Gui
             Running = false;
         }
 
+        private List<string> WrapText(SpriteFont spriteFont, string text, float maxLineWidth)
+        {
+            var lines = new List<string>();
+            var words = text.Split(' ');
+
+            var lineWidth = 0f;
+            var sb = new StringBuilder();
+            var spaceWidth = spriteFont.MeasureString(" ").X;
+
+            foreach (var word in words)
+            {
+                var size = spriteFont.MeasureString(word);
+
+                if (lineWidth + size.X > maxLineWidth)
+                {
+                    lines.Add(sb.ToString().Trim());
+                    sb.Clear();
+                }
+
+                sb.Append(word + " ");
+                lineWidth += size.X + spaceWidth;
+            }
+
+            return lines;
+        }
+
         public void Start(string text, float lifeTime)
         {
-            _text = text;
+            _text = WrapText(Resources.BigFont, text, 600);
             _elapsed = 0;
             Running = true;
             _lifeTime = lifeTime;
 
-            _border.Width = (int)Resources.BigFont.MeasureString(_text).X + 2 * Padding + 2 * Border.BorderSize;
-            _border.Height = Resources.BigFont.LineSpacing + 2 * Padding + 2 * Border.BorderSize;
-            _border.X = (Game.ScreenWidth - _border.Width) / 2;
-            _border.Y = (Game.ScreenHeight - _border.Height) / 2;
+            _border.SetClientSize((int)_text.Select(s => Resources.BigFont.MeasureString(s).X).Max(l => l), _text.Count * Resources.BigFont.LineSpacing);
+            _border.CenterHorizontal();
+            _border.CenterVertical();
         }
 
         public bool Running { get; private set; }
@@ -51,8 +79,8 @@ namespace BombRush.Gui
         {
             if (!Running) return;
 
-            float remaining = _lifeTime - _elapsed;
-            float alpha = remaining <= 0.25f ? remaining * 4.0f : 1.0f;
+            var remaining = _lifeTime - _elapsed;
+            var alpha = remaining <= 0.25f ? remaining * 4.0f : 1.0f;
 
             if (withShadows)
             {
@@ -64,12 +92,16 @@ namespace BombRush.Gui
             }
 
             _border.Draw(Color.Red * alpha);
-                     
-            spriteBatch.DrawString(
-                Resources.BigFont, 
-                _text, 
-                new Vector2(_border.X + Padding + Border.BorderSize, _border.Y + Padding + Border.BorderSize),
-                Color.Red * alpha);
+
+            var start = _border.ClientY;
+            foreach (var line in _text)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    spriteBatch.DrawString( Resources.BigFont, line, new Vector2(_border.ClientX + Padding, start + Padding), Color.Red * alpha);
+                }
+                start += Resources.BigFont.LineSpacing;
+            }
         }
     }
 }

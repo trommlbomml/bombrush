@@ -9,9 +9,9 @@ namespace BombRush.Network
         GameCreationSessionState State { get; }
         ReadOnlyCollection<GameInstance> RunningGameInstances { get; }
 
-        void ConnectToServer(string host);
-        GameSession CreateGameInstance(string gameName, string playerName);
-        GameSession JoinGameInstance(GameInstance instance, string playerName);
+        void ConnectToServer(string host, string playerName);
+        GameSession CreateGameInstance(string gameName);
+        GameSession JoinGameInstance(GameInstance instance);
         void LeaveGameInstance();
     }
 }

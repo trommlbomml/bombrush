@@ -55,5 +55,10 @@ namespace BombRush.Gui
                                           color,
                                           _ninePatchParameter);
         }
+
+        public void CenterVertical()
+        {
+            Y = Game.ScreenHeight / 2 - Height / 2;
+        }
     }
 }

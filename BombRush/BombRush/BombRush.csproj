@@ -119,6 +119,8 @@
     <Compile Include="Gui\TextBox.cs" />
     <Compile Include="Gui\WaitDialog.cs" />
     <Compile Include="Network\GameCreationSession.cs" />
+    <Compile Include="Network\GameCreationSessionState.cs" />
+    <Compile Include="Network\GameInstance.cs" />
     <Compile Include="Network\GameSessionClient.cs" />
     <Compile Include="Network\RemoteGameCreationSession.cs" />
     <Compile Include="Rendering\Cursor.cs" />

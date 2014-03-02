@@ -1,30 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
+using BombRush.Networking.Extensions;
 using Lidgren.Network;
 using System.Threading;
-using BombRush.Networking;
 
 namespace BombRush.Server
 {
+    class GameClient
+    {
+        public string Name;
+        public byte Id;
+        public ServerSession Session;
+        public IPEndPoint EndPoint;
+    }
+
     class MasterServer
     {
         public const string ApplicationNetworkIdentifier = "BombRushNetworkGameIdentifier";
 
+        private readonly HashSet<byte> _availableIds; 
+        private readonly int _maxClientCount;
         private readonly object _networkUpdateLockObject = new object();
-        private List<SessionClient> _allClients;
         private NetServer _server;
         private List<ServerSession> _allSessions = new List<ServerSession>();
-        private Queue<Message> _messagesToSend;
-        private byte _currentNewId;
+        private readonly List<GameClient> _connectedClients;
                 
         private LogListener Tracer { get; set; }
 
         public MasterServer(MasterServerConfiguration masterServerConfig)
         {
-            _allClients = new List<SessionClient>();
-            _messagesToSend = new Queue<Message>();
+            _availableIds = new HashSet<byte>(Enumerable.Range(1,255).Select(e => (byte)e));
+            _maxClientCount = masterServerConfig.MaxGameSessions*4;
+            _connectedClients = new List<GameClient>();
+
             Tracer = masterServerConfig.LogListener;
 
             CreateSessions(masterServerConfig);
@@ -50,63 +60,122 @@ namespace BombRush.Server
             }
         }
 
-        public void PutMessageToSend(Message message)
-        {
-            lock (_messagesToSend)
-            {
-                _messagesToSend.Enqueue(message);
-            }
-        }
-
         private void StartNetServer(MasterServerConfiguration masterServerConfig)
         {
             var configuration = new NetPeerConfiguration(ApplicationNetworkIdentifier);
-            configuration.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             configuration.Port = masterServerConfig.Port;
+            configuration.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 
             _server = new NetServer(configuration);
-            Tracer.Print(string.Format("Created server with {0} games in {1} Threads.", _allSessions.Count, masterServerConfig.Threads));
-            Tracer.Print(string.Format("Port: {0}", masterServerConfig.Port));
+            Tracer.PrintInfo(string.Format("Created server with {0} games in {1} Threads.", _allSessions.Count, masterServerConfig.Threads));
+            Tracer.PrintInfo(string.Format("Port: {0}", masterServerConfig.Port));
 
-             _server.RegisterReceivedCallback(s =>
-            {
-                lock (_networkUpdateLockObject)
-                {
-                    var timeStamp = NetTime.Now;
-                    //_server.HandleNetMessages(timeStamp, HandleDataMessages, HandleStatusChangedServer, SendDiscoveryResponse);
-                }
-            });
-
+             _server.RegisterReceivedCallback(OnClientMessageReceived);
             _server.Start();
-            Tracer.Print("Server started successfully.");
+            Tracer.PrintInfo("Server started successfully.");
+        }
+
+        private void OnClientMessageReceived(object state)
+        {
+            lock (_networkUpdateLockObject)
+            {
+                _server.HandleNetMessages(NetTime.Now, HandleDataMessage, HandleStatusChangedMessage, HandleConnectionApproval);
+            }
+        }
+
+        private void HandleConnectionApproval(double d, NetIncomingMessage netIncomingMessage)
+        {
+            //todo: maximale Id-Grenze.
+            if (_connectedClients.Count < _maxClientCount && _connectedClients.Count < 255)
+            {
+                netIncomingMessage.SenderConnection.Deny("Server full.");
+                //netIncomingMessage.SenderConnection.Approve();
+            }
+            else
+            {
+                netIncomingMessage.SenderConnection.Deny("Server full.");
+            }
+        }
+
+        private void HandleClientJoined(NetIncomingMessage msg)
+        {
+            var clientExist = _connectedClients.Any(p => p.EndPoint.Equals(msg.SenderEndPoint));
+
+            if (clientExist) Tracer.PrintWarning(string.Format("Client {0}, is already registered on server", msg.SenderEndPoint));
+
+            if (!clientExist && msg.SenderConnection.RemoteHailMessage != null)
+            {
+                var playerName = msg.SenderConnection.RemoteHailMessage.ReadString();
+                var client = new GameClient
+                {
+                    EndPoint = msg.SenderEndPoint,
+                    Name = playerName,
+                    Id = GetNextId()
+                };
+                _connectedClients.Add(client);
+
+                Tracer.PrintInfo(string.Format("Client {0} ({1}) joined the server.",playerName, msg.SenderEndPoint));
+            }
+        }
+
+        private void HandleClientLeft(NetIncomingMessage netIncomingMessage)
+        {
+            var clientToRemove = _connectedClients.FirstOrDefault(p => p.EndPoint.Equals(netIncomingMessage.SenderEndPoint));
+            if (clientToRemove == null)
+            {
+                Tracer.PrintWarning("Try to remove Client " + netIncomingMessage.SenderEndPoint + " but is not registered.");
+            }
+            else
+            {
+                Tracer.PrintInfo("Client" + netIncomingMessage.SenderEndPoint + " left server.");
+                _connectedClients.Remove(clientToRemove);
+            }
+        }
+
+        private void HandleStatusChangedMessage(double d, NetIncomingMessage netIncomingMessage)
+        {
+            var connectionStatus = (NetConnectionStatus)netIncomingMessage.ReadByte();
+
+            if (connectionStatus == NetConnectionStatus.Connected)
+            {
+                HandleClientJoined(netIncomingMessage);
+            }
+            else if (connectionStatus == NetConnectionStatus.Disconnected)
+            {
+                HandleClientLeft(netIncomingMessage);
+            }
+        }
+
+        private void HandleDataMessage(double d, NetIncomingMessage netIncomingMessage)
+        {
+            throw new NotImplementedException();
         }
 
         public void Update()
         {
-            Message message;
-            do
-            {
-                lock (_messagesToSend)
-                {
-                    message = _messagesToSend.Count > 0 ? _messagesToSend.Dequeue() : null;
-                }
-                SendMessage(message);
-            } 
-            while (message != null);
+            //Message message;
+            //do
+            //{
+            //    lock (_messagesToSend)
+            //    {
+            //        message = _messagesToSend.Count > 0 ? _messagesToSend.Dequeue() : null;
+            //    }
+            //    SendMessage(message);
+            //} 
+            //while (message != null);
             Thread.Sleep(0);
         }
 
-        private void SendMessage(Message message)
+        private void FreeId(byte id)
         {
-            lock (_networkUpdateLockObject)
-            {
-                //todo: nachrichten an Clients senden.
-            }
+            _availableIds.Add(id);
         }
 
-        internal byte GenerateNewId()
+        private byte GetNextId()
         {
-            return _currentNewId++;
+            var nextId = _availableIds.First();
+            _availableIds.Remove(nextId);
+            return nextId;
         }
     }
 }

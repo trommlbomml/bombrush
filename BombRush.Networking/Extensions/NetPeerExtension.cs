@@ -38,7 +38,7 @@ namespace BombRush.Networking.Extensions
             }
         }
 
-        public static void HandleNetMessages(this NetServer netServer, double timeStamp, Action<double, NetIncomingMessage> handleDataMessage, Action<double, NetIncomingMessage> handleStatusChangedMessage, Action<double, NetIncomingMessage> handleDiscoperyRequest)
+        public static void HandleNetMessages(this NetServer netServer, double timeStamp, Action<double, NetIncomingMessage> handleDataMessage, Action<double, NetIncomingMessage> handleStatusChangedMessage, Action<double, NetIncomingMessage> handleConnectionApproval)
         {
             NetIncomingMessage inc;
             while ((inc = netServer.ReadMessage()) != null)
@@ -46,11 +46,11 @@ namespace BombRush.Networking.Extensions
                 HandleCommonMessageTypes(timeStamp, inc, handleDataMessage);
                 switch (inc.MessageType)
                 {
+                    case NetIncomingMessageType.ConnectionApproval:
+                        handleConnectionApproval(timeStamp, inc);
+                        break;
                     case NetIncomingMessageType.StatusChanged:
                         handleStatusChangedMessage(timeStamp, inc);
-                        break;
-                    case NetIncomingMessageType.DiscoveryRequest:
-                        handleDiscoperyRequest(timeStamp, inc);
                         break;
                 }
             }

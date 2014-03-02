@@ -19,6 +19,8 @@ namespace BombRush.Network
         private readonly MessageTypeMap _messageTypeMap;
         private readonly List<GameInstance> _gameInstances;
 
+        public string ConnectionFailedMessage { get; set; }
+
         public RemoteGameCreationSession(Game2D game) : base(game)
         {
             State = GameCreationSessionState.Disconnected;
@@ -31,12 +33,13 @@ namespace BombRush.Network
         public GameCreationSessionState State { get; private set; }
         public ReadOnlyCollection<GameInstance> RunningGameInstances { get; private set; }
 
-        public void ConnectToServer(string host)
+        public void ConnectToServer(string host, string playerName)
         {
+            ConnectionFailedMessage = string.Empty;
             State = GameCreationSessionState.ConnectingToServer;
 
             var configuration = new NetPeerConfiguration(ApplicationNetworkIdentifier);
-            configuration.Port = Properties.Settings.Default.MultiplayerPort;
+            configuration.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 
 //#if !DEBUG
             configuration.ConnectionTimeout = 5.0f;
@@ -47,7 +50,18 @@ namespace BombRush.Network
             Task.Factory.StartNew(() =>
             {
                 _netClient.Start();
-                _netClient.Connect(host, Properties.Settings.Default.MultiplayerPort);
+                var hail = _netClient.CreateMessage();
+                hail.Write(playerName);
+                try
+                {
+                    _netClient.Connect(host, Properties.Settings.Default.MultiplayerPort, hail);
+                }
+                catch (Exception ex)
+                {
+                    State = GameCreationSessionState.ConnectionToServerFailed;
+                    ConnectionFailedMessage = "Connection Failed. Check Hostname.";
+                }
+                
             });
         }
 
@@ -64,22 +78,27 @@ namespace BombRush.Network
             _netClient.HandleNetMessages(0, HandleDataMessage, HandleStatusChanged);
         }
 
-        private void HandleStatusChanged(double d, NetConnectionStatus netConnectionStatus, string arg3)
+        private void HandleStatusChanged(double d, NetConnectionStatus netConnectionStatus, string reason)
         {
             if (netConnectionStatus == NetConnectionStatus.Disconnected)
             {
                 State = GameCreationSessionState.ConnectionToServerFailed;
+                ConnectionFailedMessage = reason;
+            }
+            else if (netConnectionStatus == NetConnectionStatus.Connected)
+            {
+                State = GameCreationSessionState.Connected;
             }
         }
 
-        public GameSession CreateGameInstance(string gameName, string playerName)
+        public GameSession CreateGameInstance(string gameName)
         {
             if (State != GameCreationSessionState.Connected) throw new InvalidOperationException("Session must be connected to Create Game Instance");
 
             throw new NotImplementedException();
         }
 
-        public GameSession JoinGameInstance(GameInstance instance, string playerName)
+        public GameSession JoinGameInstance(GameInstance instance)
         {
             if (State != GameCreationSessionState.Connected) throw new InvalidOperationException("Session must be connected to join Game Instance");
 

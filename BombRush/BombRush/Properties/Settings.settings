@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MultiplayerPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1350</Value>
+      <Value Profile="(Default)">11175</Value>
     </Setting>
     <Setting Name="Nickname" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

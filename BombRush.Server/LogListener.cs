@@ -7,6 +7,7 @@ namespace BombRush.Server
 {
     interface LogListener
     {
-        void Print(string text);
+        void PrintInfo(string text);
+        void PrintWarning(string text);
     }
 }
