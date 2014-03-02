@@ -1,5 +1,4 @@
 ﻿
-using System.Net;
 using BombRush.Controller;
 using BombRush.Interfaces;
 using Game2DFramework;
@@ -7,34 +6,15 @@ using Lidgren.Network;
 
 namespace BombRush.Network
 {
-    class GameSessionClientParameter
-    {
-        public IPAddress GameServerAddress { get; set; } 
-        public int Port { get; set; }
-    }
-
     class GameSessionClient : GameObject, GameSession
     {
-        private const string ApplicationNetworkIdentifier = "BombRushNetworkGameIdentifier";
-
         private NetClient _netClient;
         private double _serverTimeStamp;
         private FigureController _figureController;
         
-        public GameSessionClient(Game2D game, GameSessionClientParameter parameter) : base(game)
+        public GameSessionClient(Game2D game, NetClient client) : base(game)
         {
-            State = GameSessionState.Disconnected;
-
-            var configuration = new NetPeerConfiguration(ApplicationNetworkIdentifier);
-            configuration.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
-
-#if !DEBUG
-            configuration.ConnectionTimeout = 5.0f;
-#endif
-
-            _netClient = new NetClient(configuration);
-            _netClient.Start();
-
+            _netClient = client;
             _figureController = PlayerController.CreateNet(game, InputDeviceType.Keyboard);
         }
 

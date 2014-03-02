@@ -21,6 +21,23 @@ namespace BombRush.Networking.Extensions
             }
         }
 
+        public static void HandleNetMessages(this NetClient netClient, double timeStamp, Action<double, NetIncomingMessage> handleDataMessage, Action<double, NetConnectionStatus, string> handleStatusChanged)
+        {
+            NetIncomingMessage inc;
+            while ((inc = netClient.ReadMessage()) != null)
+            {
+                HandleCommonMessageTypes(timeStamp, inc, handleDataMessage);
+                switch (inc.MessageType)
+                {
+                    case NetIncomingMessageType.StatusChanged:
+                        var netStatus = (NetConnectionStatus) inc.ReadByte();
+                        var reason = inc.ReadString();
+                        handleStatusChanged(timeStamp, netStatus, reason);
+                        break;
+                }
+            }
+        }
+
         public static void HandleNetMessages(this NetServer netServer, double timeStamp, Action<double, NetIncomingMessage> handleDataMessage, Action<double, NetIncomingMessage> handleStatusChangedMessage, Action<double, NetIncomingMessage> handleDiscoperyRequest)
         {
             NetIncomingMessage inc;

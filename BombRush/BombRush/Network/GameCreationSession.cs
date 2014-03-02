@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.ObjectModel;
+using System.Net;
 using BombRush.Interfaces;
 
 namespace BombRush.Network
@@ -14,22 +15,20 @@ namespace BombRush.Network
 
     enum GameCreationSessionState
     {
+        Disconnected,
         ConnectingToServer,
-        GameLobby,
-        JoinedGame,
-        FirstMatchStarted,
-        ConnectionFailed
+        Connected,
+        ConnectionToServerFailed
     }
 
     interface GameCreationSession
     {
         GameCreationSessionState State { get; }
-        GameSessionMember[] Members { get; }
         ReadOnlyCollection<GameInstance> RunningGameInstances { get; }
-        bool IsAdministrator { get; }
 
-        void CreateGameInstance(string gameName, string playerName);
-        void JoinGameInstance(GameInstance instance, string playerName);
+        void ConnectToServer(string host);
+        GameSession CreateGameInstance(string gameName, string playerName);
+        GameSession JoinGameInstance(GameInstance instance, string playerName);
         void LeaveGameInstance();
     }
 }

@@ -9,12 +9,13 @@ namespace BombRush.Gui
     enum InputType
     {
         AlphaNumeric,
-        Numeric
+        Numeric,
+        IpAddress,
     }
 
     class StringInputController
     {
-        private List<Keys> _lastPressedKeys;
+        private readonly List<Keys> _lastPressedKeys;
         private readonly string[] _validCharacterCodes;
 
         public InputType InputType { get; private set; }
@@ -26,6 +27,7 @@ namespace BombRush.Gui
             _lastPressedKeys = new List<Keys>();
             MaxInputCharacters = maxInputCharacters;
             InputType = inputType;
+            CurrentText = string.Empty;
 
             switch (InputType)
             {
@@ -34,6 +36,9 @@ namespace BombRush.Gui
                     break;
                 case InputType.Numeric:
                     _validCharacterCodes = new[] { "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9" };
+                    break;
+                case InputType.IpAddress:
+                    _validCharacterCodes = new[] { "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", Keys.OemPeriod.ToString() };
                     break;
             }
         }
@@ -62,7 +67,7 @@ namespace BombRush.Gui
                     var pressed = pressedKey.ToString();
 
                     if (!IsAnyShiftKeyDown(keyboard)) pressed = pressed.ToLower();
-                    
+
                     if (pressed.Equals("space"))
                     {
                         pressed = " ";
@@ -74,7 +79,14 @@ namespace BombRush.Gui
 
                     if (InputType == InputType.Numeric && pressed == "d") break;
 
-                    CurrentText += pressed;
+                    if (pressedKey == Keys.OemPeriod)
+                    {
+                        CurrentText += ".";
+                    }
+                    else
+                    {
+                        CurrentText += pressed;
+                    }
                 }
 
                 _lastPressedKeys.Clear();

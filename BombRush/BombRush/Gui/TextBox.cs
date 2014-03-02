@@ -15,7 +15,7 @@ namespace BombRush.Gui
 
         public TextBox(Game2D game, int width, int height) : base(game)
         {
-            _frameBorder = new Border(game.Content.Load<Texture2D>("Textures/border"))
+            _frameBorder = new Border(game)
             {
                 Width = width, 
                 Height = height
@@ -32,7 +32,7 @@ namespace BombRush.Gui
 
         public void Draw()
         {
-            _frameBorder.Draw(Game.SpriteBatch);
+            _frameBorder.Draw();
         }
     }
 }

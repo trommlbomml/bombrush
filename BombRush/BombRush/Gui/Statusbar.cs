@@ -18,7 +18,7 @@ namespace BombRush.Gui
 
         public Statusbar(Game2D game) : base(game)
         {
-            _border = new Border(Game.Content.Load<Texture2D>("textures/border"));
+            _border = new Border(game);
             _entries = new List<string>();
         }
 
@@ -40,12 +40,12 @@ namespace BombRush.Gui
             {
                 _border.X += Border.ShadowOffset;
                 _border.Y += Border.ShadowOffset;
-                _border.Draw(spriteBatch, Border.ShadowColor);
+                _border.Draw(Border.ShadowColor);
                 _border.X -= Border.ShadowOffset;
                 _border.Y -= Border.ShadowOffset;
             }
 
-            _border.Draw(spriteBatch);
+            _border.Draw();
 
             int startX = (Game.ScreenWidth - Width) / 2 + Border.BorderSize + Padding;
             int startY = Game.ScreenHeight - (Resources.NormalFont.LineSpacing + Border.BorderSize + Padding) - bottomOffset;

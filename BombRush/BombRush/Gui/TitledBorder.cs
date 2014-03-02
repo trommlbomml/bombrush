@@ -29,8 +29,8 @@ namespace BombRush.Gui
 
         public TitledBorder(Game2D game, string title = "", int width = 100, int height = 100, int minUserOffsetY = int.MinValue) : base(game)
         {
-            _contentBorder = new Border(Game.Content.Load<Texture2D>("textures/border"));
-            _titleBorder = new Border(Game.Content.Load<Texture2D>("textures/border"));
+            _contentBorder = new Border(game);
+            _titleBorder = new Border(game);
             Title = title;
 
             SetSize(width, height, minUserOffsetY);
@@ -95,19 +95,19 @@ namespace BombRush.Gui
             {
                 _contentBorder.X += Border.ShadowOffset;
                 _contentBorder.Y += Border.ShadowOffset;
-                _contentBorder.Draw(spriteBatch, Border.ShadowColor);
+                _contentBorder.Draw(Border.ShadowColor);
                 _contentBorder.X -= Border.ShadowOffset;
                 _contentBorder.Y -= Border.ShadowOffset;
 
                 _titleBorder.X += Border.ShadowOffset;
                 _titleBorder.Y += Border.ShadowOffset;
-                _titleBorder.Draw(spriteBatch, Border.ShadowColor);
+                _titleBorder.Draw(Border.ShadowColor);
                 _titleBorder.X -= Border.ShadowOffset;
                 _titleBorder.Y -= Border.ShadowOffset;
             }
 
-            _contentBorder.Draw(spriteBatch);
-            _titleBorder.Draw(spriteBatch);
+            _contentBorder.Draw();
+            _titleBorder.Draw();
             if (!string.IsNullOrEmpty(Title))
                 spriteBatch.DrawString(Resources.BigFont, Title, new Vector2(_titleBorder.X + Border.BorderSize, _titleBorder.Y + Border.BorderSize), Color.White);
         }

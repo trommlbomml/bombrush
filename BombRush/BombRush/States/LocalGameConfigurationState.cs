@@ -1,7 +1,6 @@
 ﻿
 using System;
 using BombRush.Gui;
-using BombRush.Properties;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using BombRush.Logic;

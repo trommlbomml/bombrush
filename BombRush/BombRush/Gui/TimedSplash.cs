@@ -1,7 +1,5 @@
 ﻿using System;
-using BombRush.Network.Framework;
 using Game2DFramework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
@@ -17,7 +15,7 @@ namespace BombRush.Gui
 
         public TimedSplash(Game2D game) : base(game)
         {
-            _border = new Border(Game.Content.Load<Texture2D>("textures/border"));
+            _border = new Border(game);
             _elapsed = 0;
             Running = false;
         }
@@ -39,8 +37,7 @@ namespace BombRush.Gui
 
         public void Update(float elapsed)
         {
-            if (!Running)
-                return;
+            if (!Running) return;
 
             _elapsed += elapsed;
 
@@ -52,8 +49,7 @@ namespace BombRush.Gui
 
         public void Draw(SpriteBatch spriteBatch, bool withShadows)
         {
-            if (!Running)
-                return;
+            if (!Running) return;
 
             float remaining = _lifeTime - _elapsed;
             float alpha = remaining <= 0.25f ? remaining * 4.0f : 1.0f;
@@ -62,12 +58,12 @@ namespace BombRush.Gui
             {
                 _border.X += Border.ShadowOffset;
                 _border.Y += Border.ShadowOffset;
-                _border.Draw(spriteBatch, Color.Black * alpha);
+                _border.Draw(Color.Black * alpha);
                 _border.X -= Border.ShadowOffset;
                 _border.Y -= Border.ShadowOffset;
             }
 
-            _border.Draw(spriteBatch, Color.Red * alpha);
+            _border.Draw(Color.Red * alpha);
                      
             spriteBatch.DrawString(
                 Resources.BigFont, 

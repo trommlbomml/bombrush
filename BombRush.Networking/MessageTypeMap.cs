@@ -10,6 +10,7 @@ namespace BombRush.Networking
 
         public MessageTypeMap()
         {
+            RegisterType(typeof(GameCreationStatusMessage));
             RegisterType(typeof(ClientReadyMessage));
             RegisterType(typeof(ConnectionStatusMessage));
             RegisterType(typeof(GameDataTransferMessage));

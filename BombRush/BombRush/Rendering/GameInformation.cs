@@ -32,7 +32,7 @@ namespace BombRush.Rendering
 
         public GameInformation(Game2D game, Level level) : base(game)
         {
-            _border = new Border(Game.Content.Load<Texture2D>("textures/border"));
+            _border = new Border(game);
             _font = Resources.NormalFont;
             _level = level;
 
@@ -69,7 +69,7 @@ namespace BombRush.Rendering
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _border.Draw(spriteBatch);
+            _border.Draw();
 
             var timeString = GetTimeString();
             spriteBatch.DrawString(

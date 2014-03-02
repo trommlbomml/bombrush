@@ -13,16 +13,17 @@ namespace BombRush
     class BombGame : Game2D
     {
         internal const int MaxPlayerCount = 4;
-        
+
         internal const int GameLevelWidth = 15;
         internal const int GameLevelHeight = 13;
         internal const int Tilesize = 32;
-        internal const int MenuStartY= 90;
+        internal const int MenuStartY = 90;
 
-        public BombGame() : base(Settings.Default.ScreenWidth, 
-                                 Settings.Default.ScreenHeight, 
-                                 Settings.Default.FullScreen, 
-                                 depthFormat: DepthFormat.Depth16)
+        public BombGame()
+            : base(Settings.Default.ScreenWidth,
+                   Settings.Default.ScreenHeight,
+                   Settings.Default.FullScreen,
+                   depthFormat: DepthFormat.Depth16)
         {
             Content.RootDirectory = "Content";
         }
@@ -73,7 +74,6 @@ namespace BombRush
             if (changed) Settings.Default.Save();
         }
 
-
         protected override void Initialize()
         {
             IsMouseVisible = false;
@@ -97,7 +97,7 @@ namespace BombRush
             RegisterState(new CreditsState());
             RegisterState(new ConfigureInputState());
 
-            return typeof (MainMenuState);
+            return typeof(MainMenuState);
         }
 
         protected override void LoadContent()

@@ -22,7 +22,7 @@ namespace BombRush.States
         protected override void OnInitialize(object enterInformation)
         {
             base.OnInitialize(enterInformation);
-            _border = new Border(Game.Content.Load<Texture2D>("textures/border"));
+            _border = new Border(Game);
         }
 
         public override void OnLeave()
@@ -67,7 +67,7 @@ namespace BombRush.States
             return StateChangeInformation.Empty;
         }
 
-        private static readonly string[] Dots = new[] { "", ".", "..", "..." };
+        private static readonly string[] Dots = { "", ".", "..", "..." };
 
         private string GetCurrentStateInformationString()
         {
@@ -92,10 +92,10 @@ namespace BombRush.States
 
             _border.X += Border.ShadowOffset;
             _border.Y += Border.ShadowOffset;
-            _border.Draw(Game.SpriteBatch, Border.ShadowColor);
+            _border.Draw(Border.ShadowColor);
             _border.X -= Border.ShadowOffset;
             _border.Y -= Border.ShadowOffset;
-            _border.Draw(Game.SpriteBatch);
+            _border.Draw();
 
             Game.SpriteBatch.DrawString(
                 Resources.BigFont, 

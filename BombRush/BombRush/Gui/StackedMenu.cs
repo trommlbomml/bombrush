@@ -36,7 +36,7 @@ namespace BombRush.Gui
             CancelKey = Keys.Escape;
         }
 
-        public MenuItem AppendMenuItem(MenuItem item)
+        public T AppendMenuItem<T>(T item) where T : MenuItem
         {
             _menuItems.Add(item);
             UpdateMenuItemPositions();

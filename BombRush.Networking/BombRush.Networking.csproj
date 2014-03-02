@@ -99,6 +99,7 @@
     <Compile Include="ClientMessage.cs" />
     <Compile Include="ClientReadyMessage.cs" />
     <Compile Include="ConnectionStatusMessage.cs" />
+    <Compile Include="GameCreationStatusMessage.cs" />
     <Compile Include="GameDataTransferMessage.cs" />
     <Compile Include="GameServer.cs" />
     <Compile Include="GameServerState.cs" />

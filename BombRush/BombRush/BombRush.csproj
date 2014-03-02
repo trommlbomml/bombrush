@@ -116,6 +116,7 @@
     <Compile Include="Controller\PlayerController.cs" />
     <Compile Include="Gui\StringInputController.cs" />
     <Compile Include="Gui\TextBox.cs" />
+    <Compile Include="Gui\WaitDialog.cs" />
     <Compile Include="Network\GameCreationSession.cs" />
     <Compile Include="Network\GameSessionClient.cs" />
     <Compile Include="Network\RemoteGameCreationSession.cs" />
