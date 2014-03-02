@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="Controller\InputDeviceType.cs" />
     <Compile Include="Controller\PlayerController.cs" />
+    <Compile Include="Gui\DataTableView.cs" />
     <Compile Include="Gui\StringInputController.cs" />
     <Compile Include="Gui\TextBox.cs" />
     <Compile Include="Gui\WaitDialog.cs" />

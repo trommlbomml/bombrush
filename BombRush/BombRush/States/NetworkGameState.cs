@@ -16,7 +16,7 @@ namespace BombRush.States
         private InputMenuItem _hostAddressMenuItem;
 
         private Border _tableBackgroundBorder;
-        private TableView _listOfGameInstancesView;
+        private DataTableView _listOfGameInstances;
 
         protected override void OnInitialize(object enterInformation)
         {
@@ -33,16 +33,32 @@ namespace BombRush.States
             _gameCreationSession = new RemoteGameCreationSession(Game);
             _lastState = _gameCreationSession.State;
 
+            _listOfGameInstances = new DataTableView(Game, GetRowCount, UpdateTableRow);
+            _listOfGameInstances.AddColumn("Name", 200);
+            _listOfGameInstances.AddColumn("Players", 80);
+            _listOfGameInstances.AddColumn("Running", 80);
+
             _tableBackgroundBorder = new Border(Game);
-            _tableBackgroundBorder.SetClientSize(200+80+80, 300);
+            _tableBackgroundBorder.SetClientSize(_listOfGameInstances.Width, _listOfGameInstances.Height);
             _tableBackgroundBorder.CenterHorizontal();
             _tableBackgroundBorder.Y = 100;
+            
+            _listOfGameInstances.X = _tableBackgroundBorder.ClientX;
+            _listOfGameInstances.Y = _tableBackgroundBorder.ClientY;
+        }
 
-            _listOfGameInstancesView = new TableView(Game);
-            _listOfGameInstancesView.AddColumn("Name", 200);
-            _listOfGameInstancesView.AddColumn("Players", 80);
-            _listOfGameInstancesView.AddColumn("Running", 80);
-            _listOfGameInstancesView.Start = _tableBackgroundBorder.ClientStart;
+        private void UpdateTableRow(int i, DataTableRow dataTableRow)
+        {
+            var currentItem = _gameCreationSession.RunningGameInstances[i];
+            _listOfGameInstances.Draw();
+            dataTableRow.Columns[0] = currentItem.Name;
+            dataTableRow.Columns[1] = currentItem.PlayerCount.ToString("D");
+            dataTableRow.Columns[2] = currentItem.IsRunning ? "Yes" : "No";
+        }
+
+        private int GetRowCount()
+        {
+            return _gameCreationSession.RunningGameInstances.Count;
         }
 
         private void OnBack()
@@ -76,6 +92,7 @@ namespace BombRush.States
 
             _waitDialog.Update(elapsedTime);
             _timedSplash.Update(elapsedTime);
+            _listOfGameInstances.Update();
             
             if (_lastState == GameCreationSessionState.ConnectingToServer &&
                 _gameCreationSession.State == GameCreationSessionState.ConnectionToServerFailed)
@@ -91,10 +108,13 @@ namespace BombRush.States
         {
             base.OnDraw(elapsedTime);
 
+            _tableBackgroundBorder.Draw();
+            _listOfGameInstances.Draw();
+
             if (_gameCreationSession.State == GameCreationSessionState.Connected)
             {
-                _listOfGameInstancesView.Draw(Game.SpriteBatch);
                 _tableBackgroundBorder.Draw();
+                _listOfGameInstances.Draw();
             }
             else
             {
