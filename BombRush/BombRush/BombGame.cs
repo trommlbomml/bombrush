@@ -112,15 +112,17 @@ namespace BombRush
         {
             static void Main()
             {
+                Game2D game = null;
+
                 try
                 {
-                    using (var game = new BombGame())
-                    {
-                        game.Run();
-                    }
+                    game = new BombGame();
+                    game.Run();
                 }
                 catch (Exception ex)
                 {
+                    if(game != null) game.IsMouseVisible = true;
+
                     MessageBox.Show(
                         "Unhandled Exception occurred. Check log.txt for more information",
                         "Unhandled Exception",

@@ -27,9 +27,9 @@ Content\Models\Player\Dummy.xnb
 Content\Models\Items\itembase.xnb
 Content\Models\Items\fireOverlay.xnb
 Content\Models\Player\bomberman.xnb
-Content\FBX\8E2A1E9C\BombMesh.fbm\bomb_0.xnb
-Content\FBX\71851E68\Dummy.fbm\red_0.xnb
-Content\FBX\AF0C1F1B\itembase.fbm\item_base_0.xnb
-Content\FBX\10862079\fireOverlay.fbm\item_fire_0.xnb
-Content\FBX\EEE01FEF\bomberman.fbm\bomberman_uv_0.xnb
+Content\FBX\5EDA3018\BombMesh.fbm\bomb_0.xnb
+Content\FBX\30B92FE4\Dummy.fbm\red_0.xnb
+Content\FBX\91383097\itembase.fbm\item_base_0.xnb
+Content\FBX\272631F5\fireOverlay.fbm\item_fire_0.xnb
+Content\FBX\F404316B\bomberman.fbm\bomberman_uv_0.xnb
 Levels\Rookie.xml

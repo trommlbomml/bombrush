@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BombRush.Interfaces;
-using BombRush.Logic;
 using BombRush.Logic.AI;
 
 namespace BombRush.Logic
@@ -50,10 +48,12 @@ namespace BombRush.Logic
 
         private FigureImp CreateComputerFigure(LevelImp level)
         {
+            var comFigureController = new ComFigureController(level);
             var figure = new FigureImp(Id)
             {
-                FigureController = new ComFigureController(level)
+                FigureController = comFigureController
             };
+            comFigureController.Figure = figure;
             return figure;
         }
     }
