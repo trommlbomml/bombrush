@@ -76,6 +76,7 @@ namespace Game2DFramework
             RegisterTransition(new SlideTransition(GraphicsDevice));
             RegisterTransition(new CardTransition(GraphicsDevice));
             RegisterTransition(new ThrowAwayTransition(GraphicsDevice));
+            RegisterTransition(new ZappoutTransition(GraphicsDevice));
 
             _startupState = RegisterStates();
             base.Initialize();

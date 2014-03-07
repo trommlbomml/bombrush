@@ -102,6 +102,7 @@
     <Compile Include="States\Transitions\ITransition.cs" />
     <Compile Include="States\Transitions\SlideTransition.cs" />
     <Compile Include="States\Transitions\ThrowAwayTransition.cs" />
+    <Compile Include="States\Transitions\ZappoutTransition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

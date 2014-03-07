@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BombRush.Controller;
-using BombRush.Network.Framework;
 using BombRush.Interfaces;
-using BombRush.Logic;
 using Game2DFramework;
-using Game2DFramework.Drawing;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

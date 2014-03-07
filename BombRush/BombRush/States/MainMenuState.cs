@@ -24,7 +24,7 @@ namespace BombRush.States
             _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Network Game", () => _stateChangeInformation = StateChangeInformation.StateChange(typeof(NetworkGameState), SlideTransition.Id), ActionTriggerKind.IsAccept));
             _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Options", () => _stateChangeInformation = StateChangeInformation.StateChange(typeof(OptionMenuState), SlideTransition.Id), ActionTriggerKind.IsAccept));
             _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Credits", () => _stateChangeInformation = StateChangeInformation.StateChange(typeof(CreditsState), SlideTransition.Id), ActionTriggerKind.IsAccept));
-            _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Quit", () => _stateChangeInformation = StateChangeInformation.QuitGameInformation(ThrowAwayTransition.Id), ActionTriggerKind.IsCancel));
+            _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Quit", () => _stateChangeInformation = StateChangeInformation.QuitGameInformation(ZappoutTransition.Id), ActionTriggerKind.IsCancel));
         }
 
         protected override void OnEntered(object enterInformation)
