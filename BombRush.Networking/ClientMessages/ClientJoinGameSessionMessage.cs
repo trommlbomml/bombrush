@@ -3,7 +3,7 @@ using Lidgren.Network;
 
 namespace BombRush.Networking.ClientMessages
 {
-    class ClientJoinGameSessionMessage : ClientMessageBase
+    public class ClientJoinGameSessionMessage : ClientMessageBase
     {
         public string UserName { get; private set; }
         public byte SessionId { get; private set; }

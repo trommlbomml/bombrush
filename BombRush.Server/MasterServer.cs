@@ -1,6 +1,8 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
+using BombRush.Networking;
+using BombRush.Networking.ClientMessages;
 using BombRush.Networking.Extensions;
 using Lidgren.Network;
 using System.Threading;
@@ -11,12 +13,13 @@ namespace BombRush.Server
     {
         public const string ApplicationNetworkIdentifier = "BombRushNetworkGameIdentifier";
 
+        private readonly MessageTypeMap _messageTypeMap = new MessageTypeMap();
         private readonly HashSet<byte> _availableIds; 
         private readonly int _maxClientCount;
         private readonly object _networkUpdateLockObject = new object();
         private NetServer _server;
-        //private List<ServerSession> _allSessions = new List<ServerSession>();
         private readonly List<GameClient> _connectedClients;
+        private SessionPool _sessionPool;
                 
         private LogListener Tracer { get; set; }
 
@@ -34,12 +37,7 @@ namespace BombRush.Server
 
         private void CreateSessions(MasterServerConfiguration masterServerConfig)
         {
-            //_allSessions = new List<ServerSession>(masterServerConfig.MaxGameSessions);
-            //for (var i = 0; i < masterServerConfig.MaxGameSessions; i++)
-            //{
-            //    _allSessions.Add(new ServerSession(this));
-            //}
-
+            _sessionPool = new SessionPool(masterServerConfig.MaxGameSessions);
             ThreadPool.QueueUserWorkItem(OnSessionUpdate);
         }
 
@@ -77,7 +75,6 @@ namespace BombRush.Server
 
         private void HandleConnectionApproval(double d, NetIncomingMessage netIncomingMessage)
         {
-            //todo: maximale Id-Grenze.
             if (_connectedClients.Count < _maxClientCount && _connectedClients.Count < 255)
             {
                 var client = HandleClientJoined(netIncomingMessage);
@@ -122,6 +119,7 @@ namespace BombRush.Server
             else
             {
                 Tracer.PrintInfo(string.Format("Client {0} {1} left the server", netIncomingMessage.SenderEndPoint, clientToRemove.Name));
+                _sessionPool.HandleClientLeft(clientToRemove);
                 _connectedClients.Remove(clientToRemove);
                 FreeId(clientToRemove.Id);
             }
@@ -139,7 +137,52 @@ namespace BombRush.Server
 
         private void HandleDataMessage(double d, NetIncomingMessage netIncomingMessage)
         {
-            throw new NotImplementedException();
+            var message = Message.Read(_messageTypeMap, netIncomingMessage);
+            if (message is ClientCreateGameSessionMessage)
+            {
+                HandleClientCreateGame((ClientCreateGameSessionMessage)message);
+            }
+            else if (message is ClientJoinGameSessionMessage)
+            {
+                HandleClientJoinGame((ClientJoinGameSessionMessage) message);
+            }
+        }
+
+        private GameClient GetClientByIdForSession(byte id)
+        {
+            var clientToConnectSession = _connectedClients.FirstOrDefault(c => c.Id == id);
+            if (clientToConnectSession == null)
+            {
+                Tracer.PrintWarning(string.Format("No client with Id {0} found to create game session.", id));
+            } else if (clientToConnectSession.Session == null)
+            {
+                Tracer.PrintWarning(string.Format("Client with id {0} is already connected to session", id));
+                clientToConnectSession = null;
+            }
+
+            return clientToConnectSession;
+        }
+
+        private void HandleClientJoinGame(ClientJoinGameSessionMessage message)
+        {
+            var clientToConnectSession = GetClientByIdForSession(message.ClientId);
+            if (clientToConnectSession == null) return;
+
+            if (!_sessionPool.JoinSession(clientToConnectSession, message.SessionId))
+            {
+                Tracer.PrintWarning(string.Format("Could not connect client {0} to Session {1}", message.ClientId, message.SessionId));
+            }
+        }
+
+        private void HandleClientCreateGame(ClientCreateGameSessionMessage message)
+        {
+            var clientToCreateSession = GetClientByIdForSession(message.ClientId);
+            if (clientToCreateSession == null) return;
+            
+            if (!_sessionPool.ActivateSession(clientToCreateSession, message.GameName))
+            {
+                Tracer.PrintWarning(string.Format("Could not create Session for client {0}.", message.ClientId));
+            }
         }
 
         public void Update()

@@ -55,6 +55,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instance\RemoteController.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SessionPool.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BombRush.Interfaces\BombRush.Interfaces.csproj">
