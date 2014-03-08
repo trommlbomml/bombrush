@@ -23,7 +23,7 @@ namespace BombRush.Gui
             Running = false;
         }
 
-        private List<string> WrapText(SpriteFont spriteFont, string text, float maxLineWidth)
+        private static List<string> WrapText(SpriteFont spriteFont, string text, float maxLineWidth)
         {
             var lines = new List<string>();
             var words = text.Split(' ');
@@ -40,23 +40,26 @@ namespace BombRush.Gui
                 {
                     lines.Add(sb.ToString().Trim());
                     sb.Clear();
+                    lineWidth = 0;
                 }
 
                 sb.Append(word + " ");
                 lineWidth += size.X + spaceWidth;
             }
 
+            if (sb.Length > 0) lines.Add(sb.ToString().Trim());
+
             return lines;
         }
 
         public void Start(string text, float lifeTime)
         {
-            _text = WrapText(Resources.BigFont, text, 600);
+            _text = WrapText(Resources.BigFont, text, 400);
             _elapsed = 0;
             Running = true;
             _lifeTime = lifeTime;
 
-            _border.SetClientSize((int)_text.Select(s => Resources.BigFont.MeasureString(s).X).Max(l => l), _text.Count * Resources.BigFont.LineSpacing);
+            _border.SetClientSize((int)_text.Select(s => Resources.BigFont.MeasureString(s).X).Max(l => l) + 2 * Padding, _text.Count * Resources.BigFont.LineSpacing + 2 * Padding);
             _border.CenterHorizontal();
             _border.CenterVertical();
         }
@@ -93,12 +96,12 @@ namespace BombRush.Gui
 
             _border.Draw(Color.Red * alpha);
 
-            var start = _border.ClientY;
+            var start = _border.ClientY + Padding;
             foreach (var line in _text)
             {
                 if (!string.IsNullOrEmpty(line))
                 {
-                    spriteBatch.DrawString( Resources.BigFont, line, new Vector2(_border.ClientX + Padding, start + Padding), Color.Red * alpha);
+                    spriteBatch.DrawString( Resources.BigFont, line, new Vector2(_border.ClientX + Padding, start), Color.Red * alpha);
                 }
                 start += Resources.BigFont.LineSpacing;
             }
