@@ -319,8 +319,8 @@ namespace BombRush.Networking
 
     //        if (message is ClientReadyMessage)
     //            HandleClientReady((ClientReadyMessage)message);
-    //        else if (message is InputMessage)
-    //            HandleInput((InputMessage) message);
+    //        else if (message is ClientInputMessageBase)
+    //            HandleInput((ClientInputMessageBase) message);
     //    }
 
     //    private void HandleClientReady(ClientReadyMessage msg)
@@ -331,7 +331,7 @@ namespace BombRush.Networking
     //        else
     //            client.Ready = msg.IsReady;    
     //    }
-    //    private void HandleInput(InputMessage msg)
+    //    private void HandleInput(ClientInputMessageBase msg)
     //    {
     //        var figure = _clients.Select(c => c.Figure).First(f => f.Id == msg.ClientId);
     //        var controller = (RemoteController)figure.FigureController;

@@ -95,27 +95,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientInformation.cs" />
-    <Compile Include="ClientMessage.cs" />
-    <Compile Include="ClientReadyMessage.cs" />
-    <Compile Include="ConnectionStatusMessage.cs" />
-    <Compile Include="GameCreationStatusMessage.cs" />
-    <Compile Include="GameDataTransferMessage.cs" />
+    <Compile Include="ClientMessages\ClientCreateGameSessionMessage.cs" />
+    <Compile Include="ClientMessages\ClientJoinGameSessionMessage.cs" />
+    <Compile Include="ClientMessages\ClientMessageBase.cs" />
+    <Compile Include="ClientMessages\InputAction.cs" />
+    <Compile Include="ServerMessages\GameCreationStatusMessage.cs" />
+    <Compile Include="ServerMessages\GameDataTransferMessage.cs" />
     <Compile Include="GameServer.cs" />
-    <Compile Include="GameServerState.cs" />
-    <Compile Include="GameStatusMessage.cs" />
-    <Compile Include="InputMessage.cs" />
-    <Compile Include="LobbyMessage.cs" />
-    <Compile Include="MatchFinishedMessage.cs" />
+    <Compile Include="ServerMessages\GameInstanceData.cs" />
+    <Compile Include="ServerMessages\GameSessionJoinStatusMessage.cs" />
+    <Compile Include="ServerMessages\GameStatusMessage.cs" />
+    <Compile Include="ClientMessages\ClientInputMessageBase.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageTypeMap.cs" />
     <Compile Include="Extensions\NetMessagesExtension.cs" />
     <Compile Include="Extensions\NetPeerExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RefreshClientListMessage.cs" />
-    <Compile Include="RemainingSynchronizeTimeMessage.cs" />
-    <Compile Include="StartGameMessage.cs" />
-    <Compile Include="SwitchToReceiveDataMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BombRush.Interfaces\BombRush.Interfaces.csproj">

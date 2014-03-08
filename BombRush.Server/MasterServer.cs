@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using BombRush.Networking.Extensions;
 using Lidgren.Network;
 using System.Threading;
 
 namespace BombRush.Server
 {
-    class GameClient
-    {
-        public string Name;
-        public byte Id;
-        public ServerSession Session;
-        public IPEndPoint EndPoint;
-    }
-
     class MasterServer
     {
         public const string ApplicationNetworkIdentifier = "BombRushNetworkGameIdentifier";
@@ -24,7 +15,7 @@ namespace BombRush.Server
         private readonly int _maxClientCount;
         private readonly object _networkUpdateLockObject = new object();
         private NetServer _server;
-        private List<ServerSession> _allSessions = new List<ServerSession>();
+        //private List<ServerSession> _allSessions = new List<ServerSession>();
         private readonly List<GameClient> _connectedClients;
                 
         private LogListener Tracer { get; set; }
@@ -43,31 +34,32 @@ namespace BombRush.Server
 
         private void CreateSessions(MasterServerConfiguration masterServerConfig)
         {
-            _allSessions = new List<ServerSession>(masterServerConfig.MaxGameSessions);
-            for (var i = 0; i < masterServerConfig.MaxGameSessions; i++)
-            {
-                _allSessions.Add(new ServerSession(this));
-            }
+            //_allSessions = new List<ServerSession>(masterServerConfig.MaxGameSessions);
+            //for (var i = 0; i < masterServerConfig.MaxGameSessions; i++)
+            //{
+            //    _allSessions.Add(new ServerSession(this));
+            //}
 
             ThreadPool.QueueUserWorkItem(OnSessionUpdate);
         }
 
         private void OnSessionUpdate(object state)
         {
-            foreach (var serverSession in _allSessions.Where(s => s.IsActive))
-            {
-                serverSession.Update(0);
-            }
+            //foreach (var serverSession in _allSessions.Where(s => s.IsActive))
+            //{
+            //    serverSession.Update(0);
+            //}
         }
 
         private void StartNetServer(MasterServerConfiguration masterServerConfig)
         {
             var configuration = new NetPeerConfiguration(ApplicationNetworkIdentifier);
             configuration.Port = masterServerConfig.Port;
+            configuration.ConnectionTimeout = 5.0f;
             configuration.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 
             _server = new NetServer(configuration);
-            Tracer.PrintInfo(string.Format("Created server with {0} games in {1} Threads.", _allSessions.Count, masterServerConfig.Threads));
+            Tracer.PrintInfo(string.Format("Created server with {0} games in {1} Threads.", /*_allSessions.Count*/ 1, masterServerConfig.Threads));
             Tracer.PrintInfo(string.Format("Port: {0}", masterServerConfig.Port));
 
              _server.RegisterReceivedCallback(OnClientMessageReceived);
@@ -88,8 +80,13 @@ namespace BombRush.Server
             //todo: maximale Id-Grenze.
             if (_connectedClients.Count < _maxClientCount && _connectedClients.Count < 255)
             {
-                netIncomingMessage.SenderConnection.Deny("Server full.");
-                //netIncomingMessage.SenderConnection.Approve();
+                var client = HandleClientJoined(netIncomingMessage);
+
+                var msg = _server.CreateMessage();
+                msg.Write(client.Id);
+
+                netIncomingMessage.SenderConnection.Approve(msg);
+                Tracer.PrintInfo(string.Format("Client {0} ({1}) joined the server.", client.Name, client.EndPoint));
             }
             else
             {
@@ -97,25 +94,22 @@ namespace BombRush.Server
             }
         }
 
-        private void HandleClientJoined(NetIncomingMessage msg)
+        private GameClient HandleClientJoined(NetIncomingMessage msg)
         {
             var clientExist = _connectedClients.Any(p => p.EndPoint.Equals(msg.SenderEndPoint));
 
             if (clientExist) Tracer.PrintWarning(string.Format("Client {0}, is already registered on server", msg.SenderEndPoint));
 
-            if (!clientExist && msg.SenderConnection.RemoteHailMessage != null)
+            var playerName = msg.SenderConnection.RemoteHailMessage.ReadString();
+            var client = new GameClient
             {
-                var playerName = msg.SenderConnection.RemoteHailMessage.ReadString();
-                var client = new GameClient
-                {
-                    EndPoint = msg.SenderEndPoint,
-                    Name = playerName,
-                    Id = GetNextId()
-                };
-                _connectedClients.Add(client);
+                EndPoint = msg.SenderEndPoint,
+                Name = playerName,
+                Id = GetNextId()
+            };
+            _connectedClients.Add(client);
 
-                Tracer.PrintInfo(string.Format("Client {0} ({1}) joined the server.",playerName, msg.SenderEndPoint));
-            }
+            return client;
         }
 
         private void HandleClientLeft(NetIncomingMessage netIncomingMessage)
@@ -123,12 +117,13 @@ namespace BombRush.Server
             var clientToRemove = _connectedClients.FirstOrDefault(p => p.EndPoint.Equals(netIncomingMessage.SenderEndPoint));
             if (clientToRemove == null)
             {
-                Tracer.PrintWarning("Try to remove Client " + netIncomingMessage.SenderEndPoint + " but is not registered.");
+                Tracer.PrintWarning(string.Format("Try to remove Client {0} which is not registired.", netIncomingMessage.SenderEndPoint));
             }
             else
             {
-                Tracer.PrintInfo("Client" + netIncomingMessage.SenderEndPoint + " left server.");
+                Tracer.PrintInfo(string.Format("Client {0} {1} left the server", netIncomingMessage.SenderEndPoint, clientToRemove.Name));
                 _connectedClients.Remove(clientToRemove);
+                FreeId(clientToRemove.Id);
             }
         }
 
@@ -136,11 +131,7 @@ namespace BombRush.Server
         {
             var connectionStatus = (NetConnectionStatus)netIncomingMessage.ReadByte();
 
-            if (connectionStatus == NetConnectionStatus.Connected)
-            {
-                HandleClientJoined(netIncomingMessage);
-            }
-            else if (connectionStatus == NetConnectionStatus.Disconnected)
+            if (connectionStatus == NetConnectionStatus.Disconnected)
             {
                 HandleClientLeft(netIncomingMessage);
             }

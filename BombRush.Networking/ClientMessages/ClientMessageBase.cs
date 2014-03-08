@@ -1,13 +1,13 @@
 ﻿
-namespace BombRush.Networking
+namespace BombRush.Networking.ClientMessages
 {
-    public abstract class ClientMessage : Message
+    public abstract class ClientMessageBase : Message
     {
-        protected ClientMessage()
+        protected ClientMessageBase()
         {
         }
 
-        protected ClientMessage(double timeStamp, byte clientId)
+        protected ClientMessageBase(double timeStamp, byte clientId)
             : base(timeStamp)
         {
             ClientId = clientId;

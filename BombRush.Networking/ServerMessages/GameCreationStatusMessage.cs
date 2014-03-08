@@ -1,18 +1,15 @@
 ﻿
 using Lidgren.Network;
 
-namespace BombRush.Networking
+namespace BombRush.Networking.ServerMessages
 {
-    public struct GameInstanceData
-    {
-        public byte SessionId { get; set; }
-        public string Name { get; set; }
-        public byte PlayerCount { get; set; }
-        public bool IsRunning { get; set; }
-    }
-
     public class GameCreationStatusMessage : Message
     {
+        public override NetDeliveryMethod DeliveryMethod
+        {
+            get { return NetDeliveryMethod.UnreliableSequenced; }
+        }
+
         public GameInstanceData[] Instances { get; private set; }
 
         public GameCreationStatusMessage(GameInstanceData[] instances)

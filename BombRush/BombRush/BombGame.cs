@@ -87,8 +87,6 @@ namespace BombRush
             RegisterState(new MainMenuState());
             RegisterState(new LocalGameConfigurationState());
             RegisterState(new NetworkGameState());
-            RegisterState(new HostNetworkGameState());
-            RegisterState(new JoinNetworkGameState());
             RegisterState(new LobbyState());
             RegisterState(new OptionMenuState());
             RegisterState(new WaitState());

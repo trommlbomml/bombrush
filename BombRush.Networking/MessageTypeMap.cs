@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using BombRush.Networking.ClientMessages;
+using BombRush.Networking.ServerMessages;
 
 namespace BombRush.Networking
 {
@@ -11,16 +13,11 @@ namespace BombRush.Networking
         public MessageTypeMap()
         {
             RegisterType(typeof(GameCreationStatusMessage));
-            RegisterType(typeof(ClientReadyMessage));
-            RegisterType(typeof(ConnectionStatusMessage));
             RegisterType(typeof(GameDataTransferMessage));
             RegisterType(typeof(GameStatusMessage));
-            RegisterType(typeof(InputMessage));
-            RegisterType(typeof(MatchFinishedMessage));
-            RegisterType(typeof(RefreshClientListMessage));
-            RegisterType(typeof(RemainingSynchronizeTimeMessage));
-            RegisterType(typeof(StartGameMessage));
-            RegisterType(typeof(SwitchToReceiveDataMessage));
+            RegisterType(typeof(ClientInputMessageBase));
+            RegisterType(typeof(ClientCreateGameSessionMessage));
+            RegisterType(typeof(ClientJoinGameSessionMessage));
         }
 
         private void RegisterType(Type type)

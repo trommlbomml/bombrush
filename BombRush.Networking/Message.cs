@@ -5,10 +5,9 @@ namespace BombRush.Networking
 {
     public abstract class Message
     {
-        public byte SessionId { get; private set; }
         public double TimeStamp { get; private set; }
 
-        public virtual NetDeliveryMethod DeliveryMethod { get { return NetDeliveryMethod.ReliableOrdered; } }        
+        public virtual NetDeliveryMethod DeliveryMethod { get { return NetDeliveryMethod.ReliableOrdered; } }
         public virtual int SequenceChannel { get { return 0; } }
 
         protected Message()
@@ -22,13 +21,11 @@ namespace BombRush.Networking
 
         protected virtual void ReadFrom(NetIncomingMessage incomingMessage)
         {
-            SessionId = incomingMessage.ReadByte();
             TimeStamp = incomingMessage.ReadDouble();
         }
 
         protected virtual void WriteTo(NetOutgoingMessage outgoingMessage)
         {
-            outgoingMessage.Write(SessionId);
             outgoingMessage.Write(TimeStamp);
         }
 

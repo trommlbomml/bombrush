@@ -2,25 +2,18 @@
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Networking
+namespace BombRush.Networking.ClientMessages
 {
-    public enum InputAction
-    {
-        MoveDirectionChanged,
-        Action,
-        MoveDirectonChangedAndAction,
-    }
-
-    public class InputMessage : ClientMessage
+    public class ClientInputMessageBase : ClientMessageBase
     {
         public InputAction Action { get; private set; }
         public Vector2 MoveDirection { get; private set; }
 
-        public InputMessage()
+        public ClientInputMessageBase()
         {
         }
 
-        public InputMessage(double timeStamp, byte clientId, FigureController controller)
+        public ClientInputMessageBase(double timeStamp, byte clientId, FigureController controller)
             : base(timeStamp, clientId)
         {
 

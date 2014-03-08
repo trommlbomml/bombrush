@@ -162,8 +162,6 @@
     <Compile Include="States\BackgroundState.cs" />
     <Compile Include="States\ConfigureInputState.cs" />
     <Compile Include="States\CreditsState.cs" />
-    <Compile Include="States\HostNetworkGameState.cs" />
-    <Compile Include="States\JoinNetworkGameState.cs" />
     <Compile Include="States\LobbyState.cs" />
     <Compile Include="States\LocalGameConfigurationState.cs" />
     <Compile Include="States\MainMenuState.cs" />

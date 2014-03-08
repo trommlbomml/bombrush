@@ -8,12 +8,14 @@ namespace BombRush.Network
 {
     class GameSessionClient : GameObject, GameSession
     {
+        private byte _clientId;
         private NetClient _netClient;
         private double _serverTimeStamp;
         private FigureController _figureController;
         
-        public GameSessionClient(Game2D game, NetClient client) : base(game)
+        public GameSessionClient(Game2D game, NetClient client, byte clientId) : base(game)
         {
+            _clientId = clientId;
             _netClient = client;
             _figureController = PlayerController.CreateNet(game, InputDeviceType.Keyboard);
         }

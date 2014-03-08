@@ -21,7 +21,7 @@ namespace BombRush.Networking.Extensions
             }
         }
 
-        public static void HandleNetMessages(this NetClient netClient, double timeStamp, Action<double, NetIncomingMessage> handleDataMessage, Action<double, NetConnectionStatus, string> handleStatusChanged)
+        public static void HandleNetMessages(this NetClient netClient, double timeStamp, Action<double, NetIncomingMessage> handleDataMessage, Action<NetIncomingMessage, NetConnectionStatus, string> handleStatusChanged)
         {
             NetIncomingMessage inc;
             while ((inc = netClient.ReadMessage()) != null)
@@ -32,7 +32,7 @@ namespace BombRush.Networking.Extensions
                     case NetIncomingMessageType.StatusChanged:
                         var netStatus = (NetConnectionStatus) inc.ReadByte();
                         var reason = inc.ReadString();
-                        handleStatusChanged(timeStamp, netStatus, reason);
+                        handleStatusChanged(inc, netStatus, reason);
                         break;
                 }
             }

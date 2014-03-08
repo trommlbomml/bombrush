@@ -1,10 +1,9 @@
 ﻿using BombRush.Interfaces;
-using BombRush.Logic;
+using BombRush.Networking.Extensions;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
-using BombRush.Networking.Extensions;
 
-namespace BombRush.Networking
+namespace BombRush.Networking.ServerMessages
 {
     public struct FigureInformation
     {

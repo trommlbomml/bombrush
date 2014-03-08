@@ -4,7 +4,7 @@ using System.Linq;
 using BombRush.Interfaces;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Networking
+namespace BombRush.Networking.ServerMessages
 {
     public class GameDataTransferMessage : Message
     {
