@@ -3,6 +3,7 @@ using System;
 using BombRush.Rendering.Render2D;
 using BombRush.Interfaces;
 using Game2DFramework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BombRush.Rendering
 {
@@ -20,7 +21,9 @@ namespace BombRush.Rendering
             switch (renderType)
             {
                 case GameRendererType.TwoDe:
-                    renderer = new Game2DRenderer();
+                    Texture2D figureTexture = game.Content.Load<Texture2D>("Textures/figures24x32");
+                    Tileset tileset = new Tileset(game.Content, "tilesets/tileset1");
+                    renderer = new Game2DRenderer(figureTexture,tileset,game.ScreenWidth,game.ScreenHeight);
                     break;
                 case GameRendererType.ThreeDe:
                     throw new NotImplementedException();

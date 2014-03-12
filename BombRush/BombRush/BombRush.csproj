@@ -124,6 +124,9 @@
     <Compile Include="Network\GameSessionClient.cs" />
     <Compile Include="Network\RemoteGameCreationSession.cs" />
     <Compile Include="Rendering\Cursor.cs" />
+    <Compile Include="Rendering\Render2D\BombRenderer.cs" />
+    <Compile Include="Rendering\Render2D\FigureRenderer.cs" />
+    <Compile Include="Rendering\Render2D\ItemRenderer.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="ResolutionResource.cs" />
     <Compile Include="Gui\ActionMenuItem.cs" />

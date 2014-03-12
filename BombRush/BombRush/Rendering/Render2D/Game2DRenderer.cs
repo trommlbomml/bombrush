@@ -14,7 +14,6 @@ namespace BombRush.Rendering.Render2D
         private const int FigureWidth = 24;
         private const int FigureHeight = 32;
 
-        private Game2D _game;
         private GameInformation _gameInformation;
         private Rectangle[, ,] _animationFrames;
         private Tileset _tileset;
@@ -22,6 +21,19 @@ namespace BombRush.Rendering.Render2D
         private Level _gameLevelLogic;
         private Dictionary<byte, Figure2DAnimationController> _animationContoller;
         private Dictionary<Point, float> _itemAnimationTimes;
+
+        private int _screenWidth;
+        private int _screenHeight;
+
+        public Vector2 _centeringOffset;
+        
+        public Game2DRenderer(Texture2D figureTexture, Tileset tileset, int screenWidth, int screenHeight)
+        {
+            this._figureTexture = figureTexture;
+            this._tileset = tileset;
+            this._screenWidth = screenWidth;
+            this._screenHeight = screenHeight;
+        }
 
         private void CreateFigureFrames(int colorIndex, int startX, int startY)
         {
@@ -38,11 +50,8 @@ namespace BombRush.Rendering.Render2D
 
         public void Initialize(Game2D game, Level level)
         {
-            _game = game;
             _gameLevelLogic = level;
-            _tileset = new Tileset(_game.Content, "tilesets/tileset1");
-            _figureTexture = _game.Content.Load<Texture2D>("Textures/figures24x32");
-            _gameInformation = new GameInformation(_game, level) { Width = BombGame.Tilesize * 15 };
+            _gameInformation = new GameInformation(game, level) { Width = BombGame.Tilesize * 15 };
 
             UserOffset = new Vector2(float.NaN, _gameInformation.Height);
 
@@ -80,14 +89,12 @@ namespace BombRush.Rendering.Render2D
                 {
                     _userOffset = value;
 
-                    float xOffset = float.IsNaN(UserOffset.X) ? (_game.ScreenWidth - BombGame.GameLevelWidth * BombGame.Tilesize) * 0.5f : UserOffset.X;
-                    float yOffset = float.IsNaN(UserOffset.Y) ? (_game.ScreenHeight - BombGame.GameLevelHeight * BombGame.Tilesize) * 0.5f : UserOffset.Y;
-                    CenteringOffset = new Vector2(xOffset, yOffset);
+                    float xOffset = float.IsNaN(UserOffset.X) ? (_screenWidth - BombGame.GameLevelWidth * BombGame.Tilesize) * 0.5f : UserOffset.X;
+                    float yOffset = float.IsNaN(UserOffset.Y) ? (_screenHeight - BombGame.GameLevelHeight * BombGame.Tilesize) * 0.5f : UserOffset.Y;
+                    _centeringOffset = new Vector2(xOffset, yOffset);
                 }
             }
         }
-
-        public Vector2 CenteringOffset { get; private set; }
 
         public void Update(float elapsedTime)
         {
@@ -98,92 +105,27 @@ namespace BombRush.Rendering.Render2D
         {
             spriteBatch.GraphicsDevice.Clear(Color.Black);
             foreach (var tileBlock in _gameLevelLogic.Data) DrawTileBlock(tileBlock, spriteBatch);
-            foreach (var item in _gameLevelLogic.ItemData) DrawItem(item, spriteBatch, elapsedTime);
+            foreach (var item in _gameLevelLogic.ItemData)
+            {
+                new ItemRenderer(_tileset,_gameLevelLogic, _itemAnimationTimes,_centeringOffset).render(item, spriteBatch, elapsedTime);
+            }
             foreach (var tileBlock in _gameLevelLogic.Fringe)  DrawTileBlock(tileBlock, spriteBatch);
-            foreach (var figure in _gameLevelLogic.Figures.Where(f => !f.IsAlive)) DrawFigure(elapsedTime, figure, spriteBatch);
-            foreach (var bomb in _gameLevelLogic.Bombs) DrawBomb(bomb, spriteBatch);
-            foreach (var figure in _gameLevelLogic.Figures.Where(f => f.IsAlive && f.IsVisible)) DrawFigure(elapsedTime, figure, spriteBatch);
+            foreach (var figure in _gameLevelLogic.Figures.Where(f => !f.IsAlive))
+            {
+                new FigureRenderer(_gameLevelLogic, _animationContoller, _animationFrames, _centeringOffset, _figureTexture).render(figure, spriteBatch, elapsedTime);
+            }
+            foreach (var bomb in _gameLevelLogic.Bombs)
+            {
+                new BombRenderer(_tileset, _gameLevelLogic,_centeringOffset).render(bomb, spriteBatch);
+            }
+            foreach (var figure in _gameLevelLogic.Figures.Where(f => f.IsAlive && f.IsVisible))
+            {
+                new FigureRenderer(_gameLevelLogic, _animationContoller,_animationFrames, _centeringOffset, _figureTexture).render(figure,spriteBatch,elapsedTime);
+            }
             foreach (var fragment in _gameLevelLogic.OverlayData) DrawOverlay(fragment, spriteBatch);
 
             _gameInformation.Draw(spriteBatch);
         }
-
-        private void DrawFigure(float elapsedTime, Figure figure, SpriteBatch spriteBatch)
-        {
-            Point tilePosition = _gameLevelLogic.GetTilePositionFromWorld(figure.Position);
-            Vector2 centeredPosition = _gameLevelLogic.GetWorldFromTilePositionCentered(tilePosition);
-
-            Figure2DAnimationController controller = _animationContoller[figure.Id];
-            controller.UpdateAnimation(figure, elapsedTime, centeredPosition, CenteringOffset);
-
-            if (figure.IsAlive)
-            {
-                spriteBatch.Draw(_figureTexture,
-                                 (figure.Position + CenteringOffset).SnapToPixels(),
-                                 _animationFrames[figure.Id - 1, (int)figure.Direction, controller.StepFrame],
-                                 Color.White,
-                                 0.0f,
-                                 new Vector2(FigureWidth * 0.5f, FigureHeight * 0.5f + 6),
-                                 1.5f,
-                                 SpriteEffects.None,
-                                 0);
-            }
-            else
-            {
-                if (controller.DieAnimationTime >= Figure2DAnimationController.IdleAnimationTime)
-                {
-                    if (controller.DieAnimationTime < Figure2DAnimationController.OverallDieAnimationDuration)
-                    {
-                        spriteBatch.Draw(_figureTexture, 
-                                         centeredPosition + CenteringOffset, 
-                                         new Rectangle(192, 224, 32, 32), 
-                                         Color.White * 0.5f, 0.0f, new Vector2(16), 1.0f, SpriteEffects.None, 0);   
-                    }
-
-                    spriteBatch.Draw(_figureTexture,
-                                    (controller.DieAnimationPosition).SnapToPixels(),
-                                    new Rectangle(224, 224, 32, 32),
-                                    Color.White,
-                                    0.0f,
-                                    new Vector2(16),
-                                    1.0f,
-                                    SpriteEffects.None, 0);
-
-                    if (controller.DieAnimationTime <= Figure2DAnimationController.OverallDieAnimationDuration)
-                    {
-                        float alpha = MathHelper.Clamp(((controller.DieAnimationTime - Figure2DAnimationController.IdleAnimationTime) * 3) /
-                                  Figure2DAnimationController.DieAnimationDuration, 0, 1);
-
-                        spriteBatch.Draw(_figureTexture,
-                                         new Rectangle((int) (centeredPosition.X - 16 + CenteringOffset.X), 0, 32, controller.YDistanceForDie - 7), 
-                                         new Rectangle(160, 224, 32, 32),
-                                         Color.White * 0.5f * alpha);
-                    }
-                }
-            }
-
-            if (figure.ShowPlayerName)
-            {
-                Vector2 resultPosition = figure.IsAlive ? figure.Position : centeredPosition;
-                resultPosition.Y -= figure.IsAlive ? 34.0f : 27.0f;
-                Vector2 offset = new Vector2(Resources.PlayerNameFont.MeasureString(figure.Name).X * 0.5f, 0);
-
-                spriteBatch.DrawString(Resources.PlayerNameFont, figure.Name, resultPosition.SnapToPixels() + CenteringOffset, Color.White, 0.0f, offset.SnapToPixels(), 1.0f, SpriteEffects.None, 0);
-            }
-
-#if DEBUG
-            //todo: refactor
-            //DrawPlaceMapIfCom(_game.ShapeRenderer, figure);
-#endif
-        }
-
-        //private void DrawPlaceMapIfCom(ShapeRenderer shapeRenderer, Figure figure)
-        //{
-        //    if (figure is Figure && ((Figure)figure).FigureController is ComFigureController)
-        //    {
-        //        ((ComFigureController)((Figure)figure).FigureController).DebugDraw(shapeRenderer, CenteringOffset);
-        //    }
-        //}
 
         private Rectangle ExamineRectangleFromSurround(ExplosionFragment fragment)
         {
@@ -241,52 +183,8 @@ namespace BombRush.Rendering.Render2D
             {
                 Vector2 position = _gameLevelLogic.GetWorldFromTilePosition(fragment.TilePosition);
                 Rectangle sourceRectangle = ExamineRectangleFromSurround(fragment);
-                spriteBatch.Draw(_tileset.TileSetTexture, position + CenteringOffset, sourceRectangle, Color.White);
+                spriteBatch.Draw(_tileset.TileSetTexture, position + _centeringOffset, sourceRectangle, Color.White);
             }
-        }
-
-        private void DrawBomb(Bomb bomb, SpriteBatch spriteBatch)
-        {
-            Rectangle bombSourceRectangle = new Rectangle(3 * BombGame.Tilesize + 1, 
-                                                          (byte)bomb.BombType * BombGame.Tilesize + 1,
-                                                          BombGame.Tilesize - 2, 
-                                                          BombGame.Tilesize - 2);
-            Vector2 centerOrigin = new Vector2(BombGame.Tilesize * 0.5f - 2, BombGame.Tilesize * 0.5f - 2);
-
-            if (bomb.IsActive)
-            {
-                float bombAnimationScale = 0.75f + (float)Math.Cos(bomb.CurrentBurnTime/bomb.BurnTime*MathHelper.TwoPi * 12)*0.05f;
-                
-                spriteBatch.Draw(_tileset.TileSetTexture, _gameLevelLogic.GetWorldFromTilePositionCentered(bomb.TilePosition) + CenteringOffset,
-                    bombSourceRectangle, Color.White,
-                    0.0f, centerOrigin, bombAnimationScale, SpriteEffects.None, 0);    
-            }
-        }
-
-        private void DrawItem(Item item, SpriteBatch spriteBatch, float elapsedTime)
-        {
-            const int baseOffset = 4;
-            float time = 0;
-            int flop = 0;
-            if (item.IsActive)
-            {
-                time = _itemAnimationTimes[item.TilePosition] + elapsedTime;
-                if (time > 0.6f)
-                {
-                    time -= 0.6f;
-                    flop = 0;
-                }
-                else if (time > 0.3f)
-                {
-                    flop = 1;
-                }
-
-                Vector2 position = _gameLevelLogic.GetWorldFromTilePosition(item.TilePosition);
-                Rectangle sourceRectangle = new Rectangle((baseOffset + (((int)item.Type)-1) * 2 + flop) * BombGame.Tilesize, 0, BombGame.Tilesize, BombGame.Tilesize);
-                spriteBatch.Draw(_tileset.TileSetTexture, position + CenteringOffset, sourceRectangle, Color.White);
-            }
-            
-            _itemAnimationTimes[item.TilePosition] = time;
         }
 
         private void DrawTileBlock(TileBlock tileBlock, SpriteBatch spriteBatch)
@@ -297,7 +195,7 @@ namespace BombRush.Rendering.Render2D
             Rectangle currentRectangle = _tileset.Templates[tileBlock.Type].Rectangles[0]; // (IsAnimated ? Rectangles[_currentFrame] : Rectangles[0]);
             Vector2 position = _gameLevelLogic.GetWorldFromTilePosition(tileBlock.TilePosition);
 
-            spriteBatch.Draw(_tileset.TileSetTexture, position + CenteringOffset, currentRectangle, Color.White);
+            spriteBatch.Draw(_tileset.TileSetTexture, position + _centeringOffset, currentRectangle, Color.White);
         }
     }
 }
