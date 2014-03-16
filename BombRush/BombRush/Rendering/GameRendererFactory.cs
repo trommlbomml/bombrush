@@ -21,9 +21,7 @@ namespace BombRush.Rendering
             switch (renderType)
             {
                 case GameRendererType.TwoDe:
-                    Texture2D figureTexture = game.Content.Load<Texture2D>("Textures/figures24x32");
-                    Tileset tileset = new Tileset(game.Content, "tilesets/tileset1");
-                    renderer = new Game2DRenderer(figureTexture,tileset,game.ScreenWidth,game.ScreenHeight);
+                    renderer = new Game2DRenderer(game);
                     break;
                 case GameRendererType.ThreeDe:
                     throw new NotImplementedException();

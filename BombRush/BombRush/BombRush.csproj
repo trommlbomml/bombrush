@@ -126,7 +126,9 @@
     <Compile Include="Rendering\Cursor.cs" />
     <Compile Include="Rendering\Render2D\BombRenderer.cs" />
     <Compile Include="Rendering\Render2D\FigureRenderer.cs" />
+    <Compile Include="Rendering\Render2D\FireExplosionRenderer.cs" />
     <Compile Include="Rendering\Render2D\ItemRenderer.cs" />
+    <Compile Include="Rendering\Render2D\LevelRenderer.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="ResolutionResource.cs" />
     <Compile Include="Gui\ActionMenuItem.cs" />

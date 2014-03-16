@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Game2DFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using BombRush.Interfaces;
@@ -9,41 +8,51 @@ using Game2DFramework.Extensions;
 
 namespace BombRush.Rendering.Render2D
 {
-    class FigureRenderer
+    class FigureRenderer : GameObject
     {
         private const int FigureWidth = 24;
         private const int FigureHeight = 32;
 
-        private Level _gameLevelLogic;
-
-        private Dictionary<byte, Figure2DAnimationController> _animationContoller;
-        
         private Vector2 _centeringOffset;
 
-        private Texture2D _figureTexture;
+        private readonly Dictionary<byte, Figure2DAnimationController> _animationContoller;
+        private readonly Texture2D _figureTexture;
+        private readonly Rectangle[, ,] _animationFrames;
 
-        private Rectangle[, ,] _animationFrames;
-
-        public FigureRenderer(Level _gameLevelLogic, Dictionary<byte, Figure2DAnimationController> _animationContoller, Rectangle[, ,] _animationFrames, Vector2 _centeringOffset, Texture2D _figureTexture)
+        public FigureRenderer(Game2D game, Level gameLevel, Vector2 centeringOffset) : base(game)
         {
-            this._gameLevelLogic = _gameLevelLogic;
-            this._animationContoller = _animationContoller;
-            this._centeringOffset = _centeringOffset;
-            this._figureTexture = _figureTexture;
-            this._animationFrames = _animationFrames;
+            _centeringOffset = centeringOffset;
+            _figureTexture = Game.Content.Load<Texture2D>("Textures/figures24x32");
+
+            _animationFrames = new Rectangle[4, 4, 3];
+            CreateFigureFrames(0, 0, 0);
+            CreateFigureFrames(1, 72, 0);
+            CreateFigureFrames(2, 0, 128);
+            CreateFigureFrames(3, 72, 128);
+
+            _animationContoller = new Dictionary<byte, Figure2DAnimationController>();
+            foreach (var f in gameLevel.Figures)
+            {
+                _animationContoller[f.Id] = new Figure2DAnimationController();
+            }
         }
 
-        internal void render(Interfaces.Figure figure, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch,float elapsedTime)
+        private void CreateFigureFrames(int colorIndex, int startX, int startY)
         {
-            Point tilePosition = _gameLevelLogic.GetTilePositionFromWorld(figure.Position);
-            Vector2 centeredPosition = _gameLevelLogic.GetWorldFromTilePositionCentered(tilePosition);
-
-            Figure2DAnimationController controller = _animationContoller[figure.Id];
-            controller.UpdateAnimation(figure, elapsedTime, centeredPosition, _centeringOffset);
-
-            if (figure.IsAlive)
+            for (var direction = 0; direction < 4; direction++)
             {
-                spriteBatch.Draw(_figureTexture,
+                for (var step = 0; step < 3; step++)
+                {
+                    _animationFrames[colorIndex, direction, step] = new Rectangle(startX + step * FigureWidth,
+                                                                                  startY + direction * FigureHeight,
+                                                                                  FigureWidth, FigureHeight);
+                }
+            }
+        }
+
+        private void RenderFigureAlive(Figure figure, Figure2DAnimationController controller)
+        {
+            Game.SpriteBatch.Draw(_figureTexture,
                                  (figure.Position + _centeringOffset).SnapToPixels(),
                                  _animationFrames[figure.Id - 1, (int)figure.Direction, controller.StepFrame],
                                  Color.White,
@@ -52,54 +61,80 @@ namespace BombRush.Rendering.Render2D
                                  1.5f,
                                  SpriteEffects.None,
                                  0);
-            }
-            else
+        }
+
+        private void RenderFigureDead(Figure2DAnimationController controller, Vector2 centeredPosition)
+        {
+            if (!(controller.DieAnimationTime >= Figure2DAnimationController.IdleAnimationTime)) return;
+
+            if (controller.DieAnimationTime < Figure2DAnimationController.OverallDieAnimationDuration)
             {
-                if (controller.DieAnimationTime >= Figure2DAnimationController.IdleAnimationTime)
-                {
-                    if (controller.DieAnimationTime < Figure2DAnimationController.OverallDieAnimationDuration)
-                    {
-                        spriteBatch.Draw(_figureTexture,
-                                         centeredPosition + _centeringOffset,
-                                         new Rectangle(192, 224, 32, 32),
-                                         Color.White * 0.5f, 0.0f, new Vector2(16), 1.0f, SpriteEffects.None, 0);
-                    }
-
-                    spriteBatch.Draw(_figureTexture,
-                                    (controller.DieAnimationPosition).SnapToPixels(),
-                                    new Rectangle(224, 224, 32, 32),
-                                    Color.White,
-                                    0.0f,
-                                    new Vector2(16),
-                                    1.0f,
-                                    SpriteEffects.None, 0);
-
-                    if (controller.DieAnimationTime <= Figure2DAnimationController.OverallDieAnimationDuration)
-                    {
-                        float alpha = MathHelper.Clamp(((controller.DieAnimationTime - Figure2DAnimationController.IdleAnimationTime) * 3) /
-                                  Figure2DAnimationController.DieAnimationDuration, 0, 1);
-
-                        spriteBatch.Draw(_figureTexture,
-                                         new Rectangle((int)(centeredPosition.X - 16 + _centeringOffset.X), 0, 32, controller.YDistanceForDie - 7),
-                                         new Rectangle(160, 224, 32, 32),
-                                         Color.White * 0.5f * alpha);
-                    }
-                }
+                Game.SpriteBatch.Draw(_figureTexture,
+                    centeredPosition + _centeringOffset,
+                    new Rectangle(192, 224, 32, 32),
+                    Color.White * 0.5f, 0.0f, new Vector2(16), 1.0f, SpriteEffects.None, 0);
             }
 
-            if (figure.ShowPlayerName)
-            {
-                Vector2 resultPosition = figure.IsAlive ? figure.Position : centeredPosition;
-                resultPosition.Y -= figure.IsAlive ? 34.0f : 27.0f;
-                Vector2 offset = new Vector2(Resources.PlayerNameFont.MeasureString(figure.Name).X * 0.5f, 0);
+            Game.SpriteBatch.Draw(_figureTexture,
+                (controller.DieAnimationPosition).SnapToPixels(),
+                new Rectangle(224, 224, 32, 32),
+                Color.White,
+                0.0f,
+                new Vector2(16),
+                1.0f,
+                SpriteEffects.None, 0);
 
-                spriteBatch.DrawString(Resources.PlayerNameFont, figure.Name, resultPosition.SnapToPixels() + _centeringOffset, Color.White, 0.0f, offset.SnapToPixels(), 1.0f, SpriteEffects.None, 0);
+            if (controller.DieAnimationTime <= Figure2DAnimationController.OverallDieAnimationDuration)
+            {
+                var alpha = MathHelper.Clamp(((controller.DieAnimationTime - Figure2DAnimationController.IdleAnimationTime) * 3) /
+                                               Figure2DAnimationController.DieAnimationDuration, 0, 1);
+
+                Game.SpriteBatch.Draw(_figureTexture,
+                    new Rectangle((int)(centeredPosition.X - 16 + _centeringOffset.X), 0, 32, controller.YDistanceForDie - 7),
+                    new Rectangle(160, 224, 32, 32),
+                    Color.White * 0.5f * alpha);
             }
         }
 
-        internal void render(Figure figure, SpriteBatch spriteBatch)
+        private void RenderPlayerName(Figure figure, Vector2 centeredPosition)
         {
-            throw new NotImplementedException();
+            if (!figure.ShowPlayerName) return;
+
+            var resultPosition = figure.IsAlive ? figure.Position : centeredPosition;
+            resultPosition.Y -= figure.IsAlive ? 34.0f : 27.0f;
+            var offset = new Vector2(Resources.PlayerNameFont.MeasureString(figure.Name).X * 0.5f, 0);
+
+            Game.SpriteBatch.DrawString(Resources.PlayerNameFont, figure.Name, resultPosition.SnapToPixels() + _centeringOffset, Color.White, 0.0f, offset.SnapToPixels(), 1.0f, SpriteEffects.None, 0);
+        }
+
+        public void RenderAlive(Level level, float elapsedTime)
+        {
+            foreach (var figure in level.Figures.Where(f => f.IsAlive && f.IsVisible))
+            {
+                var tilePosition = level.GetTilePositionFromWorld(figure.Position);
+                var centeredPosition = level.GetWorldFromTilePositionCentered(tilePosition);
+                var controller = _animationContoller[figure.Id];
+
+                controller.UpdateAnimation(figure, elapsedTime, centeredPosition, _centeringOffset);
+
+                RenderFigureAlive(figure, controller);
+                RenderPlayerName(figure, centeredPosition);
+            }
+        }
+
+        public void RenderDead(Level level, float elapsedTime)
+        {
+            foreach (var figure in level.Figures.Where(f => !f.IsAlive))
+            {
+                var tilePosition = level.GetTilePositionFromWorld(figure.Position);
+                var centeredPosition = level.GetWorldFromTilePositionCentered(tilePosition);
+                var controller = _animationContoller[figure.Id];
+
+                controller.UpdateAnimation(figure, elapsedTime, centeredPosition, _centeringOffset);
+
+                RenderFigureDead(controller, centeredPosition);
+                RenderPlayerName(figure, centeredPosition);
+            }
         }
     }
 }
