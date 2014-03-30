@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Lidgren.Network;
 
 namespace BombRush.Networking
@@ -86,6 +87,13 @@ namespace BombRush.Networking
             server.SendToAll(msg, except, DeliveryMethod, SequenceChannel);
         }
 
+        public void Send(MessageTypeMap messageTypeMap, NetServer server, List<NetConnection> sendTo)
+        {
+            if (server.ConnectionsCount == 0) return;
+            var msg = Write(messageTypeMap, server);
+            server.SendMessage(msg, sendTo, DeliveryMethod, SequenceChannel);
+        }
+
         public void SendToAll(MessageTypeMap messageTypeMap, NetServer server)
         {
             if (server.ConnectionsCount == 0) return;
@@ -93,6 +101,5 @@ namespace BombRush.Networking
             var msg = Write(messageTypeMap, server);
             server.SendToAll(msg, null, DeliveryMethod, SequenceChannel);
         }
-
     }
 }

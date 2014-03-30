@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Lidgren.Network;
 
 namespace BombRush.Server
 {
@@ -9,5 +10,6 @@ namespace BombRush.Server
         public Session Session;
         public IPEndPoint EndPoint;
         public bool IsSessionAdministrator;
+        public NetConnection NetConnection;
     }
 }

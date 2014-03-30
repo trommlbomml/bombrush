@@ -18,7 +18,7 @@ namespace BombRush.Server
 
         private Session GetNextDeactivatedSession()
         {
-            return _allSessions.First();
+            return _allSessions.FirstOrDefault(s => !s.IsActive);
         }
 
         public bool ActivateSession(GameClient client, string sessionName)
@@ -29,9 +29,15 @@ namespace BombRush.Server
             client.Session = session;
             client.IsSessionAdministrator = true;
             session.JoinClient(client);
+            session.Activate();
 
             return true;
         }
+
+        public IEnumerable<Session> ActiveSessions
+        {
+            get { return _allSessions.Where(s => s.IsActive); }
+        } 
 
         public void HandleClientLeft(GameClient client)
         {
@@ -41,15 +47,12 @@ namespace BombRush.Server
         public bool JoinSession(GameClient client, byte sessionId)
         {
             var session = _allSessions.FirstOrDefault(s => s.Id == sessionId);
-            if (session != null)
-            {
-                client.Session = session;
-                client.IsSessionAdministrator = false;
-                session.JoinClient(client);
-                return true;
-            }
+            if (session == null) return false;
 
-            return false;
+            client.Session = session;
+            client.IsSessionAdministrator = false;
+            session.JoinClient(client);
+            return true;
         }
     }
 }
