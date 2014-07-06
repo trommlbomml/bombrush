@@ -121,12 +121,8 @@ namespace BombRush
                 {
                     if(game != null) game.IsMouseVisible = true;
 
-                    MessageBox.Show(
-                        "Unhandled Exception occurred. Check log.txt for more information",
-                        "Unhandled Exception",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
                     Log.WriteException(ex);
+                    MessageBox.Show(ex.ToString(), "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }

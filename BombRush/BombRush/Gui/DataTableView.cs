@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
@@ -24,6 +25,7 @@ namespace BombRush.Gui
         private readonly Action<int, DataTableRow> _updateTableRow;
         private readonly List<DataTableRow> _rows;
         private readonly List<Tuple<string, int>> _columnsWithNameAndWidth;
+        private int _selectedRowIndex;
 
         public int MaxVisibleRowCount { get; set; }
         public int X { get; set; }
@@ -46,14 +48,26 @@ namespace BombRush.Gui
         public DataTableView(Game2D game, Func<int> getRowCount, Action<int, DataTableRow> updateTableRow)
             : base(game)
         {
+            _rows = new List<DataTableRow>();
+
             CellPadding = 5;
             MaxVisibleRowCount = 10;
+            SelectedRowIndex = -1;
 
             _rowHeight = Resources.NormalFont.LineSpacing + 2 * CellPadding;
             _getRowCount = getRowCount;
             _updateTableRow = updateTableRow;
-            _rows = new List<DataTableRow>();
             _columnsWithNameAndWidth = new List<Tuple<string, int>>();
+        }
+
+        public int SelectedRowIndex
+        {
+            get { return _selectedRowIndex; }
+            set
+            {
+                if (value < -1)throw new InvalidDataException("SelectedRowIndex cannot be smaller than -1");
+                _selectedRowIndex = value;
+            }
         }
 
         public void AddColumn(string headerName, int width)
@@ -93,6 +107,12 @@ namespace BombRush.Gui
             for (var y = -1; y < MaxVisibleRowCount; y++)
             {
                 var currentX = X;
+
+                if (SelectedRowIndex != -1 && SelectedRowIndex == y)
+                {
+                    Game.ShapeRenderer.DrawFilledRectangle(currentX, currentY, Width, _rowHeight, Color.CornflowerBlue);
+                }
+
                 for (var x = 0; x < _columnsWithNameAndWidth.Count; x++)
                 {
                     var currentColumnWidth = _columnsWithNameAndWidth[x].Item2;
