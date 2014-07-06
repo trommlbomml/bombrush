@@ -1,15 +1,16 @@
 ﻿
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using BombRush.Networking;
 
 namespace BombRush.Server
 {
     class Session
     {
-        private List<Message> _messagesToSend = new List<Message>(); 
-
+        private readonly List<Message> _messagesToSend = new List<Message>(); 
         private readonly List<GameClient> _clients;
+        private Thread _executionThread;
 
         public byte Id { get; private set; }
         public bool IsActive { get; private set; }
@@ -30,18 +31,33 @@ namespace BombRush.Server
 
         public void Activate()
         {
+            if (IsActive) return;
             IsActive = true;
+
+            _executionThread = new Thread(OnUpdateSession);
+            _executionThread.Start();
         }
 
-        public void Update(float elapsedTime)
+        public void Deactivate()
         {
-            
+            IsActive = false;
+        }
+
+        private void OnUpdateSession(object state)
+        {
+            while (IsActive)
+            {
+                Thread.Sleep(1);
+            }
         }
 
         public void HandleClientLeft(GameClient client)
         {
             _clients.RemoveAll(c => c.Id == client.Id);
-            if (_clients.Count == 0) IsActive = false;
+            if (_clients.Count == 0)
+            {
+                Deactivate();
+            }
         }
 
         public IList<Message> GetAndClearMessages()

@@ -1,7 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using BombRush.Networking;
 using BombRush.Networking.ClientMessages;
 using Lidgren.Network;
@@ -22,7 +19,6 @@ namespace BombRush.Server
 
             _clientManager = new ClientManager(masterServerConfig.MaxGameSessions * 4);
             _sessionPool = new SessionPool(masterServerConfig.MaxGameSessions);
-            ThreadPool.QueueUserWorkItem(OnSessionUpdate);
 
             Tracer.PrintInfo(string.Format("Starting NetServer at Port: {0}", masterServerConfig.Port));
             var parameters = new NetworkServerHandlerParameters
@@ -33,17 +29,8 @@ namespace BombRush.Server
                 HandleDataMessageReceived = HandleDataMessageReceived,
                 Port = masterServerConfig.Port
             };
-            _networkServerHandler = new NetworkServerHandler(Tracer, parameters);
+            _networkServerHandler = new NetworkServerHandler(parameters);
             Tracer.PrintInfo("Server started successfully.");
-        }
-
-        private void OnSessionUpdate(object state)
-        {
-            foreach (var serverSession in _sessionPool.ActiveSessions)
-            {
-                serverSession.Update(0);
-               _networkServerHandler.SendSessionMessages(serverSession);
-            }
         }
 
         private void HandleDataMessageReceived(Message message)
@@ -61,6 +48,7 @@ namespace BombRush.Server
         private byte HandleClientJoined(NetIncomingMessage msg)
         {
             var client = _clientManager.AddClient(msg);
+            Tracer.PrintInfo(string.Format("Client {0}, id={1} name='{2}' joined the server", client.EndPoint, client.Id, client.Name));
             return client.Id;
         }
 
@@ -80,7 +68,7 @@ namespace BombRush.Server
             else
             {
                 _sessionPool.HandleClientLeft(clientToRemove);
-                Tracer.PrintInfo(string.Format("Client {0} {1} left the server", netIncomingMessage.SenderEndPoint, clientToRemove.Name));
+                Tracer.PrintInfo(string.Format("Client {0}, id={1} name='{2}' left the server", clientToRemove.EndPoint, clientToRemove.Id, clientToRemove.Name));
             }
         }
 
@@ -108,17 +96,14 @@ namespace BombRush.Server
 
         public void Update()
         {
-            //Message message;
-            //do
-            //{
-            //    lock (_messagesToSend)
-            //    {
-            //        message = _messagesToSend.Count > 0 ? _messagesToSend.Dequeue() : null;
-            //    }
-            //    SendMessage(message);
-            //} 
-            //while (message != null);
-            Thread.Sleep(0);
+            while (true)
+            {
+                foreach (var serverSession in _sessionPool.ActiveSessions)
+                {
+                    _networkServerHandler.SendSessionMessages(serverSession);
+                }
+                Thread.Sleep(1);
+            }
         }
     }
 }

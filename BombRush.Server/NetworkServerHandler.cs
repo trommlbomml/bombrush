@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using BombRush.Networking;
 using BombRush.Networking.Extensions;
@@ -7,31 +6,20 @@ using Lidgren.Network;
 
 namespace BombRush.Server
 {
-    internal class NetworkServerHandlerParameters
-    {
-        public int Port;
-        public Func<bool> ApproveConnection;
-        public Func<NetIncomingMessage, byte> HandleClientJoined;
-        public Action<NetIncomingMessage> HandleClientLeft; 
-        public Action<Message> HandleDataMessageReceived;
-    }
-
     class NetworkServerHandler
     {
         public const string ApplicationNetworkIdentifier = "BombRushNetworkGameIdentifier";
 
         private readonly MessageTypeMap _messageTypeMap = new MessageTypeMap();
         private readonly object _networkUpdateLockObject = new object();
-        private NetServer _server;
-        private Func<bool> _approveConnection;
-        private Func<NetIncomingMessage, byte> _handleClientJoined;
-        private Action<Message> _handleDataMessageReceived;
-        private Action<NetIncomingMessage> _handleClientLeft;
-        private LogListener Tracer { get; set; }
+        private readonly NetServer _server;
+        private readonly Func<bool> _approveConnection;
+        private readonly Func<NetIncomingMessage, byte> _handleClientJoined;
+        private readonly Action<Message> _handleDataMessageReceived;
+        private readonly Action<NetIncomingMessage> _handleClientLeft;
 
-        public NetworkServerHandler(LogListener tracer, NetworkServerHandlerParameters parameters)
+        public NetworkServerHandler(NetworkServerHandlerParameters parameters)
         {
-            Tracer = tracer;
             _approveConnection = parameters.ApproveConnection;
             _handleClientJoined = parameters.HandleClientJoined;
             _handleDataMessageReceived = parameters.HandleDataMessageReceived;
