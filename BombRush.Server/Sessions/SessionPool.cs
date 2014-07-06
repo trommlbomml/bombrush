@@ -1,8 +1,8 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BombRush.Logic;
 
-namespace BombRush.Server
+namespace BombRush.Server.Sessions
 {
     class SessionPool
     {
@@ -21,7 +21,7 @@ namespace BombRush.Server
             return _allSessions.FirstOrDefault(s => !s.IsActive);
         }
 
-        public bool ActivateSession(GameClient client, string sessionName)
+        public bool ActivateSession(GameClient client, GameSessionStartParameters parameters)
         {
             var session = GetNextDeactivatedSession();
             if (session == null) return false;
@@ -29,7 +29,7 @@ namespace BombRush.Server
             client.Session = session;
             client.IsSessionAdministrator = true;
             session.JoinClient(client);
-            session.Activate();
+            session.Activate(parameters);
 
             return true;
         }

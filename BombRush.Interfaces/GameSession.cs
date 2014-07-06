@@ -3,7 +3,6 @@ namespace BombRush.Interfaces
 {
     public interface GameSession
     {
-        byte Id { get; }
         string SessionName { get; }
         float RemainingStartupTime { get; }
 

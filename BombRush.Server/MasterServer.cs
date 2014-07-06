@@ -1,6 +1,8 @@
 ﻿
+using BombRush.Logic;
 using BombRush.Networking;
 using BombRush.Networking.ClientMessages;
+using BombRush.Server.Sessions;
 using Lidgren.Network;
 using System.Threading;
 
@@ -87,8 +89,16 @@ namespace BombRush.Server
         {
             var clientToCreateSession = _clientManager.GetClientById(message.ClientId);
             if (clientToCreateSession == null) return;
+
+            var startParameters = new GameSessionStartParameters
+            {
+                MatchTime = message.MatchTime,
+                MatchesToWin = message.MatchesToWin,
+                SessionName = message.GameName,
+                LevelAssetPath = "levels/Rookie.xml"
+            };
             
-            if (!_sessionPool.ActivateSession(clientToCreateSession, message.GameName))
+            if (!_sessionPool.ActivateSession(clientToCreateSession, startParameters))
             {
                 Tracer.PrintWarning(string.Format("Could not create Session for client {0}.", message.ClientId));
             }
@@ -100,7 +110,9 @@ namespace BombRush.Server
             {
                 foreach (var serverSession in _sessionPool.ActiveSessions)
                 {
-                    _networkServerHandler.SendSessionMessages(serverSession);
+                    var data = serverSession.GetAndClearMessages();
+                    var receiverConnections = _clientManager.GetClientNetConnectionsById(data.ReceiversIds);
+                    _networkServerHandler.SendSessionMessages(data.MessagesToSend, receiverConnections);
                 }
                 Thread.Sleep(1);
             }

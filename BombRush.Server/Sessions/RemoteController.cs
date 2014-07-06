@@ -1,8 +1,7 @@
 ﻿using BombRush.Interfaces;
-using BombRush.Logic;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Server
+namespace BombRush.Server.Sessions
 {
     class RemoteController : FigureController
     {

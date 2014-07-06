@@ -53,6 +53,11 @@ namespace BombRush.Server
             return _connectedClients.FirstOrDefault(c => c.Id == id);
         }
 
+        public List<NetConnection> GetClientNetConnectionsById(IEnumerable<byte> ids)
+        {
+            return ids.Select(id => _connectedClients.First(c => c.Id == id).NetConnection).ToList();
+        }
+
         private void FreeId(byte id)
         {
             _availableIds.Add(id);

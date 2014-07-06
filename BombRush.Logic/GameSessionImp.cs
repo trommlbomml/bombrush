@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BombRush.Interfaces;
-using Microsoft.Xna.Framework.Content;
 
 namespace BombRush.Logic
 {
@@ -19,7 +17,7 @@ namespace BombRush.Logic
         private GameUpdateResult _updateResult;
         private Func<int, FigureController> _provideCustomFigureController;
 
-        private static readonly string[] ComNames = new[]
+        private static readonly string[] ComNames =
         {
             "Oliver", "Daniel", "Thomas", "Andre", 
             "Richard", "Nils", "Katja", "Tanja",
@@ -48,7 +46,6 @@ namespace BombRush.Logic
             _members = new List<GameSessionMemberImp>();
 
             State = GameSessionState.Disconnected;
-            Id = parameters.Id;
             SessionName = parameters.SessionName;
             _provideCustomFigureController = parameters.ProvidePlayerFigureController;
             _matchesToWin = parameters.MatchesToWin;
@@ -105,7 +102,6 @@ namespace BombRush.Logic
         public float RemainingStartupTime { get; private set; }
         public MatchResultType CurrentMatchResultType { get; private set; }
         public bool IsRunningAsLocalGame { get; private set; }
-        public byte Id { get; private set; }
 
         public void OnQuit()
         {
@@ -160,7 +156,7 @@ namespace BombRush.Logic
             RemainingStartupTime -= elapsedTime;
             if (RemainingStartupTime <= 0)
             {
-                State = GameSessionState.InGame; ;
+                State = GameSessionState.InGame;
                 _updateResult = GameUpdateResult.SwitchToGame;
             }
         }

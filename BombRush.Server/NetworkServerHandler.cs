@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BombRush.Networking;
 using BombRush.Networking.Extensions;
+using BombRush.Server.Sessions;
 using Lidgren.Network;
 
 namespace BombRush.Server
@@ -38,10 +40,8 @@ namespace BombRush.Server
             _server.Start();
         }
 
-        public void SendSessionMessages(Session session)
+        public void SendSessionMessages(Message[] messages, List<NetConnection> receivers)
         {
-            var messages = session.GetAndClearMessages();
-            var receivers = session.Clients.Select(c => c.NetConnection).ToList();
             foreach (var message in messages)
             {
                 message.Send(_messageTypeMap, _server, receivers);
