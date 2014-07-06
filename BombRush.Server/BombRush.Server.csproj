@@ -61,6 +61,7 @@
     <Compile Include="Sessions\Session.cs" />
     <Compile Include="Sessions\SessionPool.cs" />
     <Compile Include="Sessions\SessionUpdateData.cs" />
+    <Compile Include="TimeAccountUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BombRush.Interfaces\BombRush.Interfaces.csproj">

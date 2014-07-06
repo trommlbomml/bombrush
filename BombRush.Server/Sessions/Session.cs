@@ -42,9 +42,10 @@ namespace BombRush.Server.Sessions
 
         public void Activate(GameSessionStartParameters parameters)
         {
+            if (IsActive) return;
+
             lock (_sessionAccessLockObject)
             {
-                if (IsActive) return;
                 _gameSession = new GameSessionImp(parameters);
                 IsActive = true;
             }
@@ -64,10 +65,11 @@ namespace BombRush.Server.Sessions
 
         private void OnUpdateSession(object state)
         {
+            var timeAccountUpdater = new TimeAccountUpdater(30, 5);
+
             while (IsActive)
             {
-                _gameSession.Update(0.1f);
-                Thread.Sleep(1);
+                timeAccountUpdater.Update(t => _gameSession.Update(t));
             }
         }
 
