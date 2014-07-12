@@ -1,7 +1,5 @@
-﻿using BombRush.Network.Framework;
-using Game2DFramework;
+﻿using Game2DFramework;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BombRush.Gui

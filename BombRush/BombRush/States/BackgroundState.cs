@@ -1,5 +1,6 @@
 ﻿using BombRush.Gui;
 using BombRush.Network.Framework;
+using BombRush.Rendering;
 using Game2DFramework.Extensions;
 using Game2DFramework.States;
 using Microsoft.Xna.Framework;
@@ -12,14 +13,18 @@ namespace BombRush.States
         private Texture2D _headingTexture;
         private SplashBackground _splashBackground;
 
+        protected Cursor Cursor { get; private set; }
+
         protected override void OnInitialize(object enterInformation)
         {
+            Cursor = new Cursor(Game);
             _splashBackground = new SplashBackground(Game, Game.Content.Load<Texture2D>("textures/splash")) { ModulateColor = new Color(0.0f, 0.8f, 0.0f) };
             _headingTexture = Game.Content.Load<Texture2D>("textures/headings");
         }
 
         public override StateChangeInformation OnUpdate(float elapsedTime)
         {
+            Cursor.Update();
             _splashBackground.Update(elapsedTime);
             return StateChangeInformation.Empty;
         }

@@ -1,5 +1,6 @@
 ﻿
-using BombRush.Rendering;
+using System;
+using BombRush.Gui2;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using BombRush.Gui;
@@ -8,8 +9,7 @@ namespace BombRush.States
 {
     class MainMenuState : BackgroundState
     {
-        private Cursor _cursor;
-        private StackedMenu _mainMenu;
+        private Frame _mainMenuFrame;
         private StateChangeInformation _stateChangeInformation;
         private TimedSplash _splash;
 
@@ -17,20 +17,36 @@ namespace BombRush.States
         {
             base.OnInitialize(enterInformation);
             _splash = new TimedSplash(Game);
-            _cursor = new Cursor(Game);
 
-            _mainMenu = new StackedMenu(Game) { Title = "MainMenu" };
-            _mainMenu.AppendMenuItem(new ActionMenuItem(Game,"Local Game", () => _stateChangeInformation = StateChangeInformation.StateChange(typeof(LocalGameConfigurationState), SlideTransition.Id), ActionTriggerKind.IsAccept));
-            _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Network Game", () => _stateChangeInformation = StateChangeInformation.StateChange(typeof(NetworkGameState), SlideTransition.Id), ActionTriggerKind.IsAccept));
-            _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Options", () => _stateChangeInformation = StateChangeInformation.StateChange(typeof(OptionMenuState), SlideTransition.Id), ActionTriggerKind.IsAccept));
-            _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Credits", () => _stateChangeInformation = StateChangeInformation.StateChange(typeof(CreditsState), SlideTransition.Id), ActionTriggerKind.IsAccept));
-            _mainMenu.AppendMenuItem(new ActionMenuItem(Game, "Quit", () => _stateChangeInformation = StateChangeInformation.QuitGameInformation(ZappoutTransition.Id), ActionTriggerKind.IsCancel));
+            _mainMenuFrame = new Frame(Game) {Title = "MainMenu"};
+
+            var stackPanel = new StackPanel(Game) { Orientation = Orientation.Vertical };
+            _mainMenuFrame.SetContent(stackPanel);
+
+            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(LocalGameConfigurationState))) { Text = "Local Game" });
+            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(NetworkGameState))) { Text = "Network Game" });
+            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(OptionMenuState))) { Text = "Options" });
+            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(CreditsState))) { Text = "Credits" });
+            stackPanel.AddChild(new Button(Game, OnQuitClicked) { Text = "Quit" });
+
+            var rect = _mainMenuFrame.GetMinSize();
+            rect.X = Game.ScreenWidth / 2 - rect.Width / 2;
+            rect.Y = Game.ScreenHeight / 2 - rect.Height / 2;
+            _mainMenuFrame.Arrange(rect);
+        }
+
+        private void DoTransition(Type targetState)
+        {
+            _stateChangeInformation = StateChangeInformation.StateChange(targetState, SlideTransition.Id);
+        }
+
+        private void OnQuitClicked()
+        {
+            _stateChangeInformation = StateChangeInformation.QuitGameInformation(ZappoutTransition.Id);
         }
 
         protected override void OnEntered(object enterInformation)
         {
-            _mainMenu.SelectFirstMenuItem();
-            _mainMenu.RecalculatePositions();
             _stateChangeInformation = StateChangeInformation.Empty;
 
             if (enterInformation is bool && (bool)enterInformation)
@@ -49,9 +65,8 @@ namespace BombRush.States
 
             _stateChangeInformation = StateChangeInformation.Empty;
 
-            _cursor.Update();
             _splash.Update(elapsedTime);
-            if (!_splash.Running) _mainMenu.Update(elapsedTime);
+            if (!_splash.Running) _mainMenuFrame.Update(elapsedTime);
 
             return _stateChangeInformation;
         }
@@ -59,9 +74,9 @@ namespace BombRush.States
         public override void OnDraw(float elapsedTime)
         {
             base.OnDraw(elapsedTime);
-            _mainMenu.Draw(Game.SpriteBatch);
+            _mainMenuFrame.Draw();
             _splash.Draw(Game.SpriteBatch, true);
-            _cursor.Draw();
+            Cursor.Draw();
         }
     }
 }

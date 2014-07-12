@@ -94,8 +94,10 @@ namespace BombRush
             RegisterState(new WinnerState());
             RegisterState(new CreditsState());
             RegisterState(new ConfigureInputState());
+            RegisterState(new GuiTestState());
 
-            return typeof(MainMenuState);
+            //return typeof(MainMenuState);
+            return typeof (GuiTestState);
         }
 
         protected override void LoadContent()

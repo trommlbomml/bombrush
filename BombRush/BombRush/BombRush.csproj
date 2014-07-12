@@ -114,6 +114,12 @@
   <ItemGroup>
     <Compile Include="Controller\InputDeviceType.cs" />
     <Compile Include="Controller\PlayerController.cs" />
+    <Compile Include="Gui2\Border2.cs" />
+    <Compile Include="Gui2\Frame.cs" />
+    <Compile Include="Gui2\Button.cs" />
+    <Compile Include="Gui2\GuiElement.cs" />
+    <Compile Include="Gui2\StackPanel.cs" />
+    <Compile Include="Gui2\TextBlock.cs" />
     <Compile Include="Gui\DataTableView.cs" />
     <Compile Include="Gui\StringInputController.cs" />
     <Compile Include="Gui\TextBox.cs" />
@@ -167,6 +173,7 @@
     <Compile Include="States\BackgroundState.cs" />
     <Compile Include="States\ConfigureInputState.cs" />
     <Compile Include="States\CreditsState.cs" />
+    <Compile Include="States\GuiTestState.cs" />
     <Compile Include="States\LobbyState.cs" />
     <Compile Include="States\LocalGameConfigurationState.cs" />
     <Compile Include="States\MainMenuState.cs" />

@@ -1,6 +1,5 @@
 ﻿
 using System;
-using BombRush.Network.Framework;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
