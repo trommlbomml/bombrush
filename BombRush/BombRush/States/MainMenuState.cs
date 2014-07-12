@@ -18,21 +18,14 @@ namespace BombRush.States
             base.OnInitialize(enterInformation);
             _splash = new TimedSplash(Game);
 
-            _mainMenuFrame = new Frame(Game) {Title = "MainMenu"};
+            _mainMenuFrame = GuiSystem.CreateGuiHierarchyFromXml<Frame>(Game, "LocalResources/MainMenu_Layout.xml");
+            GuiSystem.ArrangeCenteredToScreen(Game, _mainMenuFrame);
 
-            var stackPanel = new StackPanel(Game) { Orientation = Orientation.Vertical };
-            _mainMenuFrame.SetContent(stackPanel);
-
-            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(LocalGameConfigurationState))) { Text = "Local Game" });
-            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(NetworkGameState))) { Text = "Network Game" });
-            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(OptionMenuState))) { Text = "Options" });
-            stackPanel.AddChild(new Button(Game, () => DoTransition(typeof(CreditsState))) { Text = "Credits" });
-            stackPanel.AddChild(new Button(Game, OnQuitClicked) { Text = "Quit" });
-
-            var rect = _mainMenuFrame.GetMinSize();
-            rect.X = Game.ScreenWidth / 2 - rect.Width / 2;
-            rect.Y = Game.ScreenHeight / 2 - rect.Height / 2;
-            _mainMenuFrame.Arrange(rect);
+            _mainMenuFrame.FindGuiElementById<Button>("LocalGameButton").OnClick = () => DoTransition(typeof (LocalGameConfigurationState));
+            _mainMenuFrame.FindGuiElementById<Button>("NetworkGameButton").OnClick = () => DoTransition(typeof(NetworkGameState));
+            _mainMenuFrame.FindGuiElementById<Button>("OptionsButton").OnClick = () => DoTransition(typeof(OptionMenuState));
+            _mainMenuFrame.FindGuiElementById<Button>("CreditsButton").OnClick = () => DoTransition(typeof(CreditsState));
+            _mainMenuFrame.FindGuiElementById<Button>("QuitButton").OnClick = OnQuitClicked;
         }
 
         private void DoTransition(Type targetState)

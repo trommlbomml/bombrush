@@ -1,5 +1,4 @@
 ﻿using BombRush.Gui;
-using BombRush.Network.Framework;
 using Game2DFramework.Extensions;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
@@ -11,7 +10,7 @@ namespace BombRush.States
 {
     class CreditsState : BackgroundState
     {
-        private static readonly string[] Data = new[]
+        private static readonly string[] Data = 
         {
             "Programming", 
             "Peter Friedland",

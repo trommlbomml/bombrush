@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BombRush.Gui2
 {
@@ -14,9 +14,22 @@ namespace BombRush.Gui2
 
         public string Title { get; set; }
 
+        public Frame(Game2D game, XmlElement element)
+            : base(game, element)
+        {
+            _border = new Border2(game);
+            _header = new Border2(game);
+
+            if (element.HasAttribute("Title"))
+            {
+                Title = element.GetAttribute("Title");
+            }
+
+            if (element.HasChildNodes) SetContent(CreateFromXmlType(game, (XmlElement)element.FirstChild));
+        }
+
         public Frame(Game2D game) : base(game)
         {
-            Children = new List<GuiElement>();
             _border = new Border2(game);
             _header = new Border2(game);
         }

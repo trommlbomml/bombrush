@@ -24,7 +24,7 @@ namespace BombRush.States
             var stackPanel = new StackPanel(Game) {Orientation = Orientation.Vertical};
             _root.SetContent(stackPanel);
 
-            stackPanel.AddChild(new Button(Game, OnItemClicked) { Text = "First Menu Item"});
+            stackPanel.AddChild(new Button(Game) { Text = "First Menu Item"});
             stackPanel.AddChild(new TextBlock(Game) { Text = "Second Menu Item" });
             stackPanel.AddChild(new TextBlock(Game) { Text = "Second Menu Item" });
 

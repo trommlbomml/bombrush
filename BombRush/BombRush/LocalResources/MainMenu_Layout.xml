@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame Title="MainMenu">
+  <StackPanel Orientation="Vertical">
+    <Button Id="LocalGameButton" Text="Local Game" Margin="5" />
+    <Button Id="NetworkGameButton" Text="Network Game" Margin="5" />
+    <Button Id="OptionsButton" Text="Options" Margin="5" />
+    <Button Id="CreditsButton" Text="Credits" Margin="5" />
+    <Button Id="QuitButton" Text="Quit" Margin="5" />
+  </StackPanel>
+</Frame>

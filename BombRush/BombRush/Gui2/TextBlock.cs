@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Xml;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BombRush.Gui2
 {
@@ -11,6 +11,13 @@ namespace BombRush.Gui2
         public string Text { get; set; }
         public Color Color { get; set; }
 
+        public TextBlock(Game2D game, XmlElement element)
+            : base(game, element)
+        {
+            Color = Color.White;
+            if (element.HasAttribute("Text")) Text = element.GetAttribute("Text");
+        }
+        
         public TextBlock(Game2D game) : base(game)
         {
             Color = Color.White;
@@ -21,12 +28,15 @@ namespace BombRush.Gui2
             if (string.IsNullOrEmpty(Text)) return new Rectangle();
 
             var size = Resources.BigFont.MeasureString(Text);
-            return new Rectangle(0,0, (int)Math.Round(size.X), (int)Math.Round(size.Y));
+            return new Rectangle(0,0, (int)Math.Round(size.X) + Margin.Horizontal, (int)Math.Round(size.Y) + Margin.Vertical);
         }
 
         public override void Arrange(Rectangle target)
         {
-            Bounds = target;
+            Bounds = new Rectangle(target.X + Margin.Left, 
+                                   target.Y + Margin.Top, 
+                                   target.Width - Margin.Horizontal, 
+                                   target.Height - Margin.Vertical);
         }
 
         public override void Draw()

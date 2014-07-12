@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using Game2DFramework;
 using Game2DFramework.Input;
 using Microsoft.Xna.Framework;
@@ -17,7 +18,15 @@ namespace BombRush.Gui2
     {
         public StackPanel(Game2D game) : base(game)
         {
-            Children = new List<GuiElement>();
+        }
+
+        public StackPanel(Game2D game, XmlElement element)
+            : base(game, element)
+        {
+            foreach (XmlElement childElement in element.ChildNodes)
+            {
+                AddChild(CreateFromXmlType(game, childElement));
+            }
         }
 
         public Orientation Orientation { get; set; }

@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Xml;
 using BombRush.Gui;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BombRush.Gui2
 {
     class Button : TextBlock
     {
         private readonly AnimatedBomb _animatedBomb;
-        private readonly Action _onClick;
 
-        public Button(Game2D game, Action onClick) : base(game)
+        public Action OnClick { get; set; }
+
+        public Button(Game2D game, XmlElement element) : base(game, element)
         {
-            _onClick = onClick;
+            _animatedBomb = new AnimatedBomb(game.Content);
+        }
+
+        public Button(Game2D game) : base(game)
+        {
             _animatedBomb = new AnimatedBomb(game.Content);
         }
 
@@ -28,7 +33,7 @@ namespace BombRush.Gui2
         public override void Arrange(Rectangle target)
         {
             base.Arrange(target);
-            _animatedBomb.Position = new Vector2(target.X + 16, target.Y + 16);
+            _animatedBomb.Position = new Vector2(target.X + 16 + Margin.Left, target.Y + 16 + Margin.Top);
         }
 
         private bool _isMouseOver;
@@ -40,10 +45,7 @@ namespace BombRush.Gui2
 
             Color = _isMouseOver ? Color.Yellow : Color.White;
 
-            if (Game.Mouse.IsLeftButtonDownOnce && _isMouseOver)
-            {
-                _onClick();
-            }
+            if (Game.Mouse.IsLeftButtonDownOnce && _isMouseOver && OnClick != null) OnClick();
         }
 
         public override void Draw()
