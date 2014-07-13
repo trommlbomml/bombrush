@@ -15,6 +15,7 @@ namespace BombRush.Gui2
                 case "Frame": return new Frame(game, element);
                 case "Button": return new Button(game, element);
                 case "StackPanel": return new StackPanel(game, element);
+                case "TextBlock": return new TextBlock(game, element);
             }
 
             throw new ArgumentException("Invalid Element Type", "element");

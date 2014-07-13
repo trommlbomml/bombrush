@@ -189,6 +189,9 @@
   <ItemGroup>
     <Content Include="bombrush.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="LocalResources\Credits_Layout.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="LocalResources\MainMenu_Layout.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,32 +1,22 @@
-﻿using BombRush.Gui;
-using Game2DFramework.Extensions;
+﻿using BombRush.Gui2;
+using BombRush.Rendering;
 using Game2DFramework.States;
-using Game2DFramework.States.Transitions;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace BombRush.States
 {
     class CreditsState : BackgroundState
     {
-        private static readonly string[] Data = 
-        {
-            "Programming", 
-            "Peter Friedland",
-            "",
-            "Special Thanks to",
-            "Andre Mueller",
-            "",
-            "Press ESC to return to main menu"
-        };
-        
-        private TitledBorder _titledBorder;
+        private Frame _frame;
+        private Cursor _cursor;
 
         protected override void OnInitialize(object enterInformation)
         {
             base.OnInitialize(enterInformation);
-            _titledBorder = new TitledBorder(Game, "Credits");
+
+            _cursor = new Cursor(Game);
+
+            _frame = GuiSystem.CreateGuiHierarchyFromXml<Frame>(Game, "LocalResources/Credits_Layout.xml");
+            GuiSystem.ArrangeCenteredToScreen(Game, _frame);
         }
 
         public override void OnLeave()
@@ -35,37 +25,24 @@ namespace BombRush.States
 
         protected override void OnEntered(object enterInformation)
         {
-            _titledBorder.SetClientSize(400, Data.Length * Resources.NormalFont.LineSpacing, BombGame.MenuStartY);
         }
 
         public override StateChangeInformation OnUpdate(float elapsedTime)
         {
             base.OnUpdate(elapsedTime);
 
-            if (Game.Keyboard.IsKeyDownOnce(Keys.Escape))
-                return StateChangeInformation.StateChange(typeof (MainMenuState), BlendTransition.Id);
+            _frame.Update(elapsedTime);
+            _cursor.Update();
 
             return StateChangeInformation.Empty;
-        }
-
-        private void DrawCentered(SpriteBatch spriteBatch, string text, float y)
-        {
-            var width = Resources.NormalFont.MeasureString(text).X;
-            spriteBatch.DrawString(Resources.NormalFont, text, new Vector2((Game.ScreenWidth - width) * 0.5f, y).SnapToPixels(), Color.White);
         }
 
         public override void OnDraw(float elapsedTime)
         {
             base.OnDraw(elapsedTime);
 
-            _titledBorder.Draw(Game.SpriteBatch, true);
-
-            float startY = _titledBorder.ClientRectangle.Y;
-            foreach (var line in Data)
-            {
-                if (!string.IsNullOrEmpty(line)) DrawCentered(Game.SpriteBatch, line, startY);
-                startY += Resources.NormalFont.LineSpacing;
-            }
+            _frame.Draw();
+            _cursor.Draw();
         }
     }
 }

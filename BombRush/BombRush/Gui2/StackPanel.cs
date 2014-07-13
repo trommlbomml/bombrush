@@ -51,22 +51,27 @@ namespace BombRush.Gui2
                 }
             }
 
+            size.X -= Margin.Left;
+            size.Y -= Margin.Top;
+            size.Height += Margin.Vertical;
+            size.Width += Margin.Horizontal;
+
             return size;
         }
 
         public override void Arrange(Rectangle target)
         {
-            Bounds = target;
-
-            var startX = target.X;
-            var startY = target.Y;
+            Bounds = new Rectangle(target.X + Margin.Left, target.Y + Margin.Top, target.Width - Margin.Horizontal, target.Height - Margin.Vertical);
+            
+            var startX = Bounds.X;
+            var startY = Bounds.Y;
 
             foreach (var guiElement in Children)
             {
                 var minSize = guiElement.GetMinSize();
                 var childArrange = Orientation == Orientation.Vertical
-                    ? new Rectangle(startX, startY, target.Width, minSize.Height)
-                    : new Rectangle(startX, startY, minSize.Width, target.Height);
+                    ? new Rectangle(startX, startY, Bounds.Width, minSize.Height)
+                    : new Rectangle(startX, startY, minSize.Width, Bounds.Height);
 
                 if (Orientation == Orientation.Vertical)
                 {
