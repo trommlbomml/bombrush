@@ -122,7 +122,6 @@ namespace BombRush.States
                 _waitDialog.Draw();
                 _timedSplash.Draw(Game.SpriteBatch, false);   
             }
-            Cursor.Draw();
         }
     }
 }

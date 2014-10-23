@@ -45,7 +45,7 @@ namespace BombRush.Gui2
 
             Color = _isMouseOver ? Color.Yellow : Color.White;
 
-            if (Game.Mouse.IsLeftButtonDownOnce && _isMouseOver && OnClick != null) OnClick();
+            if (Game.Mouse.IsLeftButtonDownOnce() && _isMouseOver && OnClick != null) OnClick();
         }
 
         public override void Draw()

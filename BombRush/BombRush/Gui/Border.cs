@@ -1,5 +1,5 @@
 ﻿using Game2DFramework;
-using Game2DFramework.Extensions;
+using Game2DFramework.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,12 +12,12 @@ namespace BombRush.Gui
         public static readonly Color ShadowColor = Color.Black * 0.6f;
 
         private readonly Texture2D _ninePatchTexture;
-        private readonly NinePatchParameter _ninePatchParameter;
+        private readonly NinePatchSprite _ninePatch;
 
         public Border(Game2D game) : base(game)
         {
             _ninePatchTexture = Game.Content.Load<Texture2D>("Textures/border");
-            _ninePatchParameter = new NinePatchParameter(BorderSize);
+            _ninePatch = new NinePatchSprite(_ninePatchTexture, BorderSize);
         }
 
         public int ClientX {get { return X + BorderSize; }}
@@ -47,11 +47,8 @@ namespace BombRush.Gui
 
         public void Draw(Color color)
         {
-            Game.SpriteBatch.DrawNinePatch(_ninePatchTexture,
-                                          new Rectangle(0, 0, _ninePatchTexture.Width, _ninePatchTexture.Height),
-                                          new Rectangle(X, Y, Width, Height),
-                                          color,
-                                          _ninePatchParameter);
+            _ninePatch.Draw(Game.SpriteBatch, color);
+            _ninePatch.Draw(Game.SpriteBatch, new Rectangle(X, Y, Width, Height), color);
         }
 
         public void CenterVertical()

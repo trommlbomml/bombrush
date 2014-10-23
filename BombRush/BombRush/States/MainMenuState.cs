@@ -69,7 +69,6 @@ namespace BombRush.States
             base.OnDraw(elapsedTime);
             _mainMenuFrame.Draw();
             _splash.Draw(Game.SpriteBatch, true);
-            Cursor.Draw();
         }
     }
 }

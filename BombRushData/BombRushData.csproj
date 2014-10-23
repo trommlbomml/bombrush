@@ -68,12 +68,6 @@
     <Compile Include="TemplateData.cs" />
     <Compile Include="TilesetData.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Game2DFramework\Game2DFramework.csproj">
-      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
-      <Name>Game2DFramework</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

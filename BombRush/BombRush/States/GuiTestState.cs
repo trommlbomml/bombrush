@@ -1,5 +1,4 @@
 ﻿using BombRush.Gui2;
-using BombRush.Rendering;
 using Game2DFramework;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
@@ -10,14 +9,12 @@ namespace BombRush.States
 {
     class GuiTestState : IState
     {
-        private Cursor _cursor;
         private Frame _root;
         private StateChangeInformation _stateChangeInformation;
 
         public Game2D Game { get; set; }
         public void OnEnter(object enterInformation)
         {
-            _cursor = new Cursor(Game);
             _root = new Frame(Game);
             _root.Title = "Main Menu";
             
@@ -48,7 +45,6 @@ namespace BombRush.States
         {
             _stateChangeInformation = StateChangeInformation.Empty;
 
-            _cursor.Update();
             _root.Update(elapsedTime);
             return _stateChangeInformation;
         }
@@ -58,8 +54,6 @@ namespace BombRush.States
             Game.GraphicsDevice.Clear(Color.Black);
 
             _root.Draw();
-
-            _cursor.Draw();
         }
 
         public RenderTarget2D TransitionRenderTarget { get; set; }

@@ -131,7 +131,6 @@
     <Compile Include="Network\GameInstance.cs" />
     <Compile Include="Network\GameSessionClient.cs" />
     <Compile Include="Network\RemoteGameCreationSession.cs" />
-    <Compile Include="Rendering\Cursor.cs" />
     <Compile Include="Rendering\Render2D\BombRenderer.cs" />
     <Compile Include="Rendering\Render2D\FigureRenderer.cs" />
     <Compile Include="Rendering\Render2D\FireExplosionRenderer.cs" />
@@ -197,6 +196,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Game2DFramework\Game2DFramework\Game2DFramework.csproj">
+      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
+      <Name>Game2DFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BombRush.Interfaces\BombRush.Interfaces.csproj">
       <Project>{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}</Project>
       <Name>BombRush.Interfaces</Name>
@@ -212,10 +215,6 @@
     <ProjectReference Include="..\..\BombRushData\BombRushData.csproj">
       <Project>{878E808E-C51E-409F-838A-90DAE2ED95B9}</Project>
       <Name>BombRushData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Game2DFramework\Game2DFramework.csproj">
-      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
-      <Name>Game2DFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\BombRushContent\BombRushContent.contentproj">
       <Name>BombRushContent</Name>

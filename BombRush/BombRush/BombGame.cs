@@ -1,10 +1,10 @@
 
 using System;
-using System.Windows.Forms;
 using BombRush.Properties;
 using BombRush.Rendering;
 using BombRush.States;
 using Game2DFramework;
+using Game2DFramework.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 
@@ -107,6 +107,8 @@ namespace BombRush
             Heads.LoadContent(Content);
             Resources.LoadContent(Content);
             Resources.ChangeResolution(Settings.Default.ScreenWidth, Settings.Default.ScreenHeight);
+
+            Cursor.AddCursorType("Arrow", new CursorType(Content.Load<Texture2D>("textures/cursor")));
         }
 
         static class Program
@@ -125,7 +127,7 @@ namespace BombRush
                     if(game != null) game.IsMouseVisible = true;
 
                     Log.WriteException(ex);
-                    MessageBox.Show(ex.ToString(), "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    System.Windows.Forms.MessageBox.Show(ex.ToString(), "Unhandled Exception", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                 }
             }
         }

@@ -113,6 +113,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Game2DFramework\Game2DFramework\Game2DFramework.csproj">
+      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
+      <Name>Game2DFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BombRush.Interfaces\BombRush.Interfaces.csproj">
       <Project>{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}</Project>
       <Name>BombRush.Interfaces</Name>
@@ -124,10 +128,6 @@
     <ProjectReference Include="..\BombRushData\BombRushData.csproj">
       <Project>{878E808E-C51E-409F-838A-90DAE2ED95B9}</Project>
       <Name>BombRushData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Game2DFramework\Game2DFramework.csproj">
-      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
-      <Name>Game2DFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

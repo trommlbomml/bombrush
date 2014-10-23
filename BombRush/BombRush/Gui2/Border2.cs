@@ -1,5 +1,6 @@
 ﻿
 using Game2DFramework;
+using Game2DFramework.Drawing;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,12 +15,13 @@ namespace BombRush.Gui2
 
         private static readonly Rectangle _minSize = new Rectangle(0, 0, 2 * BorderSize, 2 * BorderSize);
         private readonly Texture2D _ninePatchTexture;
-        private readonly NinePatchParameter _ninePatchParameter;
+        private readonly NinePatchSprite _ninePatch;
 
         public Border2(Game2D game) : base(game)
         {
             _ninePatchTexture = Game.Content.Load<Texture2D>("Textures/border");
-            _ninePatchParameter = new NinePatchParameter(BorderSize);
+            _ninePatch = new NinePatchSprite(_ninePatchTexture, BorderSize);
+
         }
 
         public Rectangle Bounds { get; set; }
@@ -31,9 +33,7 @@ namespace BombRush.Gui2
 
         public void Draw(Color color)
         {
-            Game.SpriteBatch.DrawNinePatch(_ninePatchTexture,
-                                          new Rectangle(0, 0, _ninePatchTexture.Width, _ninePatchTexture.Height),
-                                          Bounds, color, _ninePatchParameter);
+            _ninePatch.Draw(Game.SpriteBatch, Bounds, color);
         }
     }
 }
