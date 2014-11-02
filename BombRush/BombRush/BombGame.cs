@@ -97,8 +97,6 @@ namespace BombRush
             RegisterState(new GuiTestState());
 
             return typeof(MainMenuState);
-
-            //return typeof(GuiTestState);
         }
 
         protected override void LoadContent()

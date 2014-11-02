@@ -120,6 +120,7 @@
     <Compile Include="Gui2\GuiElement.cs" />
     <Compile Include="Gui2\GuiSystem.cs" />
     <Compile Include="Gui2\Margin.cs" />
+    <Compile Include="Gui2\NumericUpDown.cs" />
     <Compile Include="Gui2\StackPanel.cs" />
     <Compile Include="Gui2\TextBlock.cs" />
     <Compile Include="Gui\DataTableView.cs" />

@@ -22,8 +22,8 @@ namespace BombRush.States
 
             _menu = new StackedMenu(Game) { Title = "Local Game" };
             _menu.AppendMenuItem(new ActionMenuItem(Game, "Start", StartLocalGame, ActionTriggerKind.IsAccept));
-            _playersMenuItem = (NumericMenuItem)_menu.AppendMenuItem(new NumericMenuItem(Game, "Players", 1, 4));
-            _comMenuItem = (NumericMenuItem)_menu.AppendMenuItem(new NumericMenuItem(Game, "COMs", 0, 3));
+            _playersMenuItem = _menu.AppendMenuItem(new NumericMenuItem(Game, "Players", 1, 4));
+            _comMenuItem = _menu.AppendMenuItem(new NumericMenuItem(Game, "COMs", 0, 3));
             //todo: reactivate level names.
             _menu.AppendMenuItem(new EnumMenuItem(Game, "Level", new[] {"Rookie"}));
             _menu.AppendMenuItem(new TimeMenuItem(Game, "Time", 0, 600) { CurrentValue = 240, });

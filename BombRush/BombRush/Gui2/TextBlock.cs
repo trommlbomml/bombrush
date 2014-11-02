@@ -6,16 +6,28 @@ using Microsoft.Xna.Framework;
 
 namespace BombRush.Gui2
 {
+    enum HorizontalAlignment
+    {
+        Center,
+        Left,
+        Right,
+    }
+
     class TextBlock : GuiElement
     {
         public string Text { get; set; }
         public Color Color { get; set; }
+        public HorizontalAlignment HorizontalAlignment { get; set; }
 
         public TextBlock(Game2D game, XmlElement element)
             : base(game, element)
         {
             Color = Color.White;
             if (element.HasAttribute("Text")) Text = element.GetAttribute("Text");
+            if (element.HasAttribute("HorizontalAligment"))
+            {
+                HorizontalAlignment = (HorizontalAlignment) Enum.Parse(typeof (HorizontalAlignment), element.GetAttribute("HorizontalAligment"));
+            }
         }
         
         public TextBlock(Game2D game) : base(game)
@@ -45,7 +57,16 @@ namespace BombRush.Gui2
 
             var size = Resources.BigFont.MeasureString(Text);
 
-            var offset = new Vector2(Bounds.Width*0.5f - size.X*0.5f, Bounds.Height*0.5f - size.Y*0.5f);
+            var offset = Vector2.Zero;
+            switch (HorizontalAlignment)
+            {
+                case HorizontalAlignment.Center:
+                    offset = new Vector2(Bounds.Width * 0.5f - size.X * 0.5f, Bounds.Height * 0.5f - size.Y * 0.5f);
+                    break;
+                case HorizontalAlignment.Right:
+                    offset = new Vector2(Bounds.Width - size.X, 0.0f);
+                    break;
+            }
 
             Game.SpriteBatch.DrawString(Resources.BigFont, Text, (new Vector2(Bounds.X, Bounds.Y) + offset).SnapToPixels(), Color);
         }

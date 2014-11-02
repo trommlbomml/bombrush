@@ -22,8 +22,8 @@ namespace BombRush.States
             _root.SetContent(stackPanel);
 
             stackPanel.AddChild(new Button(Game) { Text = "First Menu Item"});
-            stackPanel.AddChild(new TextBlock(Game) { Text = "Second Menu Item" });
-            stackPanel.AddChild(new TextBlock(Game) { Text = "Second Menu Item" });
+            stackPanel.AddChild(new TextBlock(Game) { Text = "Second Menu Item", HorizontalAlignment = HorizontalAlignment.Left});
+            stackPanel.AddChild(new TextBlock(Game) { Text = "Second Menu Item", HorizontalAlignment = HorizontalAlignment.Right});
 
             var rect = _root.GetMinSize();
             rect.X = Game.ScreenWidth/2 - rect.Width/2;
