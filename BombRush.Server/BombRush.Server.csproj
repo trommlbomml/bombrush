@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BombRush.Server</RootNamespace>
     <AssemblyName>BombRush.Server</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -32,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL">
@@ -64,19 +67,25 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BombRush.Interfaces\BombRush.Interfaces.csproj">
-      <Project>{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}</Project>
+      <Project>{4cad8eb3-ee43-468f-b500-ec8250dd73bd}</Project>
       <Name>BombRush.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\BombRush.Logic\BombRush.Logic.csproj">
-      <Project>{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}</Project>
+      <Project>{b5958576-f7c7-4c78-be4f-bc9072ab7701}</Project>
       <Name>BombRush.Logic</Name>
     </ProjectReference>
     <ProjectReference Include="..\BombRush.Networking\BombRush.Networking.csproj">
-      <Project>{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}</Project>
+      <Project>{4f7cd067-3fea-4bf6-b069-5cf189573d4e}</Project>
       <Name>BombRush.Networking</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Game2DFramework_SubModule\Game2DFramework\Game2DFramework.csproj">
+      <Project>{e60f642f-66ea-43d4-8de0-1ffea3ba60bb}</Project>
+      <Name>Game2DFramework</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
