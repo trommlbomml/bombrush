@@ -44,11 +44,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientManager.cs" />
@@ -79,10 +74,6 @@
     <ProjectReference Include="..\BombRush.Networking\BombRush.Networking.csproj">
       <Project>{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}</Project>
       <Name>BombRush.Networking</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Game2DFramework_SubModule\Game2DFramework\Game2DFramework.csproj">
-      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
-      <Name>Game2DFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
