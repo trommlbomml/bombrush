@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{313B5654-2F86-4198-BEAF-6FAD72929AD0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bombrush.MonoGame</RootNamespace>
+    <AssemblyName>Bombrush.MonoGame</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Windows\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Windows\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BombGame.cs" />
+    <Compile Include="Controller\InputDeviceType.cs" />
+    <Compile Include="Controller\PlayerController.cs" />
+    <Compile Include="Gui2\Border2.cs" />
+    <Compile Include="Gui2\Button.cs" />
+    <Compile Include="Gui2\Frame.cs" />
+    <Compile Include="Gui2\GuiElement.cs" />
+    <Compile Include="Gui2\GuiSystem.cs" />
+    <Compile Include="Gui2\HorizontalAlignment.cs" />
+    <Compile Include="Gui2\Margin.cs" />
+    <Compile Include="Gui2\NumericUpDown.cs" />
+    <Compile Include="Gui2\Orientation.cs" />
+    <Compile Include="Gui2\StackPanel.cs" />
+    <Compile Include="Gui2\TextBlock.cs" />
+    <Compile Include="Gui\ActionMenuItem.cs" />
+    <Compile Include="Gui\ActionTriggerKind.cs" />
+    <Compile Include="Gui\AnimatedBomb.cs" />
+    <Compile Include="Gui\BoolMenuItem.cs" />
+    <Compile Include="Gui\Border.cs" />
+    <Compile Include="Gui\Cell.cs" />
+    <Compile Include="Gui\ColumnHeader.cs" />
+    <Compile Include="Gui\DataTableRow.cs" />
+    <Compile Include="Gui\DataTableView.cs" />
+    <Compile Include="Gui\DecisionType.cs" />
+    <Compile Include="Gui\EnumMenuItem.cs" />
+    <Compile Include="Gui\InputMenuItem.cs" />
+    <Compile Include="Gui\InputType.cs" />
+    <Compile Include="Gui\MenuItem.cs" />
+    <Compile Include="Gui\NumericMenuItem.cs" />
+    <Compile Include="Gui\Row.cs" />
+    <Compile Include="Gui\SplashBackground.cs" />
+    <Compile Include="Gui\StackedMenu.cs" />
+    <Compile Include="Gui\Statusbar.cs" />
+    <Compile Include="Gui\StringInputController.cs" />
+    <Compile Include="Gui\TableView.cs" />
+    <Compile Include="Gui\TextBox.cs" />
+    <Compile Include="Gui\TimedSplash.cs" />
+    <Compile Include="Gui\TimeMenuItem.cs" />
+    <Compile Include="Gui\TitledBorder.cs" />
+    <Compile Include="Gui\ToggleActionMenuItem.cs" />
+    <Compile Include="Gui\WaitDialog.cs" />
+    <Compile Include="Input\GamePadInputDevice.cs" />
+    <Compile Include="Input\IInputDevice.cs" />
+    <Compile Include="Input\InputKey.cs" />
+    <Compile Include="Input\KeyboardInputDevice.cs" />
+    <Compile Include="Network\GameCreationSession.cs" />
+    <Compile Include="Network\GameCreationSessionState.cs" />
+    <Compile Include="Network\GameInstance.cs" />
+    <Compile Include="Network\GameSessionClient.cs" />
+    <Compile Include="Network\RemoteGameCreationSession.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\GameInformation.cs" />
+    <Compile Include="Rendering\GameRendererFactory.cs" />
+    <Compile Include="Rendering\GameRendererType.cs" />
+    <Compile Include="Rendering\Heads.cs" />
+    <Compile Include="Rendering\IGameRenderer.cs" />
+    <Compile Include="Rendering\Render2D\BlockTemplate.cs" />
+    <Compile Include="Rendering\Render2D\BombRenderer.cs" />
+    <Compile Include="Rendering\Render2D\Figure2DAnimationController.cs" />
+    <Compile Include="Rendering\Render2D\FigureRenderer.cs" />
+    <Compile Include="Rendering\Render2D\FireExplosionRenderer.cs" />
+    <Compile Include="Rendering\Render2D\Game2DRenderer.cs" />
+    <Compile Include="Rendering\Render2D\ItemRenderer.cs" />
+    <Compile Include="Rendering\Render2D\LevelRenderer.cs" />
+    <Compile Include="Rendering\Render2D\Tileset.cs" />
+    <Compile Include="ResolutionResource.cs" />
+    <Compile Include="Resources.cs" />
+    <Compile Include="States\BackgroundState.cs" />
+    <Compile Include="States\ConfigureInputState.cs" />
+    <Compile Include="States\CreditsState.cs" />
+    <Compile Include="States\GuiTestState.cs" />
+    <Compile Include="States\LobbyState.cs" />
+    <Compile Include="States\LocalGameConfigurationState.cs" />
+    <Compile Include="States\MainMenuState.cs" />
+    <Compile Include="States\MatchResultState.cs" />
+    <Compile Include="States\MatchState.cs" />
+    <Compile Include="States\NetworkGameState.cs" />
+    <Compile Include="States\OptionMenuState.cs" />
+    <Compile Include="States\WaitState.cs" />
+    <Compile Include="States\WinnerState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Game2DFramework_SubModule\ThirdParty\MonoGame.Windows\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+    <Content Include="Content\GuiLayouts\Credits_Layout.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\GuiLayouts\MainMenu_Layout.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BombRush.Interfaces\BombRush.Interfaces.csproj">
+      <Project>{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}</Project>
+      <Name>BombRush.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BombRush.Logic\BombRush.Logic.csproj">
+      <Project>{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}</Project>
+      <Name>BombRush.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BombRush.Networking\BombRush.Networking.csproj">
+      <Project>{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}</Project>
+      <Name>BombRush.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BombRushData\BombRushData.csproj">
+      <Project>{878E808E-C51E-409F-838A-90DAE2ED95B9}</Project>
+      <Name>BombRushData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game2DFramework_SubModule\Game2DFramework\Game2DFramework.csproj">
+      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
+      <Name>Game2DFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\BombRush.MonoGame.Content\bin\fonts\BigFont480.xnb">
+      <Link>Content\fonts\BigFont480.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\fonts\BigFont768.xnb">
+      <Link>Content\fonts\BigFont768.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\fonts\NormalFont480.xnb">
+      <Link>Content\fonts\NormalFont480.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\fonts\NormalFont768.xnb">
+      <Link>Content\fonts\NormalFont768.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\fonts\PlayerNameFont480.xnb">
+      <Link>Content\fonts\PlayerNameFont480.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\fonts\PlayerNameFont768.xnb">
+      <Link>Content\fonts\PlayerNameFont768.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\border.xnb">
+      <Link>Content\textures\border.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\box.xnb">
+      <Link>Content\textures\box.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\Cel.xnb">
+      <Link>Content\textures\Cel.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\cursor.xnb">
+      <Link>Content\textures\cursor.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\defaultskin.xnb">
+      <Link>Content\textures\defaultskin.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\explosion.xnb">
+      <Link>Content\textures\explosion.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\explosionparticle.xnb">
+      <Link>Content\textures\explosionparticle.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\figures24x32.xnb">
+      <Link>Content\textures\figures24x32.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\grass.xnb">
+      <Link>Content\textures\grass.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\Headings.xnb">
+      <Link>Content\textures\Headings.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\heads.xnb">
+      <Link>Content\textures\heads.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\splash.xnb">
+      <Link>Content\textures\splash.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\tileset.xnb">
+      <Link>Content\textures\tileset.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\wall.xnb">
+      <Link>Content\textures\wall.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\BombRush.MonoGame.Content\bin\textures\winning.xnb">
+      <Link>Content\textures\winning.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

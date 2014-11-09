@@ -2,3 +2,7 @@
 	path = Game2DFramework_Module
 	url = https://github.com/trommlbomml/Game2DFramework.git
 	branch = master
+[submodule "Game2DFramework_SubModule"]
+	path = Game2DFramework_SubModule
+	url = https://github.com/trommlbomml/Game2DFramework.git
+	branch = master

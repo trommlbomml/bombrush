@@ -1,4 +1,5 @@
-﻿using Game2DFramework.Interaction;
+﻿
+using Game2DFramework.Interaction;
 
 namespace BombRush.Logic.AI.Tasking
 {

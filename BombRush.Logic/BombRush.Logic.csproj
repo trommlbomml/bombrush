@@ -43,32 +43,9 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Video, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Avatar, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
+    <Reference Include="MonoGame.Framework, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Game2DFramework_SubModule\ThirdParty\MonoGame.Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <Private>False</Private>
@@ -115,10 +92,6 @@
     <Compile Include="TileBlockImp.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Game2DFramework\Game2DFramework\Game2DFramework.csproj">
-      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
-      <Name>Game2DFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BombRush.Interfaces\BombRush.Interfaces.csproj">
       <Project>{D82C8F10-FA7A-44D6-BE39-2DA608E4F42A}</Project>
       <Name>BombRush.Interfaces</Name>
@@ -126,6 +99,10 @@
     <ProjectReference Include="..\BombRushData\BombRushData.csproj">
       <Project>{878E808E-C51E-409F-838A-90DAE2ED95B9}</Project>
       <Name>BombRushData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game2DFramework_SubModule\Game2DFramework\Game2DFramework.csproj">
+      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
+      <Name>Game2DFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

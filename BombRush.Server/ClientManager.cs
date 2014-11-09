@@ -25,7 +25,7 @@ namespace BombRush.Server
             var playerName = msg.SenderConnection.RemoteHailMessage.ReadString();
             var client = new GameClient
             {
-                EndPoint = msg.SenderEndPoint,
+                EndPoint = msg.SenderEndpoint,
                 NetConnection = msg.SenderConnection,
                 Name = playerName,
                 Id = GetNextId()

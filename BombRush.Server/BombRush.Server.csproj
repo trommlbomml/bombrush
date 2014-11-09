@@ -34,10 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\ThirdParty\Lidgren.Network.dll</HintPath>
+    <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Game2DFramework_SubModule\ThirdParty\MonoGame.Windows\Lidgren.Network.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="MonoGame.Framework, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Game2DFramework_SubModule\ThirdParty\MonoGame.Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -75,6 +79,10 @@
     <ProjectReference Include="..\BombRush.Networking\BombRush.Networking.csproj">
       <Project>{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}</Project>
       <Name>BombRush.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game2DFramework_SubModule\Game2DFramework\Game2DFramework.csproj">
+      <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
+      <Name>Game2DFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
