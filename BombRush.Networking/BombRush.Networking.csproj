@@ -99,10 +99,6 @@
       <Project>{50BA4867-C9B5-49F4-8BDF-36DB4DA38FDD}</Project>
       <Name>BombRush.Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BombRushData\BombRushData.csproj">
-      <Project>{878E808E-C51E-409F-838A-90DAE2ED95B9}</Project>
-      <Name>BombRushData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Game2DFramework_SubModule\Game2DFramework\Game2DFramework.csproj">
       <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>
       <Name>Game2DFramework</Name>

@@ -4,7 +4,6 @@ using System.Linq;
 using BombRush.Interfaces;
 using Game2DFramework.Collision;
 using Microsoft.Xna.Framework;
-using BombRushData;
 
 namespace BombRush.Logic
 {

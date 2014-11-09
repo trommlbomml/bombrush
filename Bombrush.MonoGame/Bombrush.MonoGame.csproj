@@ -100,7 +100,9 @@
     <Compile Include="Rendering\Render2D\Game2DRenderer.cs" />
     <Compile Include="Rendering\Render2D\ItemRenderer.cs" />
     <Compile Include="Rendering\Render2D\LevelRenderer.cs" />
+    <Compile Include="Rendering\Render2D\TemplateData.cs" />
     <Compile Include="Rendering\Render2D\Tileset.cs" />
+    <Compile Include="Rendering\Render2D\TilesetData.cs" />
     <Compile Include="ResolutionResource.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="States\BackgroundState.cs" />
@@ -150,10 +152,6 @@
     <ProjectReference Include="..\BombRush.Networking\BombRush.Networking.csproj">
       <Project>{5B4E2AB1-7B0B-48B8-B086-F5084C7E040A}</Project>
       <Name>BombRush.Networking</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BombRushData\BombRushData.csproj">
-      <Project>{878E808E-C51E-409F-838A-90DAE2ED95B9}</Project>
-      <Name>BombRushData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Game2DFramework_SubModule\Game2DFramework\Game2DFramework.csproj">
       <Project>{3943E03F-8B56-41EB-87D0-F6C962C7D952}</Project>

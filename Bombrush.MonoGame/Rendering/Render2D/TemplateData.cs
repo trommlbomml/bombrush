@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace BombRushData
+namespace Bombrush.MonoGame.Rendering.Render2D
 {
     public class TemplateData
     {
