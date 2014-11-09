@@ -1,15 +1,11 @@
-﻿
-
-using System;
-using BombRush.Gui;
-using BombRush.Network.Framework;
+﻿using System;
 using BombRush.Interfaces;
+using Bombrush.MonoGame.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class WaitState : BackgroundState
     {

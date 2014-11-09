@@ -1,9 +1,8 @@
-﻿
-using BombRush.Interfaces;
+﻿using BombRush.Interfaces;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Rendering.Render2D
+namespace Bombrush.MonoGame.Rendering.Render2D
 {
     class LevelRenderer : GameObject
     {

@@ -3,7 +3,7 @@ using Game2DFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Rendering.Render2D
+namespace Bombrush.MonoGame.Rendering.Render2D
 {
     class Game2DRenderer : GameObject, IGameRenderer
     {

@@ -1,7 +1,7 @@
 ﻿
 using Game2DFramework;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class TimeMenuItem : NumericMenuItem
     {

@@ -1,15 +1,7 @@
-﻿
-using System.Linq;
-using BombRush.Gui;
-using BombRush.Network;
-using BombRush.Interfaces;
+﻿using Bombrush.MonoGame.Gui;
 using Game2DFramework.States;
-using Game2DFramework.States.Transitions;
-using Lidgren.Network;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     //todo Reactivate
     class LobbyState : BackgroundState

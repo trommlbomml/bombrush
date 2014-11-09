@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using BombRush.Gui;
+using Bombrush.MonoGame.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     internal class OptionMenuState : BackgroundState
     {

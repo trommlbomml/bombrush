@@ -1,8 +1,7 @@
-﻿
-using BombRush.Interfaces;
+﻿using BombRush.Interfaces;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Rendering.Render2D
+namespace Bombrush.MonoGame.Rendering.Render2D
 {
     class Figure2DAnimationController
     {

@@ -1,15 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Globalization;
-using BombRush.Gui;
-using BombRush.Network.Framework;
 using BombRush.Interfaces;
+using Bombrush.MonoGame.Gui;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Rendering
+namespace Bombrush.MonoGame.Rendering
 {
     class GameInformation : GameObject
     {

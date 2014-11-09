@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Xml;
-using BombRush.Gui;
+using Bombrush.MonoGame.Gui;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Gui2
+namespace Bombrush.MonoGame.Gui2
 {
     class Button : TextBlock
     {

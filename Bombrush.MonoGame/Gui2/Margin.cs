@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace BombRush.Gui2
+namespace Bombrush.MonoGame.Gui2
 {
     struct Margin
     {

@@ -1,11 +1,10 @@
-﻿
-using System;
-using BombRush.Gui2;
+﻿using System;
+using Bombrush.MonoGame.Gui;
+using Bombrush.MonoGame.Gui2;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
-using BombRush.Gui;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class MainMenuState : BackgroundState
     {

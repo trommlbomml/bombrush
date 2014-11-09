@@ -1,10 +1,9 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Game2DFramework.Input;
 using Microsoft.Xna.Framework.Input;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class StringInputController
     {

@@ -1,11 +1,10 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BombRush.Interfaces;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
-using BombRush.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Rendering.Render2D
+namespace Bombrush.MonoGame.Rendering.Render2D
 {
     class ItemRenderer : GameObject
     {

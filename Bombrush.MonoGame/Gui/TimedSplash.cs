@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Text;
 using Game2DFramework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class TimedSplash : GameObject
     {

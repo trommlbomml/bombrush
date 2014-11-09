@@ -1,8 +1,8 @@
-﻿using BombRush.Gui;
+﻿using Bombrush.MonoGame.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class ConfigureInputState : BackgroundState
     {

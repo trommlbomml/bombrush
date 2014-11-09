@@ -1,4 +1,4 @@
-﻿namespace BombRush.Network
+﻿namespace Bombrush.MonoGame.Network
 {
     class GameInstance
     {

@@ -1,8 +1,7 @@
-﻿
-using System.Xml;
+﻿using System.Xml;
 using Game2DFramework;
 
-namespace BombRush.Gui2
+namespace Bombrush.MonoGame.Gui2
 {
     static class GuiSystem
     {

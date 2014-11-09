@@ -1,18 +1,16 @@
-﻿
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
-using BombRush.Gui;
-using BombRush.Network.Framework;
-using BombRush.Rendering;
 using BombRush.Interfaces;
+using Bombrush.MonoGame.Gui;
+using Bombrush.MonoGame.Rendering;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class MatchResultState : BackgroundState
     {

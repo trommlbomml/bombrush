@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     struct Row
     {

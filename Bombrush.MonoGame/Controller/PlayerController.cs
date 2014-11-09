@@ -1,11 +1,11 @@
 ﻿using System;
-using BombRush.Input;
 using BombRush.Interfaces;
+using Bombrush.MonoGame.Input;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace BombRush.Controller
+namespace Bombrush.MonoGame.Controller
 {
     class PlayerController : FigureController
     {

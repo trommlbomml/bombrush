@@ -1,12 +1,11 @@
-
 using System;
-using BombRush.Rendering;
-using BombRush.States;
+using Bombrush.MonoGame.Rendering;
+using Bombrush.MonoGame.States;
 using Game2DFramework;
 using Game2DFramework.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush
+namespace Bombrush.MonoGame
 {
     class BombGame : Game2D
     {

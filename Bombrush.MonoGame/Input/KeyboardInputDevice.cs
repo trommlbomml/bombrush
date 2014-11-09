@@ -2,7 +2,7 @@
 using Game2DFramework;
 using Microsoft.Xna.Framework.Input;
 
-namespace BombRush.Input
+namespace Bombrush.MonoGame.Input
 {
     class KeyboardInputDevice : GameObject, IInputDevice
     {

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Globalization;
 using System.Xml;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Gui2
+namespace Bombrush.MonoGame.Gui2
 {
     class NumericUpDown : TextBlock
     {

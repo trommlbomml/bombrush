@@ -1,11 +1,8 @@
-﻿
-
-using BombRush.Interfaces;
+﻿using BombRush.Interfaces;
 using Game2DFramework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Rendering
+namespace Bombrush.MonoGame.Rendering
 {
     interface IGameRenderer
     {

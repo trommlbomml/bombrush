@@ -1,13 +1,13 @@
-﻿using BombRush.Rendering;
+﻿using System;
 using BombRush.Interfaces;
+using Bombrush.MonoGame.Rendering;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class MatchState : InitializableState
     {

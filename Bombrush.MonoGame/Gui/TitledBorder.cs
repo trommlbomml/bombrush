@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class TitledBorder : GameObject
     {

@@ -1,11 +1,9 @@
-﻿
-using System;
-using BombRush.Rendering.Render2D;
+﻿using System;
 using BombRush.Interfaces;
+using Bombrush.MonoGame.Rendering.Render2D;
 using Game2DFramework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Rendering
+namespace Bombrush.MonoGame.Rendering
 {
     static class GameRendererFactory
     {

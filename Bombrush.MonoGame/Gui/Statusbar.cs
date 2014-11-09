@@ -1,11 +1,9 @@
-﻿
-using System.Collections.Generic;
-using BombRush.Network.Framework;
+﻿using System.Collections.Generic;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class Statusbar : GameObject
     {

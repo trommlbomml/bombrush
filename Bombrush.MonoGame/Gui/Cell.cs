@@ -1,4 +1,4 @@
-﻿namespace BombRush.Gui
+﻿namespace Bombrush.MonoGame.Gui
 {
     struct Cell
     {

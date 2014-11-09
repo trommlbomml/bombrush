@@ -1,9 +1,8 @@
 ﻿using System.Linq;
-using BombRush.Network.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush
+namespace Bombrush.MonoGame
 {
     internal static class Resources
     {

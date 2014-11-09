@@ -1,10 +1,9 @@
-﻿
-using Game2DFramework;
+﻿using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class SplashBackground : GameObject
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace BombRush.Rendering.Render2D
+namespace Bombrush.MonoGame.Rendering.Render2D
 {
     struct BlockTemplate
     {

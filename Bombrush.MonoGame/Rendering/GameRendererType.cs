@@ -1,4 +1,4 @@
-﻿namespace BombRush.Rendering
+﻿namespace Bombrush.MonoGame.Rendering
 {
     enum GameRendererType
     {

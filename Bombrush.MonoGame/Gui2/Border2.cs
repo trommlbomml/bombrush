@@ -1,11 +1,9 @@
-﻿
-using Game2DFramework;
+﻿using Game2DFramework;
 using Game2DFramework.Drawing;
-using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui2
+namespace Bombrush.MonoGame.Gui2
 {
     class Border2 : GameObject
     {

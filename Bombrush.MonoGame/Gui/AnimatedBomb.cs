@@ -1,9 +1,8 @@
-﻿
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class AnimatedBomb
     {

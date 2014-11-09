@@ -5,7 +5,7 @@ using System.Linq;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class DataTableView : GameObject
     {

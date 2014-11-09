@@ -1,4 +1,4 @@
-﻿namespace BombRush.Input
+﻿namespace Bombrush.MonoGame.Input
 {
     public enum InputKey
     {

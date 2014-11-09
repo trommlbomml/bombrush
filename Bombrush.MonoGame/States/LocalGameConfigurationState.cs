@@ -1,13 +1,12 @@
-﻿
-using System;
-using BombRush.Gui;
+﻿using System;
+using BombRush.Interfaces;
+using BombRush.Logic;
+using Bombrush.MonoGame.Controller;
+using Bombrush.MonoGame.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
-using BombRush.Logic;
-using BombRush.Interfaces;
-using BombRush.Controller;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class LocalGameConfigurationState : BackgroundState
     {

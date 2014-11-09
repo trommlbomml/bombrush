@@ -3,7 +3,7 @@ using Game2DFramework.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class Border : GameObject
     {

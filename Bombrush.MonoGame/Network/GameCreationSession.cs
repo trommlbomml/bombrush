@@ -1,8 +1,7 @@
-﻿
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using BombRush.Interfaces;
 
-namespace BombRush.Network
+namespace Bombrush.MonoGame.Network
 {
     interface GameCreationSession
     {

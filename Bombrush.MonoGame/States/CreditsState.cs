@@ -1,7 +1,7 @@
-﻿using BombRush.Gui2;
+﻿using Bombrush.MonoGame.Gui2;
 using Game2DFramework.States;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class CreditsState : BackgroundState
     {

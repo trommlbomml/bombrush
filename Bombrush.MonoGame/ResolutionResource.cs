@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 
-namespace BombRush.Network.Framework
+namespace Bombrush.MonoGame
 {
     class ResolutionResource<T>
     {

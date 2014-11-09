@@ -1,9 +1,8 @@
-﻿
-using Game2DFramework;
+﻿using Game2DFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class TextBox : GameObject
     {

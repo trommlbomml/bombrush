@@ -1,10 +1,10 @@
-﻿using BombRush.Gui;
+﻿using Bombrush.MonoGame.Gui;
 using Game2DFramework.Extensions;
 using Game2DFramework.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     abstract class BackgroundState : InitializableState
     {

@@ -1,10 +1,9 @@
-﻿
-using BombRush.Controller;
-using BombRush.Interfaces;
+﻿using BombRush.Interfaces;
+using Bombrush.MonoGame.Controller;
 using Game2DFramework;
 using Lidgren.Network;
 
-namespace BombRush.Network
+namespace Bombrush.MonoGame.Network
 {
     class GameSessionClient : GameObject, GameSession
     {

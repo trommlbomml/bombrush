@@ -10,7 +10,7 @@ using BombRush.Networking.ServerMessages;
 using Game2DFramework;
 using Lidgren.Network;
 
-namespace BombRush.Network
+namespace Bombrush.MonoGame.Network
 {
     class RemoteGameCreationSession : GameObject, GameCreationSession
     {

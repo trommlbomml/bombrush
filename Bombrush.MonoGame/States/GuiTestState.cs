@@ -1,11 +1,11 @@
-﻿using BombRush.Gui2;
+﻿using Bombrush.MonoGame.Gui2;
 using Game2DFramework;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class GuiTestState : IState
     {

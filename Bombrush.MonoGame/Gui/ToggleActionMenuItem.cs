@@ -1,9 +1,7 @@
-﻿
-using System;
-using BombRush.Network.Framework;
+﻿using System;
 using Game2DFramework;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class ToggleActionMenuItem : ActionMenuItem
     {

@@ -1,14 +1,12 @@
-﻿
-using System.Collections.Generic;
-using BombRush.Network.Framework;
-using BombRush.Rendering;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Bombrush.MonoGame.Rendering;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class TableView : GameObject
     {

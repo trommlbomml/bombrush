@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml;
 using Game2DFramework;
-using Game2DFramework.Input;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace BombRush.Gui2
+namespace Bombrush.MonoGame.Gui2
 {
     class StackPanel : GuiElement
     {

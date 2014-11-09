@@ -1,13 +1,11 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using BombRush.Network.Framework;
 using Game2DFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class StackedMenu : GameObject
     {

@@ -3,7 +3,7 @@ using Game2DFramework;
 using Game2DFramework.Input;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Input
+namespace Bombrush.MonoGame.Input
 {
     class GamePadInputDevice : GameObject, IInputDevice
     {

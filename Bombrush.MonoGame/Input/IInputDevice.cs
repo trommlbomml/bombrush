@@ -1,5 +1,5 @@
 ﻿
-namespace BombRush.Input
+namespace Bombrush.MonoGame.Input
 {
     interface IInputDevice
     {

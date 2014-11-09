@@ -1,9 +1,9 @@
-﻿using BombRush.Gui;
-using BombRush.Network;
+﻿using Bombrush.MonoGame.Gui;
+using Bombrush.MonoGame.Network;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 
-namespace BombRush.States
+namespace Bombrush.MonoGame.States
 {
     class NetworkGameState : BackgroundState
     {

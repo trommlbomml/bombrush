@@ -1,13 +1,11 @@
-﻿
-using System.Collections.Generic;
-using BombRush.Network.Framework;
+﻿using System.Collections.Generic;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace BombRush.Gui
+namespace Bombrush.MonoGame.Gui
 {
     class EnumMenuItem : MenuItem
     {

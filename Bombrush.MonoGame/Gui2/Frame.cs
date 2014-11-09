@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml;
 using Game2DFramework;
 using Game2DFramework.Extensions;
 using Microsoft.Xna.Framework;
 
-namespace BombRush.Gui2
+namespace Bombrush.MonoGame.Gui2
 {
     class Frame : GuiElement
     {
