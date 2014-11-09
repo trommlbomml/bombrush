@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Bombrush.MonoGame.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
@@ -30,11 +31,9 @@ namespace Bombrush.MonoGame.States
             return _resolutions;
         }
 
-        private static string GetCurrentResultion()
+        private string GetCurrentResultion()
         {
-            //todo: Data driven.
-            return string.Format("{0}x{1}", 800, 600);
-            //return string.Format("{0}x{1}", Settings.Default.ScreenWidth, Settings.Default.ScreenHeight);
+            return string.Format("{0}x{1}", Game.ScreenWidth, Game.ScreenHeight);
         }
 
         private static void GetResolutionFromString(string data, out int width, out int height)
@@ -52,21 +51,12 @@ namespace Bombrush.MonoGame.States
             _optionsMenu = new StackedMenu(Game) { Title = "Options" };
             _optionsMenu.AppendMenuItem(new InputMenuItem(Game, "Port", 5, InputType.Numeric)
             {
-                
-                //InputText =  Settings.Default.MultiplayerPort.ToString(CultureInfo.InvariantCulture)
                 InputText = "1170"
             });
             //_optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "Sound", DecisionType.OnOff, Settings.Default.SoundOn));
             //_optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "FullScreen", DecisionType.YesNo, Settings.Default.FullScreen));
             //_optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Game Mode", new[] { "2D", "3D" }, Settings.Default.GameMode));
             //_optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Resolution", GetResolutions(Game.GraphicsDevice), GetCurrentResultion()));
-            //_optionsMenu.AppendMenuItem(new ActionMenuItem(Game, "Configure Inputs", HandleConfigureInput));
-            //_optionsMenu.AppendMenuItem(new ActionMenuItem(Game, "Back", HandleBack, ActionTriggerKind.IsCancel));
-
-            _optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "Sound", DecisionType.OnOff, true));
-            _optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "FullScreen", DecisionType.YesNo, false));
-            _optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Game Mode", new[] { "2D", "3D" }, "2D"));
-            _optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Resolution", GetResolutions(Game.GraphicsDevice), GetCurrentResultion()));
             _optionsMenu.AppendMenuItem(new ActionMenuItem(Game, "Configure Inputs", HandleConfigureInput));
             _optionsMenu.AppendMenuItem(new ActionMenuItem(Game, "Back", HandleBack, ActionTriggerKind.IsCancel));
         }
