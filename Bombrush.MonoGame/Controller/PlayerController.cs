@@ -13,28 +13,28 @@ namespace Bombrush.MonoGame.Controller
 
         private readonly IInputDevice _device;
 
-        private static Keys[] GetKeysFromPlayerIndex(int index)
+        private static Keys[] GetKeysFromPlayerIndex(Game2D game, int index)
         {
             switch (index)
             {
-                //todo: Should be implented Data driven.
-                case NetPlayerIndex: return GetKeys(string.Format("{0},{1},{2},{3},{4}", Keys.A, Keys.D, Keys.W, Keys.S, Keys.LeftShift));
-                case 2: return GetKeys(string.Format("{0},{1},{2},{3},{4}", Keys.J, Keys.L, Keys.I, Keys.K, Keys.H));
-                case 3: return GetKeys(string.Format("{0},{1},{2},{3},{4}", Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Enter));
-                case 4: return GetKeys(string.Format("{0},{1},{2},{3},{4}", Keys.NumPad1, Keys.NumPad3, Keys.NumPad5, Keys.NumPad2, Keys.NumPad0));
-                default: return GetKeys(string.Format("{0},{1},{2},{3},{4}", Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space));
+                case NetPlayerIndex: return GetKeysFromGameProperty(game, BombGame.PlayerNetConfigPropertyName);
+                case 1: return GetKeysFromGameProperty(game, BombGame.Player1ConfigPropertyName);
+                case 2: return GetKeysFromGameProperty(game, BombGame.Player2ConfigPropertyName);
+                case 3: return GetKeysFromGameProperty(game, BombGame.Player3ConfigPropertyName);
+                case 4: return GetKeysFromGameProperty(game, BombGame.Player4ConfigPropertyName);
+                default: throw new InvalidOperationException();
             }
         }
 
-        private static Keys[] GetKeys(string data)
+        private static Keys[] GetKeysFromGameProperty(Game2D game, string propertyName)
         {
+            var data = game.GetPropertyStringOrDefault(propertyName);
             var k = new Keys[5];
             var i = 0;
-            foreach (string s in data.Split(new[] { ',' }))
+            foreach (var s in data.Split(new[] { ',' }))
             {
                 k[i++] = (Keys)Enum.Parse(typeof(Keys), s);
             }
-
             return k;
         }
 
@@ -49,7 +49,7 @@ namespace Bombrush.MonoGame.Controller
             switch (inputDeviceType)
             {
                 case InputDeviceType.Keyboard:
-                    var keys = GetKeysFromPlayerIndex(playerIndex);
+                    var keys = GetKeysFromPlayerIndex(game, playerIndex);
                     inputDevice = KeyboardInputDevice.CreateKeyboardInputDevice(game, keys[0], keys[1], keys[2], keys[3], keys[4], Keys.Escape);
                     break;
                 case InputDeviceType.Gamepad:

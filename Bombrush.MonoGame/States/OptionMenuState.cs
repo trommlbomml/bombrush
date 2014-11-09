@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Bombrush.MonoGame.Gui;
+using Game2DFramework;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,12 +11,16 @@ namespace Bombrush.MonoGame.States
 {
     internal class OptionMenuState : BackgroundState
     {
+        private const string SoundPropertyName = "Sound";
+        private const string MultiPlayerPortPropertyName = "MultiPlayerPort";
+        private const string GameModePropertyName = "GameMode";
+
         private StackedMenu _optionsMenu;
         private StateChangeInformation _stateChangeInformation;
 
         private static List<string> _resolutions;
 
-        private static IEnumerable<string> GetResolutions(GraphicsDevice device)
+        private static IEnumerable<string> GetResolutions()
         {
             if (_resolutions == null)
             {
@@ -43,7 +48,6 @@ namespace Bombrush.MonoGame.States
             height = int.Parse(res[1]);
         }
 
-        //todo: Datadriven
         protected override void OnInitialize(object enterInformation)
         {
             base.OnInitialize(enterInformation);
@@ -51,12 +55,12 @@ namespace Bombrush.MonoGame.States
             _optionsMenu = new StackedMenu(Game) { Title = "Options" };
             _optionsMenu.AppendMenuItem(new InputMenuItem(Game, "Port", 5, InputType.Numeric)
             {
-                InputText = "1170"
+                InputText = Game.GetPropertyIntOrDefault(MultiPlayerPortPropertyName, 1170).ToString(CultureInfo.InvariantCulture)
             });
-            //_optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "Sound", DecisionType.OnOff, Settings.Default.SoundOn));
-            //_optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "FullScreen", DecisionType.YesNo, Settings.Default.FullScreen));
-            //_optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Game Mode", new[] { "2D", "3D" }, Settings.Default.GameMode));
-            //_optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Resolution", GetResolutions(Game.GraphicsDevice), GetCurrentResultion()));
+            _optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "Sound", DecisionType.OnOff, Game.GetPropertyBoolOrDefault(SoundPropertyName)));
+            _optionsMenu.AppendMenuItem(new BoolMenuItem(Game, "FullScreen", DecisionType.YesNo, Game.GetPropertyBoolOrDefault(GameProperty.GameIsFullScreenProperty)));
+            _optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Game Mode", new[] { "2D", "3D" }, Game.GetPropertyStringOrDefault(GameModePropertyName, "2D")));
+            _optionsMenu.AppendMenuItem(new EnumMenuItem(Game, "Resolution", GetResolutions(), GetCurrentResultion()));
             _optionsMenu.AppendMenuItem(new ActionMenuItem(Game, "Configure Inputs", HandleConfigureInput));
             _optionsMenu.AppendMenuItem(new ActionMenuItem(Game, "Back", HandleBack, ActionTriggerKind.IsCancel));
         }
@@ -80,31 +84,27 @@ namespace Bombrush.MonoGame.States
         {
             _stateChangeInformation = StateChangeInformation.StateChange(typeof(MainMenuState), typeof(BlendTransition));
 
-            InputMenuItem port = _optionsMenu.GetMenuItem<InputMenuItem>(0);
-            BoolMenuItem soundOnOff = _optionsMenu.GetMenuItem<BoolMenuItem>(1);
-            BoolMenuItem isFullScreen = _optionsMenu.GetMenuItem<BoolMenuItem>(2);
-            EnumMenuItem gameMode = _optionsMenu.GetMenuItem<EnumMenuItem>(3);
-            EnumMenuItem resolution = _optionsMenu.GetMenuItem<EnumMenuItem>(4);
+            var port = _optionsMenu.GetMenuItem<InputMenuItem>(0);
+            var soundOnOff = _optionsMenu.GetMenuItem<BoolMenuItem>(1);
+            var isFullScreen = _optionsMenu.GetMenuItem<BoolMenuItem>(2);
+            var gameMode = _optionsMenu.GetMenuItem<EnumMenuItem>(3);
+            var resolution = _optionsMenu.GetMenuItem<EnumMenuItem>(4);
 
             int width, height;
             GetResolutionFromString(resolution.SelectedItem, out width, out height);
 
-            //todo: Implement Data driven.
-            //if (port.InputText != Settings.Default.MultiplayerPort.ToString(CultureInfo.InvariantCulture)
-            // || soundOnOff.IsTrue != Settings.Default.SoundOn
-            // || isFullScreen.IsTrue != Settings.Default.FullScreen
-            // || gameMode.SelectedItem != Settings.Default.GameMode
-            // || width != Settings.Default.ScreenWidth)
-            //{
-            //    Settings.Default.SoundOn = soundOnOff.IsTrue;
-            //    if (!string.IsNullOrEmpty(port.InputText))
-            //        Settings.Default.MultiplayerPort = int.Parse(port.InputText);
-            //    Settings.Default.FullScreen = isFullScreen.IsTrue;
-            //    Settings.Default.GameMode = gameMode.SelectedItem;
-            //    Settings.Default.ScreenWidth = width;
-            //    Settings.Default.ScreenHeight = height;
-            //    Settings.Default.Save();    
-            //}
+            Game.SetProperty(SoundPropertyName, soundOnOff.IsTrue);
+            Game.SetProperty(GameModePropertyName, gameMode.SelectedItem);
+            Game.SetProperty(GameProperty.GameIsFullScreenProperty, isFullScreen.IsTrue);
+            Game.SetProperty(GameProperty.GameResolutionXProperty, width);
+            Game.SetProperty(GameProperty.GameResolutionYProperty, height);
+
+            if (!string.IsNullOrEmpty(port.InputText))
+            {
+                Game.SetProperty(MultiPlayerPortPropertyName, int.Parse(port.InputText));
+            }
+
+            Game.SavePropertyChanges();
 
             //todo: implement resource reloading
             //Game.ChangeScreenSettings(width, height, isFullScreen.IsTrue);
