@@ -61,11 +61,11 @@ namespace BombRush.Server
 
         private void HandleClientLeft(NetIncomingMessage netIncomingMessage)
         {
-            var clientToRemove = _clientManager.RemoveClient(netIncomingMessage.SenderEndpoint);
+            var clientToRemove = _clientManager.RemoveClient(netIncomingMessage.SenderEndPoint);
 
             if (clientToRemove == null)
             {
-                Tracer.PrintWarning(string.Format("Try to remove Client {0} which is not registired.", netIncomingMessage.SenderEndpoint));
+                Tracer.PrintWarning(string.Format("Try to remove Client {0} which is not registired.", netIncomingMessage.SenderEndPoint));
             }
             else
             {

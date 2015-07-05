@@ -9,12 +9,12 @@ namespace BombRush.Logic.AI.Tasking
 
         public WaitTask(float time)
         {
-            _timer = new ActionTimer(time, true);
+            _timer = new ActionTimer(() => Finished = true, time);
         }
 
         public void Start()
         {
-            _timer.Start(d => Finished = true);
+            _timer.Start();
         }
 
         public bool Finished { get; private set; }
@@ -22,8 +22,7 @@ namespace BombRush.Logic.AI.Tasking
         public void Update(float elapsed, ComFigureController controller)
         {
             if (Finished) return;
-
-            _timer.Update(0, elapsed);
+            _timer.Update(elapsed);
         }
     }
 }
