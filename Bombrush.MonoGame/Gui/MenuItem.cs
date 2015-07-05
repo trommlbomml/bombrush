@@ -21,7 +21,6 @@ namespace Bombrush.MonoGame.Gui
         public SoundEffect CancelSoundAffect { get; set; }
         public Color FontColor { get { return IsEnabled ? Color.White : DisabledColor; } }
 
-        public abstract void Update(float elapsed);
         public abstract void Draw(SpriteBatch spriteBatch);
         public abstract float GetMaxWidth();
     }

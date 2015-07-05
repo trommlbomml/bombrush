@@ -12,7 +12,7 @@ using Lidgren.Network;
 
 namespace Bombrush.MonoGame.Network
 {
-    class RemoteGameCreationSession : GameObject, GameCreationSession
+    class RemoteGameCreationSession : GameObject
     {
         private const string ApplicationNetworkIdentifier = "BombRushNetworkGameIdentifier";
 
@@ -56,7 +56,7 @@ namespace Bombrush.MonoGame.Network
                 try
                 {
                     //todo: Implement Datadriven
-                    _netClient.Connect(host, 1170, hail);
+                    _netClient.Connect(host, 11175, hail);
                 }
                 catch (Exception)
                 {

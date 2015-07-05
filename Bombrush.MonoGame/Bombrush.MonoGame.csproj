@@ -100,7 +100,6 @@
     <Compile Include="Input\IInputDevice.cs" />
     <Compile Include="Input\InputKey.cs" />
     <Compile Include="Input\KeyboardInputDevice.cs" />
-    <Compile Include="Network\GameCreationSession.cs" />
     <Compile Include="Network\GameCreationSessionState.cs" />
     <Compile Include="Network\GameInstance.cs" />
     <Compile Include="Network\GameSessionClient.cs" />

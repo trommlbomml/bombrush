@@ -5,14 +5,14 @@ using Lidgren.Network;
 
 namespace Bombrush.MonoGame.Network
 {
-    class GameSessionClient : GameObject, GameSession
+    class GameSessionClient : GameSession
     {
         private byte _clientId;
         private NetClient _netClient;
         private double _serverTimeStamp;
         private FigureController _figureController;
         
-        public GameSessionClient(Game2D game, NetClient client, byte clientId) : base(game)
+        public GameSessionClient(Game2D game, NetClient client, byte clientId) 
         {
             _clientId = clientId;
             _netClient = client;
