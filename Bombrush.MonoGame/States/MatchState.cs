@@ -22,6 +22,7 @@ namespace Bombrush.MonoGame.States
 
         protected override void OnEntered(object enterInformation)
         {
+            Game.Cursor.IsActive = false;
             _gameSession = (GameSession)enterInformation;
             _stateChangeInformation = StateChangeInformation.Empty;
             _elapsed = 0;
@@ -29,8 +30,7 @@ namespace Bombrush.MonoGame.States
 
             //todo: reactivate 3d
             //var rendererType = Settings.Default.GameMode == "3D" ? GameRendererType.ThreeDe : GameRendererType.TwoDe;
-            var rendererType = GameRendererType.TwoDe;
-            _gameRenderer = GameRendererFactory.CreateGameRenderer(rendererType, Game, _gameSession.CurrentLevel);
+            _gameRenderer = GameRendererFactory.CreateGameRenderer(GameRendererType.TwoDe, Game, _gameSession.CurrentLevel);
         }
 
         protected override void OnInitialize(object enterInformation)
@@ -40,6 +40,7 @@ namespace Bombrush.MonoGame.States
 
         public override void OnLeave()
         {
+            Game.Cursor.IsActive = true;
         }
 
         public override StateChangeInformation OnUpdate(float elapsedTime)

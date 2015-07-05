@@ -7,7 +7,7 @@ namespace BombRush.Logic
 {
     public class GameSessionImp : GameSession
     {
-        private string _levelAssetPath;
+        private readonly string _levelAssetPath;
         private readonly Random _random;
         private readonly List<GameSessionMemberImp> _members;
         private int _matchesToWin;

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using BombRush.Interfaces;
 using BombRush.Logic;
 using Bombrush.MonoGame.Controller;
@@ -15,6 +18,18 @@ namespace Bombrush.MonoGame.States
         private NumericMenuItem _comMenuItem;
         private NumericMenuItem _playersMenuItem;
 
+        private static IEnumerable<string> GetLocalLevelNames()
+        {
+            return Directory.GetFiles("Content/Levels")
+                            .Select(Path.GetFileNameWithoutExtension)
+                            .ToArray();
+        }
+
+        private static string GetFilePathFromLevelName(string levelName)
+        {
+            return Path.Combine("Content/Levels", levelName + ".xml");
+        }
+
         protected override void OnInitialize(object enterInformation)
         {
             base.OnInitialize(enterInformation);
@@ -23,8 +38,7 @@ namespace Bombrush.MonoGame.States
             _menu.AppendMenuItem(new ActionMenuItem(Game, "Start", StartLocalGame, ActionTriggerKind.IsAccept));
             _playersMenuItem = _menu.AppendMenuItem(new NumericMenuItem(Game, "Players", 1, 4));
             _comMenuItem = _menu.AppendMenuItem(new NumericMenuItem(Game, "COMs", 0, 3));
-            //todo: reactivate level names.
-            _menu.AppendMenuItem(new EnumMenuItem(Game, "Level", new[] {"Rookie"}));
+            _menu.AppendMenuItem(new EnumMenuItem(Game, "Level", GetLocalLevelNames()));
             _menu.AppendMenuItem(new TimeMenuItem(Game, "Time", 0, 600) { CurrentValue = 240, });
             _menu.AppendMenuItem(new ActionMenuItem(Game, "Back", () => { _stateChangeInformation = StateChangeInformation.StateChange(typeof(MainMenuState), typeof(BlendTransition)); }, ActionTriggerKind.IsCancel));
         }
@@ -50,7 +64,7 @@ namespace Bombrush.MonoGame.States
                 MatchesToWin = 5,
                 MatchTime = _menu.GetMenuItem<NumericMenuItem>(4).CurrentValue,
                 SessionName = "Local Session",
-                LevelAssetPath = "Content/levels/" + levelAssetLocalName + ".xml",
+                LevelAssetPath = GetFilePathFromLevelName(levelAssetLocalName),
                 ProvidePlayerFigureController = ProvideFigureController
             };
             var gameSession = new GameSessionImp(parameters);
