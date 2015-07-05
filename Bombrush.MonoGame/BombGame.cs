@@ -94,8 +94,9 @@ namespace Bombrush.MonoGame
             RegisterState(new CreditsState());
             RegisterState(new ConfigureInputState());
             RegisterState(new GuiTestState());
+            RegisterState(new IntroState());
 
-            return typeof(MainMenuState);
+            return typeof(IntroState);
         }
 
         protected override void LoadContent()
