@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Game2DFramework.Drawing;
+﻿using Game2DFramework.Drawing;
 using Game2DFramework.Interaction;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
@@ -33,6 +28,7 @@ namespace Bombrush.MonoGame.States
 
         protected override void OnEntered(object enterInformation)
         {
+            Game.Cursor.IsActive = false;
             _iconAnimator.PlayAnimation("BlendIn");
             _stateChangeInformation = StateChangeInformation.Empty;
         }
@@ -52,6 +48,7 @@ namespace Bombrush.MonoGame.States
 
         public override void OnLeave()
         {
+            Game.Cursor.IsActive = true;
         }
 
         public override StateChangeInformation OnUpdate(float elapsedTime)
