@@ -1,6 +1,7 @@
-﻿using System;
-using BombRush.Interfaces;
+﻿using BombRush.Interfaces;
 using Bombrush.MonoGame.Rendering;
+using Game2DFramework.Drawing;
+using Game2DFramework.Interaction;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework;
@@ -11,31 +12,53 @@ namespace Bombrush.MonoGame.States
 {
     class MatchState : InitializableState
     {
-        private Texture2D _headingTexture;
+        private Animator _finishSlideAnimator;
+        private Sprite _finishedSprite;
         private StateChangeInformation _stateChangeInformation;
         private GameSession _gameSession;
         private IGameRenderer _gameRenderer;
-
-        private const float AfterGameEndOutlineTime = 2.0f;
-        private bool _finishedSlide;
-        private float _elapsed;
 
         protected override void OnEntered(object enterInformation)
         {
             Game.Cursor.IsActive = false;
             _gameSession = (GameSession)enterInformation;
             _stateChangeInformation = StateChangeInformation.Empty;
-            _elapsed = 0;
-            _finishedSlide = false;
 
             //todo: reactivate 3d
             //var rendererType = Settings.Default.GameMode == "3D" ? GameRendererType.ThreeDe : GameRendererType.TwoDe;
             _gameRenderer = GameRendererFactory.CreateGameRenderer(GameRendererType.TwoDe, Game, _gameSession.CurrentLevel);
+
+            _finishSlideAnimator = new Animator();
+            _finishSlideAnimator.AddAnimation("RotateText", new Animation(1.0f, RotateAndSetAlphaText));
+            _finishSlideAnimator.AddAnimation("Wait", new Animation(1.5f, s => {}));
+            _finishSlideAnimator.AddTransition("RotateText", "Wait");
+            _finishSlideAnimator.AnimationFinished += OnFinishSlideFinished;
+
+            _finishedSprite = new Sprite(Game.Content.Load<Texture2D>("textures/headings"))
+            {
+                Position = new Vector2(Game.ScreenWidth*0.5f, Game.ScreenHeight*0.5f),
+                Alpha = 0.0f
+            };
+        }
+
+        private void OnFinishSlideFinished()
+        {
+            if (_gameSession.CurrentMatchResultType == MatchResultType.SomeOneWins)
+                _stateChangeInformation = StateChangeInformation.StateChange(typeof(MatchResultState), typeof(FlipTransition), _gameSession);
+
+            //todo: Reactivate Winner State
+            //_stateChangeInformation = StateChangeInformation.StateChange(typeof(WinnerState), typeof(FlipTransition), _gameSession);
+        }
+
+        private void RotateAndSetAlphaText(float step)
+        {
+            var delta = MathHelper.SmoothStep(0.0f, 1.0f, step);
+            _finishedSprite.Alpha = delta;
+            _finishedSprite.Rotation = MathHelper.TwoPi*delta;
         }
 
         protected override void OnInitialize(object enterInformation)
         {
-            _headingTexture = Game.Content.Load<Texture2D>("textures/headings");
         }
 
         public override void OnLeave()
@@ -47,34 +70,28 @@ namespace Bombrush.MonoGame.States
         {
             _stateChangeInformation = StateChangeInformation.Empty;
 
+            _finishSlideAnimator.Update(elapsedTime);
+            _gameRenderer.Update(elapsedTime);
+
             if (Game.Keyboard.IsKeyDownOnce(Keys.Escape))
             {
                 _gameSession.OnQuit();
                 return StateChangeInformation.StateChange(typeof(MainMenuState), typeof (FlipTransition), false);
             }
-
-            _gameRenderer.Update(elapsedTime);
+            
             var result = _gameSession.Update(elapsedTime);
-            if (result == GameUpdateResult.ServerShutdown)
-                return StateChangeInformation.StateChange(typeof (MainMenuState), typeof (BlendTransition), true);
-
-            if (result == GameUpdateResult.MatchFinished && !_finishedSlide)
+            switch (result)
             {
-                _finishedSlide = true;
-                _elapsed = 0;
-            }
-
-            if (_finishedSlide)
-            {
-                _elapsed += elapsedTime;
-                if (_elapsed > AfterGameEndOutlineTime)
-                {
-                    if (_gameSession.CurrentMatchResultType == MatchResultType.SomeOneWins)
-                        return StateChangeInformation.StateChange(typeof(MatchResultState), typeof(FlipTransition), _gameSession);
-                      
-                    //todo: Reactivate Winner State
-                    //return StateChangeInformation.StateChange(typeof(WinnerState), typeof(FlipTransition), _gameSession);
-                }
+                case GameUpdateResult.MatchFinished:
+                    if (_finishSlideAnimator.CurrentAnimation == null)
+                    {
+                        _finishSlideAnimator.PlayAnimation("RotateText");
+                        var y = _gameSession.CurrentMatchResultType == MatchResultType.Draw ? 50 : 100;
+                        _finishedSprite.SetSourceRectangle(new Rectangle(0, y, 300, 50));
+                    }
+                    break;
+                case GameUpdateResult.ServerShutdown:
+                    return StateChangeInformation.StateChange(typeof(MainMenuState), typeof(BlendTransition), true);
             }
 
             return _stateChangeInformation;
@@ -83,18 +100,7 @@ namespace Bombrush.MonoGame.States
         public override void OnDraw(float elapsedTime)
         {
             _gameRenderer.Render(elapsedTime, Game.SpriteBatch, TransitionRenderTarget);
-
-            if (_finishedSlide && _elapsed > 0.5f)
-            {
-                var position = new Vector2(Game.ScreenWidth * 0.5f, Game.ScreenHeight * 0.5f);
-                var delta = MathHelper.SmoothStep(0.0f, 1.0f, Math.Min(_elapsed - 0.5f, 1.0f));
-
-                var sourceRectangle = new Rectangle(0, 100, 300, 50);
-                if (_gameSession.CurrentMatchResultType == MatchResultType.Draw) sourceRectangle.Y = 50;
-
-                Game.SpriteBatch.Draw(_headingTexture, position, sourceRectangle, Color.White * delta, MathHelper.TwoPi * delta, 
-                                      new Vector2(150, 25), 1.0f, SpriteEffects.None, 0);
-            }
+            _finishedSprite.Draw(Game.SpriteBatch);
         }
     }
 }
