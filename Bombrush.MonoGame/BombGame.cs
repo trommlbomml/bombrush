@@ -28,6 +28,7 @@ namespace Bombrush.MonoGame
             : base(800, 600, false, depthFormat: DepthFormat.Depth16)
         {
             Content.RootDirectory = "Content";
+            Window.Title = "Bombrush";
         }
 
         private void InitializeDefaultSettings()

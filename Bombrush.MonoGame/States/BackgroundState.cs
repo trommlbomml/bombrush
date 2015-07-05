@@ -20,7 +20,7 @@ namespace Bombrush.MonoGame.States
             _splashBackground = new SplashBackground(Game) { ModulateColor = new Color(0.0f, 0.8f, 0.0f) };
             _headingSprite = new Sprite(Game.Content.Load<Texture2D>("textures/headings"), new Rectangle(0, 0, 300, 45))
             {
-                Position = new Vector2(Game.ScreenWidth*0.5f - 150.0f, 10.0f)
+                Position = new Vector2(Game.ScreenWidth*0.5f, 40.0f)
             };
             _versionText = new SpriteText(Resources.NormalFont, Version);
             _versionText.Position = (Game.ScreenSize - _versionText.TextSize -new Vector2(5)).SnapToPixels();
