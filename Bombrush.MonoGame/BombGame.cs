@@ -125,8 +125,7 @@ namespace Bombrush.MonoGame
                     if(game != null) game.IsMouseVisible = true;
 
                     Log.WriteException(ex);
-                    //Todo Error Messagebox.
-                    //System.Windows.Forms.MessageBox.Show(ex.ToString(), "Unhandled Exception", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
+                    System.Windows.Forms.MessageBox.Show(ex.ToString(), "Unhandled Exception", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                 }
             }
         }

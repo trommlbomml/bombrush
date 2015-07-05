@@ -12,7 +12,7 @@ namespace Bombrush.MonoGame.Rendering.Render2D
 
         public LevelRenderer(Game2D game, Level gameLevelLogic, Vector2 centeringOffset) : base(game)
         {
-            _tileset = new Tileset(game.Content, "tilesets/tileset1");
+            _tileset = new Tileset(game.Content, "content/tilesets/tileset1.xml");
             _gameLevelLogic = gameLevelLogic;
             _centeringOffset = centeringOffset;
         }

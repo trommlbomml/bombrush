@@ -50,7 +50,7 @@ namespace Bombrush.MonoGame.States
                 MatchesToWin = 5,
                 MatchTime = _menu.GetMenuItem<NumericMenuItem>(4).CurrentValue,
                 SessionName = "Local Session",
-                LevelAssetPath = "levels/" + levelAssetLocalName + ".xml",
+                LevelAssetPath = "Content/levels/" + levelAssetLocalName + ".xml",
                 ProvidePlayerFigureController = ProvideFigureController
             };
             var gameSession = new GameSessionImp(parameters);

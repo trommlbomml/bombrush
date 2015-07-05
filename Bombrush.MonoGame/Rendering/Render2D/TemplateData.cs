@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BombRush.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace Bombrush.MonoGame.Rendering.Render2D
 {
     public class TemplateData
     {
-        public string BlockType;
+        public BlockType BlockType;
         public Rectangle SourceRectangle;
     }
 }

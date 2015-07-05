@@ -9,13 +9,13 @@ namespace BombRush.Logic
     {
         private string _levelAssetPath;
         private readonly Random _random;
-        private List<GameSessionMemberImp> _members;
+        private readonly List<GameSessionMemberImp> _members;
         private int _matchesToWin;
-        private int _matchTimeSeconds;
+        private readonly int _matchTimeSeconds;
         private byte _currentId;
         private LevelImp _currentLevel;
         private GameUpdateResult _updateResult;
-        private Func<int, FigureController> _provideCustomFigureController;
+        private readonly Func<int, FigureController> _provideCustomFigureController;
 
         private static readonly string[] ComNames =
         {

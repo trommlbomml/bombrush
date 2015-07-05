@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<XnaContent>
-  <Asset Type="BombRushData.TilesetData">
-    <Texture>Textures/tileset</Texture>
+<Tileset>
+    <Texture>textures/tileset</Texture>
     <Templates>
       <Item>
         <BlockType>Ground</BlockType>
@@ -37,7 +36,5 @@
         <BlockType>TreadmillDown</BlockType>
         <SourceRectangle>96 256 32 32</SourceRectangle>
       </Item>
-
     </Templates>
-  </Asset>
-</XnaContent>
+</Tileset>
