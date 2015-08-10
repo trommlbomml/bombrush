@@ -4,7 +4,9 @@
     <TextBlock Text="Programming" />
     <TextBlock Text="Peter Friedland" />
     <TextBlock Text="Special Thanks to" Margin="0,15,0,0"/>
-    <TextBlock Text="Andre Mueller" />
-    <Button Id="BackButton" Text="Back" Margin="0,15,0,0"/>
+    <TextBlock Text="Andre Mueller" Margin="0,0,0,15" />
+    <Button Id="BackButton">
+      <TextBlock Text="Back" />
+    </Button>
   </StackPanel>
 </Frame>
