@@ -1,6 +1,6 @@
 ﻿using System;
 using Bombrush.MonoGame.Gui;
-using Bombrush.MonoGame.Gui2;
+using Game2DFramework.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 
@@ -8,23 +8,26 @@ namespace Bombrush.MonoGame.States
 {
     class MainMenuState : BackgroundState
     {
-        private Frame _mainMenuFrame;
         private StateChangeInformation _stateChangeInformation;
         private TimedSplash _splash;
+        private GuiPanel _panel;
 
         protected override void OnInitialize(object enterInformation)
         {
             base.OnInitialize(enterInformation);
             _splash = new TimedSplash(Game);
 
-            _mainMenuFrame = GuiSystem.CreateGuiHierarchyFromXml<Frame>(Game, "Content/GuiLayouts/MainMenu_Layout.xml");
-            GuiSystem.ArrangeCenteredToScreen(Game, _mainMenuFrame);
+            var mainMenuFrame = Game.GuiSystem.CreateGuiHierarchyFromXml<GuiElement>("Content/GuiLayouts/MainMenu_Layout.xml");
+            Game.GuiSystem.ArrangeCenteredToScreen(Game, mainMenuFrame);
 
-            _mainMenuFrame.FindGuiElementById<Button>("LocalGameButton").OnClick = () => DoTransition(typeof (LocalGameConfigurationState));
-            _mainMenuFrame.FindGuiElementById<Button>("NetworkGameButton").OnClick = () => DoTransition(typeof(NetworkGameState));
-            _mainMenuFrame.FindGuiElementById<Button>("OptionsButton").OnClick = () => DoTransition(typeof(OptionMenuState));
-            _mainMenuFrame.FindGuiElementById<Button>("CreditsButton").OnClick = () => DoTransition(typeof(CreditsState));
-            _mainMenuFrame.FindGuiElementById<Button>("QuitButton").OnClick = OnQuitClicked;
+            mainMenuFrame.FindGuiElementById<Button>("LocalGameButton").Click += () => DoTransition(typeof(LocalGameConfigurationState));
+            mainMenuFrame.FindGuiElementById<Button>("NetworkGameButton").Click += () => DoTransition(typeof(NetworkGameState));
+            mainMenuFrame.FindGuiElementById<Button>("OptionsButton").Click += () => DoTransition(typeof(OptionMenuState));
+            mainMenuFrame.FindGuiElementById<Button>("CreditsButton").Click += () => DoTransition(typeof(CreditsState));
+            mainMenuFrame.FindGuiElementById<Button>("QuitButton").Click += OnQuitClicked;
+
+            _panel = new GuiPanel(Game);
+            _panel.AddElement(mainMenuFrame);
         }
 
         private void DoTransition(Type targetState)
@@ -58,7 +61,7 @@ namespace Bombrush.MonoGame.States
             _stateChangeInformation = StateChangeInformation.Empty;
 
             _splash.Update(elapsedTime);
-            if (!_splash.Running) _mainMenuFrame.Update(elapsedTime);
+            if (!_splash.Running) _panel.Update(elapsedTime);
 
             return _stateChangeInformation;
         }
@@ -66,7 +69,7 @@ namespace Bombrush.MonoGame.States
         public override void OnDraw(float elapsedTime)
         {
             base.OnDraw(elapsedTime);
-            _mainMenuFrame.Draw();
+            _panel.Draw();
             _splash.Draw(Game.SpriteBatch, true);
         }
     }

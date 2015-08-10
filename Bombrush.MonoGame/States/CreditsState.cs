@@ -1,18 +1,22 @@
-﻿using Bombrush.MonoGame.Gui2;
+﻿using Game2DFramework.Gui;
 using Game2DFramework.States;
 
 namespace Bombrush.MonoGame.States
 {
     class CreditsState : BackgroundState
     {
-        private Frame _frame;
+        private GuiPanel _panel;
 
         protected override void OnInitialize(object enterInformation)
         {
             base.OnInitialize(enterInformation);
 
-            _frame = GuiSystem.CreateGuiHierarchyFromXml<Frame>(Game, "Content/GuiLayouts/Credits_Layout.xml");
-            GuiSystem.ArrangeCenteredToScreen(Game, _frame);
+            _panel = new GuiPanel(Game);
+
+            var frame = Game.GuiSystem.CreateGuiHierarchyFromXml<Frame>( "Content/GuiLayouts/Credits_Layout.xml");
+            Game.GuiSystem.ArrangeCenteredToScreen(Game, frame);
+
+            _panel.AddElement(frame);
         }
 
         public override void OnLeave()
@@ -27,7 +31,7 @@ namespace Bombrush.MonoGame.States
         {
             base.OnUpdate(elapsedTime);
 
-            _frame.Update(elapsedTime);
+            _panel.Update(elapsedTime);
 
             return StateChangeInformation.Empty;
         }
@@ -36,7 +40,7 @@ namespace Bombrush.MonoGame.States
         {
             base.OnDraw(elapsedTime);
 
-            _frame.Draw();
+            _panel.Draw();
         }
     }
 }

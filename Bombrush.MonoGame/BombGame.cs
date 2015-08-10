@@ -4,6 +4,7 @@ using Bombrush.MonoGame.Rendering;
 using Bombrush.MonoGame.States;
 using Game2DFramework;
 using Game2DFramework.Drawing;
+using Game2DFramework.Gui;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -94,7 +95,6 @@ namespace Bombrush.MonoGame
             RegisterState(new WinnerState());
             RegisterState(new CreditsState());
             RegisterState(new ConfigureInputState());
-            RegisterState(new GuiTestState());
             RegisterState(new IntroState());
 
             return typeof(IntroState);
@@ -107,6 +107,16 @@ namespace Bombrush.MonoGame
             Resources.LoadContent(Content);
             Resources.ChangeResolution(ScreenWidth, ScreenHeight);
             Cursor.AddCursorType("Arrow", new CursorType(Content.Load<Texture2D>("textures/cursor")));
+
+            var parameters = new GuiSystemSkinParameters
+            {
+                XmlSkinDescriptorFile = "Content/GuiLayouts/Skin/GuiSkin.xml",
+                BigFont = Resources.BigFont,
+                NormalFont = Resources.NormalFont,
+                SkinTexture = Content.Load<Texture2D>("textures/bombrush_guiskin")
+            };
+
+            GuiSystem.SetSkin(parameters);
         }
 
 #if WINDOWS || LINUX

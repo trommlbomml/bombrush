@@ -58,17 +58,6 @@
     <Compile Include="BombGame.cs" />
     <Compile Include="Controller\InputDeviceType.cs" />
     <Compile Include="Controller\PlayerController.cs" />
-    <Compile Include="Gui2\Border2.cs" />
-    <Compile Include="Gui2\Button.cs" />
-    <Compile Include="Gui2\Frame.cs" />
-    <Compile Include="Gui2\GuiElement.cs" />
-    <Compile Include="Gui2\GuiSystem.cs" />
-    <Compile Include="Gui2\HorizontalAlignment.cs" />
-    <Compile Include="Gui2\Margin.cs" />
-    <Compile Include="Gui2\NumericUpDown.cs" />
-    <Compile Include="Gui2\Orientation.cs" />
-    <Compile Include="Gui2\StackPanel.cs" />
-    <Compile Include="Gui2\TextBlock.cs" />
     <Compile Include="Gui\ActionMenuItem.cs" />
     <Compile Include="Gui\ActionTriggerKind.cs" />
     <Compile Include="Gui\AnimatedBomb.cs" />
@@ -126,7 +115,6 @@
     <Compile Include="States\BackgroundState.cs" />
     <Compile Include="States\ConfigureInputState.cs" />
     <Compile Include="States\CreditsState.cs" />
-    <Compile Include="States\GuiTestState.cs" />
     <Compile Include="States\IntroState.cs" />
     <Compile Include="States\LobbyState.cs" />
     <Compile Include="States\LocalGameConfigurationState.cs" />
@@ -152,6 +140,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\GuiLayouts\Skin\GuiSkin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Levels\Rookie.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -251,6 +242,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\textures\MonoGameLogo.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\textures\bombrush_guiskin.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
