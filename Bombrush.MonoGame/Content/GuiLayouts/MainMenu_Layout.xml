@@ -2,18 +2,18 @@
 
   <StackPanel Orientation="Vertical">
     <Button Id="LocalGameButton" Margin="5">
-      <TextBlock Text="Local Game" Margin="10,0" />
+      <TextBlock Text="Local Game" Margin="10" />
     </Button>
     <Button Id="NetworkGameButton" Margin="5">
-      <TextBlock Text="Network Game" Margin="10,0" />
+      <TextBlock Text="Network Game" Margin="10" />
     </Button>
     <Button Id="OptionsButton" Margin="5" >
-      <TextBlock Text="Options" Margin="10,0" />
+      <TextBlock Text="Options" Margin="10" />
     </Button>
     <Button Id="CreditsButton" Margin="5" >
-      <TextBlock Text="Credits" Margin="10,0" />
+      <TextBlock Text="Credits" Margin="10" />
     </Button>
     <Button Id="QuitButton" Margin="5" >
-      <TextBlock Text="Quit" Margin="10,0" />
+      <TextBlock Text="Quit" Margin="10" />
     </Button>
   </StackPanel>
