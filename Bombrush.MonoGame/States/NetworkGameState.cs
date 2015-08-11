@@ -1,5 +1,6 @@
 ﻿using Bombrush.MonoGame.Gui;
 using Bombrush.MonoGame.Network;
+using Game2DFramework.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 
@@ -7,14 +8,14 @@ namespace Bombrush.MonoGame.States
 {
     class NetworkGameState : BackgroundState
     {
+        private GuiPanel _panel;
+        private GuiElement _connectToServerFrame;
+
         private TimedSplash _timedSplash;
         private GameCreationSessionState _lastState;
         private WaitDialog _waitDialog;
         private RemoteGameCreationSession _gameCreationSession;
-        private StackedMenu _stackedMenu;
         private StateChangeInformation _stateChangeInformation;
-        private InputMenuItem _hostAddressMenuItem;
-        private InputMenuItem _playerNameMenuItem;
 
         private Border _tableBackgroundBorder;
         private DataTableView _listOfGameInstances;
@@ -23,11 +24,17 @@ namespace Bombrush.MonoGame.States
         {
             base.OnInitialize(enterInformation);
 
-            _stackedMenu = new StackedMenu(Game) { Title = "Network Game" };
-            _hostAddressMenuItem = _stackedMenu.AppendMenuItem(new InputMenuItem(Game, "Server IP", 15, InputType.HostNames) { InputText = "localhost" });
-            _playerNameMenuItem = _stackedMenu.AppendMenuItem(new InputMenuItem(Game, "Your Name", 15, InputType.AlphaNumeric) { InputText = "guest" });
-            _stackedMenu.AppendMenuItem(new ActionMenuItem(Game, "Connect", OnConnect, ActionTriggerKind.IsAccept));
-            _stackedMenu.AppendMenuItem(new ActionMenuItem(Game, "Back", OnBack, ActionTriggerKind.IsAccept));
+            _panel = new GuiPanel(Game);
+
+            _connectToServerFrame =
+                Game.GuiSystem.CreateGuiHierarchyFromXml<GuiElement>("Content/GuiLayouts/NetworkGame_Layout.xml");
+
+            Game.GuiSystem.ArrangeCenteredToScreen(Game, _connectToServerFrame);
+
+            _connectToServerFrame.FindGuiElementById<Button>("ConnectButton").Click += OnConnect;
+            _connectToServerFrame.FindGuiElementById<Button>("BackButton").Click += OnBack;
+
+            _panel.AddElement(_connectToServerFrame);
 
             _waitDialog = new WaitDialog(Game, 300) { Text = "Connecting to Server" };
             _timedSplash = new TimedSplash(Game);
@@ -70,14 +77,16 @@ namespace Bombrush.MonoGame.States
 
         private void OnConnect()
         {
-            var host = _hostAddressMenuItem.InputText;
-            var name = _playerNameMenuItem.InputText;
+            var host = _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("ServerTextBox").Text;
+            var name = _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("NickNameTextBox").Text;
             _gameCreationSession.ConnectToServer(host, name);
+            _connectToServerFrame.IsActive = false;
         }
 
         protected override void OnEntered(object enterInformation)
         {
-            _stackedMenu.SelectFirstMenuItem();
+            _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("ServerTextBox").Text = "localhost";
+            _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("NickNameTextBox").Text = "guest";
         }
 
         public override void OnLeave()
@@ -87,11 +96,11 @@ namespace Bombrush.MonoGame.States
         public override StateChangeInformation OnUpdate(float elapsedTime)
         {
             base.OnUpdate(elapsedTime);
+            _panel.Update(elapsedTime);
 
             _stateChangeInformation = StateChangeInformation.Empty;
 
             _waitDialog.IsActive = _gameCreationSession.State == GameCreationSessionState.ConnectingToServer;
-            if (!_gameCreationSession.IsBusy) _stackedMenu.Update(elapsedTime);
 
             _waitDialog.Update(elapsedTime);
             _timedSplash.Update(elapsedTime);
@@ -111,6 +120,8 @@ namespace Bombrush.MonoGame.States
         {
             base.OnDraw(elapsedTime);
 
+            _panel.Draw();
+
             if (_gameCreationSession.State == GameCreationSessionState.Connected)
             {
                 _tableBackgroundBorder.Draw();
@@ -118,7 +129,6 @@ namespace Bombrush.MonoGame.States
             }
             else
             {
-                _stackedMenu.Draw(Game.SpriteBatch);
                 _waitDialog.Draw();
                 _timedSplash.Draw(Game.SpriteBatch, false);   
             }

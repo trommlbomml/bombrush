@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame Title="Network Game">
+  <StackPanel Orientation="Vertical">
+    <Grid Margin="10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+    
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="Server" Margin="5" />
+      
+      <TextBox InputType="HostNames" Id="ServerTextBox" Grid.Row="0" Grid.Column="1" Margin="5" Width="200" />
+    
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="Nickname" Margin="5" />
+
+      <TextBox InputType="AlphaNumeric"  Id="NickNameTextBox" Grid.Row="1" Grid.Column="1" Margin="5" Width="200" />
+
+    </Grid>
+
+    <StackPanel Orientation="Horizontal" Margin="0,15,0,0" HorizontalAlignment="Right">
+      <Button Id="ConnectButton" Margin="10,0">
+        <TextBlock Text="Connect" Margin="10,5"/>
+      </Button>
+      <Button Id="BackButton" Margin="10,0">
+        <TextBlock Text="Back" Margin="10,5"/>
+      </Button>
+    </StackPanel>
+  </StackPanel>
+</Frame>
