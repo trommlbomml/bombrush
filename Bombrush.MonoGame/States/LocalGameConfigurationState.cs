@@ -50,7 +50,6 @@ namespace Bombrush.MonoGame.States
             _panel = new GuiPanel(Game);
 
             var frame = Game.GuiSystem.CreateGuiHierarchyFromXml<GuiElement>("Content/GuiLayouts/LocalGameConfig_Layout.xml");
-            Game.GuiSystem.ArrangeCenteredToScreen(Game, frame);
             _panel.AddElement(frame);
 
             _playerCountTextBlock = frame.FindGuiElementById<TextBlock>("PlayerCountText");

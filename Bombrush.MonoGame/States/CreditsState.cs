@@ -16,7 +16,6 @@ namespace Bombrush.MonoGame.States
             _panel = new GuiPanel(Game);
 
             var frame = Game.GuiSystem.CreateGuiHierarchyFromXml<Frame>( "Content/GuiLayouts/Credits_Layout.xml");
-            Game.GuiSystem.ArrangeCenteredToScreen(Game, frame);
 
             frame.FindGuiElementById<Button>("BackButton").Click += () =>
             {

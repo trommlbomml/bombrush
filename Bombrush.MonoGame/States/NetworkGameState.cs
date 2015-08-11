@@ -25,8 +25,6 @@ namespace Bombrush.MonoGame.States
             _connectToServerFrame =
                 Game.GuiSystem.CreateGuiHierarchyFromXml<GuiElement>("Content/GuiLayouts/NetworkGame_Layout.xml");
 
-            Game.GuiSystem.ArrangeCenteredToScreen(Game, _connectToServerFrame);
-
             _connectToServerFrame.FindGuiElementById<Button>("ConnectButton").Click += OnConnect;
             _connectToServerFrame.FindGuiElementById<Button>("BackButton").Click += OnBack;
 
@@ -36,7 +34,6 @@ namespace Bombrush.MonoGame.States
             _waitDialog.IsActive = false;
             _waitDialog.Title = string.Empty;
             _waitDialog.FindGuiElementById<TextBlock>("MessageText").Text = "Connecting to Server...";
-            Game.GuiSystem.ArrangeCenteredToScreen(Game, _waitDialog);
             _panel.AddElement(_waitDialog);
 
             _errorDialog = Game.GuiSystem.CreateGuiHierarchyFromXml<Frame>("Content/GuiLayouts/ConfirmationDialog.xml");
@@ -48,7 +45,6 @@ namespace Bombrush.MonoGame.States
                 _errorDialog.IsActive = false;
                 _connectToServerFrame.IsActive = true;
             };
-            Game.GuiSystem.ArrangeCenteredToScreen(Game, _errorDialog);
             _panel.AddElement(_errorDialog);
 
             _gameCreationSession = new RemoteGameCreationSession(Game);
@@ -89,7 +85,7 @@ namespace Bombrush.MonoGame.States
             {
                 _waitDialog.IsActive = false;
                 _errorDialog.FindGuiElementById<TextBlock>("MessageText").Text = _gameCreationSession.GetConnectionFailedMessageAndReset();
-                Game.GuiSystem.ArrangeCenteredToScreen(Game, _errorDialog);
+                _errorDialog.Arrange(Game.GetScreenRectangle());
                 _errorDialog.IsActive = true;
             }
             else if (_gameCreationSession.State == GameCreationSessionState.Connected)

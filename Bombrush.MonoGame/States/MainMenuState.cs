@@ -18,8 +18,6 @@ namespace Bombrush.MonoGame.States
             _splash = new TimedSplash(Game);
 
             var mainMenuFrame = Game.GuiSystem.CreateGuiHierarchyFromXml<GuiElement>("Content/GuiLayouts/MainMenu_Layout.xml");
-            Game.GuiSystem.ArrangeCenteredToScreen(Game, mainMenuFrame);
-
             mainMenuFrame.FindGuiElementById<Button>("LocalGameButton").Click += () => DoTransition(typeof(LocalGameConfigurationState));
             mainMenuFrame.FindGuiElementById<Button>("NetworkGameButton").Click += () => DoTransition(typeof(NetworkGameState));
             mainMenuFrame.FindGuiElementById<Button>("OptionsButton").Click += () => DoTransition(typeof(OptionMenuState));

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Frame Title="Credits">
   <StackPanel Orientation="Vertical" Margin="20">
-    <TextBlock Text="Programming" />
+    <TextBlock Text="Programming" Margin="0,12,0,0"/>
     <TextBlock Text="Peter Friedland" />
-    <TextBlock Text="Special Thanks to" Margin="0,15,0,0"/>
-    <TextBlock Text="Andre Mueller" Margin="0,0,0,15" />
-    <Button Id="BackButton">
-      <TextBlock Text="Back" />
+    <TextBlock Text="Special Thanks to" Margin="0,12,0,0"/>
+    <TextBlock Text="Andre Mueller" />
+    <Button Id="BackButton" Margin="0,12,0,0">
+      <TextBlock Text="Back"/>
     </Button>
   </StackPanel>
 </Frame>
