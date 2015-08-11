@@ -6,7 +6,6 @@ using System.Linq;
 using BombRush.Interfaces;
 using BombRush.Logic;
 using Bombrush.MonoGame.Controller;
-using Bombrush.MonoGame.Gui;
 using Game2DFramework.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
@@ -25,7 +24,7 @@ namespace Bombrush.MonoGame.States
         private int _playerCount = 1;
         private int _comPlayerCount = 1;
         private int _currentLevelIndex;
-        private int _timeSeconds = 240;
+        private int _matchTimeSeconds = 240;
         private string[] _levelNames;
         private TextBlock _currentTimeTextBlock;
 
@@ -62,7 +61,7 @@ namespace Bombrush.MonoGame.States
             _playerCountTextBlock.Text = _playerCount.ToString(CultureInfo.InvariantCulture);
             _comCountTextBlock.Text = _comPlayerCount.ToString(CultureInfo.InvariantCulture);
             _levelNameTextBlock.Text = _levelNames[_currentLevelIndex];
-            _currentTimeTextBlock.Text = string.Format("{0:00}:{1:00}", _timeSeconds/60, _timeSeconds%60);
+            _currentTimeTextBlock.Text = string.Format("{0:00}:{1:00}", _matchTimeSeconds/60, _matchTimeSeconds%60);
 
             frame.FindGuiElementById<Button>("DecreasePlayerCountButton").Click += () => OnChangePlayerCount(false);
             frame.FindGuiElementById<Button>("IncreasePlayerCountButton").Click += () => OnChangePlayerCount(true);
@@ -73,25 +72,15 @@ namespace Bombrush.MonoGame.States
             frame.FindGuiElementById<Button>("DecreaseTimeButton").Click += () => OnChangeTime(false);
             frame.FindGuiElementById<Button>("IncreaseTimeButton").Click += () => OnChangeTime(true);
 
-            //_menu = new StackedMenu(Game) { Title = "Local Game" };
-            //_menu.AppendMenuItem(new ActionMenuItem(Game, "Start", StartLocalGame, ActionTriggerKind.IsAccept));;
-            //_menu.AppendMenuItem(new EnumMenuItem(Game, "Level", GetLocalLevelNames()));
-            //_menu.AppendMenuItem(new TimeMenuItem(Game, "Time", 0, 600) { CurrentValue = 240, });
-            //_menu.AppendMenuItem(new ActionMenuItem(Game, "Back", () => { _stateChangeInformation = StateChangeInformation.StateChange(typeof(MainMenuState), typeof(BlendTransition)); }, ActionTriggerKind.IsCancel));
+            frame.FindGuiElementById<Button>("StartGameButton").Click += StartLocalGame;
+            frame.FindGuiElementById<Button>("BackButton").Click += () => { _stateChangeInformation = StateChangeInformation.StateChange(typeof(MainMenuState), typeof(BlendTransition)); };
+
         }
 
         private void OnChangeTime(bool íncrease)
         {
-            if (íncrease)
-            {
-                _timeSeconds = Math.Min(600, _timeSeconds + 20);
-            }
-            else
-            {
-                _timeSeconds = Math.Max(0, _timeSeconds - 20);
-            }
-
-            _currentTimeTextBlock.Text = string.Format("{0:00}:{1:00}", _timeSeconds / 60, _timeSeconds % 60);
+            _matchTimeSeconds = íncrease ? Math.Min(600, _matchTimeSeconds + 20) : Math.Max(0, _matchTimeSeconds - 20);
+            _currentTimeTextBlock.Text = string.Format("{0:00}:{1:00}", _matchTimeSeconds / 60, _matchTimeSeconds % 60);
         }
 
         private void OnChangeLevel(bool next)
@@ -172,29 +161,26 @@ namespace Bombrush.MonoGame.States
             _stateChangeInformation = StateChangeInformation.Empty;
         }
 
-        //private void StartLocalGame()
-        //{
-        //    var levelAssetLocalName = _menu.GetMenuItem<EnumMenuItem>(3).SelectedItem;
+        private void StartLocalGame()
+        {
+            var levelAssetLocalName = _levelNames[_currentLevelIndex];
 
-        //    var parameters = new GameSessionStartParameters
-        //    {
-        //        MatchesToWin = 5,
-        //        MatchTime = _menu.GetMenuItem<NumericMenuItem>(4).CurrentValue,
-        //        SessionName = "Local Session",
-        //        LevelAssetPath = GetFilePathFromLevelName(levelAssetLocalName),
-        //        ProvidePlayerFigureController = ProvideFigureController
-        //    };
-        //    var gameSession = new GameSessionImp(parameters);
+            var parameters = new GameSessionStartParameters
+            {
+                MatchesToWin = 5,
+                MatchTime = _matchTimeSeconds,
+                SessionName = "Local Session",
+                LevelAssetPath = GetFilePathFromLevelName(levelAssetLocalName),
+                ProvidePlayerFigureController = ProvideFigureController
+            };
+            var gameSession = new GameSessionImp(parameters);
 
-        //    int countPlayers = _playersMenuItem.CurrentValue;
-        //    int countComPlayers = _comMenuItem.CurrentValue;
+            for (var i = 0; i < _playerCount; i++) gameSession.AddMember(MemberType.ActivePlayer);
+            for (var i = 0; i < _comPlayerCount; i++) gameSession.AddMember(MemberType.Computer);
 
-        //    for (var i = 0; i < countPlayers; i++) gameSession.AddMember(MemberType.ActivePlayer);
-        //    for (var i = 0; i < countComPlayers; i++) gameSession.AddMember(MemberType.Computer);
-
-        //    gameSession.StartMatch();
-        //    _stateChangeInformation = StateChangeInformation.StateChange(typeof(WaitState), typeof(SlideTransition), gameSession);
-        //}
+            gameSession.StartMatch();
+            _stateChangeInformation = StateChangeInformation.StateChange(typeof(WaitState), typeof(SlideTransition), gameSession);
+        }
 
         private FigureController ProvideFigureController(int playerIndex)
         {
@@ -205,12 +191,6 @@ namespace Bombrush.MonoGame.States
         {
             base.OnUpdate(elapsedTime);
             _panel.Update(elapsedTime);
-
-            //_menu.Update(elapsedTime);
-
-            //_comMenuItem.MinValue = Math.Max(0, 2 - _playersMenuItem.CurrentValue);
-            //_comMenuItem.MaxValue = BombGame.MaxPlayerCount - _playersMenuItem.CurrentValue;
-
             return _stateChangeInformation;
         }
 
