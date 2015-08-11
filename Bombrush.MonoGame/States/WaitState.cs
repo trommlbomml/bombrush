@@ -86,11 +86,6 @@ namespace Bombrush.MonoGame.States
         {
             base.OnDraw(elapsedTime);
 
-            _border.X += Border.ShadowOffset;
-            _border.Y += Border.ShadowOffset;
-            _border.Draw(Border.ShadowColor);
-            _border.X -= Border.ShadowOffset;
-            _border.Y -= Border.ShadowOffset;
             _border.Draw();
 
             Game.SpriteBatch.DrawString(

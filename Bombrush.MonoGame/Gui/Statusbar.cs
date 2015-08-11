@@ -25,7 +25,7 @@ namespace Bombrush.MonoGame.Gui
             _entries.Add(title);
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool withShadows)
+        public void Draw(SpriteBatch spriteBatch)
         {
             const int bottomOffset = Border.ShadowOffset + 1;
 
@@ -33,15 +33,6 @@ namespace Bombrush.MonoGame.Gui
             _border.Height = Resources.NormalFont.LineSpacing + Border.BorderSize * 2 + Padding * 2;
             _border.Y = Game.ScreenHeight - _border.Height - bottomOffset;
             _border.Width = Width;
-
-            if (withShadows)
-            {
-                _border.X += Border.ShadowOffset;
-                _border.Y += Border.ShadowOffset;
-                _border.Draw(Border.ShadowColor);
-                _border.X -= Border.ShadowOffset;
-                _border.Y -= Border.ShadowOffset;
-            }
 
             _border.Draw();
 

@@ -89,21 +89,6 @@ namespace Bombrush.MonoGame.Gui
 
         public void Draw(SpriteBatch spriteBatch, bool withDropShadows)
         {
-            if (withDropShadows)
-            {
-                _contentBorder.X += Border.ShadowOffset;
-                _contentBorder.Y += Border.ShadowOffset;
-                _contentBorder.Draw(Border.ShadowColor);
-                _contentBorder.X -= Border.ShadowOffset;
-                _contentBorder.Y -= Border.ShadowOffset;
-
-                _titleBorder.X += Border.ShadowOffset;
-                _titleBorder.Y += Border.ShadowOffset;
-                _titleBorder.Draw(Border.ShadowColor);
-                _titleBorder.X -= Border.ShadowOffset;
-                _titleBorder.Y -= Border.ShadowOffset;
-            }
-
             _contentBorder.Draw();
             _titleBorder.Draw();
             if (!string.IsNullOrEmpty(Title))

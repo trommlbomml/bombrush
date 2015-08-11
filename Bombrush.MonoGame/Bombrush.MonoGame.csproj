@@ -84,7 +84,6 @@
     <Compile Include="Gui\TimeMenuItem.cs" />
     <Compile Include="Gui\TitledBorder.cs" />
     <Compile Include="Gui\ToggleActionMenuItem.cs" />
-    <Compile Include="Gui\WaitDialog.cs" />
     <Compile Include="Input\GamePadInputDevice.cs" />
     <Compile Include="Input\IInputDevice.cs" />
     <Compile Include="Input\InputKey.cs" />
@@ -140,6 +139,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\GuiLayouts\ConfirmationDialog.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\GuiLayouts\WaitDialog.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\GuiLayouts\NetworkGame_Layout.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

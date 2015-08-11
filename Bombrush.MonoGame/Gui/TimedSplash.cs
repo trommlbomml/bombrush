@@ -65,7 +65,7 @@ namespace Bombrush.MonoGame.Gui
 
         public bool Running { get; private set; }
 
-        public void Update(float elapsed)
+        public override void Update(float elapsed)
         {
             if (!Running) return;
 
@@ -77,23 +77,14 @@ namespace Bombrush.MonoGame.Gui
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool withShadows)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (!Running) return;
 
             var remaining = _lifeTime - _elapsed;
             var alpha = remaining <= 0.25f ? remaining * 4.0f : 1.0f;
 
-            if (withShadows)
-            {
-                _border.X += Border.ShadowOffset;
-                _border.Y += Border.ShadowOffset;
-                _border.Draw(Color.Black * alpha);
-                _border.X -= Border.ShadowOffset;
-                _border.Y -= Border.ShadowOffset;
-            }
-
-            _border.Draw(Color.Red * alpha);
+            _border.Draw();
 
             var start = _border.ClientY + Padding;
             foreach (var line in _text)

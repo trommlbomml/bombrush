@@ -40,15 +40,10 @@ namespace Bombrush.MonoGame.Gui
             X = Game.ScreenWidth/2 - Width/2;
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            Draw(Color.White);
-        }
-
-        public void Draw(Color color)
-        {
-            _ninePatch.Draw(Game.SpriteBatch, color);
-            _ninePatch.Draw(Game.SpriteBatch, new Rectangle(X, Y, Width, Height), color);
+            _ninePatch.Draw(Game.SpriteBatch);
+            _ninePatch.Draw(Game.SpriteBatch, new Rectangle(X, Y, Width, Height));
         }
 
         public void CenterVertical()

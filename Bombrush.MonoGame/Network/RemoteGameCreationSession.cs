@@ -20,8 +20,7 @@ namespace Bombrush.MonoGame.Network
         private NetClient _netClient;
         private readonly MessageTypeMap _messageTypeMap;
         private readonly List<GameInstance> _gameInstances;
-
-        public string ConnectionFailedMessage { get; set; }
+        private string _connectionFailedMessage;
 
         public RemoteGameCreationSession(Game2D game) : base(game)
         {
@@ -37,7 +36,7 @@ namespace Bombrush.MonoGame.Network
 
         public void ConnectToServer(string host, string playerName)
         {
-            ConnectionFailedMessage = string.Empty;
+            _connectionFailedMessage = string.Empty;
             State = GameCreationSessionState.ConnectingToServer;
 
             var configuration = new NetPeerConfiguration(ApplicationNetworkIdentifier);
@@ -61,18 +60,18 @@ namespace Bombrush.MonoGame.Network
                 catch (Exception)
                 {
                     State = GameCreationSessionState.ConnectionToServerFailed;
-                    ConnectionFailedMessage = "Connection Failed. Check Hostname.";
+                    _connectionFailedMessage = "Connection Failed. Check Hostname.";
                 }
                 
             });
         }
 
-        public bool IsBusy
+        public string GetConnectionFailedMessageAndReset()
         {
-            get
-            {
-                return State == GameCreationSessionState.ConnectingToServer;
-            }
+            if (State != GameCreationSessionState.ConnectionToServerFailed) throw new InvalidOperationException("State must be connection failed");
+
+            State = GameCreationSessionState.Disconnected;
+            return _connectionFailedMessage;
         }
 
         private void Callback(object state)
@@ -85,7 +84,7 @@ namespace Bombrush.MonoGame.Network
             if (netConnectionStatus == NetConnectionStatus.Disconnected)
             {
                 State = GameCreationSessionState.ConnectionToServerFailed;
-                ConnectionFailedMessage = reason;
+                _connectionFailedMessage = reason;
             }
             else if (netConnectionStatus == NetConnectionStatus.Connected)
             {

@@ -70,7 +70,7 @@ namespace Bombrush.MonoGame.States
         {
             base.OnDraw(elapsedTime);
             _panel.Draw();
-            _splash.Draw(Game.SpriteBatch, true);
+            _splash.Draw(Game.SpriteBatch);
         }
     }
 }

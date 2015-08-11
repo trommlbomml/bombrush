@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame Title="DialogTitle">
+  <TextBlock Id="MessageText" Text="Test" Margin="15" />
+</Frame>

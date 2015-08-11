@@ -1,8 +1,8 @@
-﻿using Bombrush.MonoGame.Gui;
-using Bombrush.MonoGame.Network;
+﻿using Bombrush.MonoGame.Network;
 using Game2DFramework.Gui;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
+using Microsoft.Xna.Framework;
 
 namespace Bombrush.MonoGame.States
 {
@@ -10,15 +10,11 @@ namespace Bombrush.MonoGame.States
     {
         private GuiPanel _panel;
         private GuiElement _connectToServerFrame;
+        private Frame _waitDialog;
+        private Frame _errorDialog;
 
-        private TimedSplash _timedSplash;
-        private GameCreationSessionState _lastState;
-        private WaitDialog _waitDialog;
         private RemoteGameCreationSession _gameCreationSession;
         private StateChangeInformation _stateChangeInformation;
-
-        private Border _tableBackgroundBorder;
-        private DataTableView _listOfGameInstances;
 
         protected override void OnInitialize(object enterInformation)
         {
@@ -36,38 +32,26 @@ namespace Bombrush.MonoGame.States
 
             _panel.AddElement(_connectToServerFrame);
 
-            _waitDialog = new WaitDialog(Game, 300) { Text = "Connecting to Server" };
-            _timedSplash = new TimedSplash(Game);
+            _waitDialog = Game.GuiSystem.CreateGuiHierarchyFromXml<Frame>("Content/GuiLayouts/WaitDialog.xml");
+            _waitDialog.IsActive = false;
+            _waitDialog.Title = string.Empty;
+            _waitDialog.FindGuiElementById<TextBlock>("MessageText").Text = "Connecting to Server...";
+            Game.GuiSystem.ArrangeCenteredToScreen(Game, _waitDialog);
+            _panel.AddElement(_waitDialog);
+
+            _errorDialog = Game.GuiSystem.CreateGuiHierarchyFromXml<Frame>("Content/GuiLayouts/ConfirmationDialog.xml");
+            _errorDialog.IsActive = false;
+            _errorDialog.Title = string.Empty;
+            _errorDialog.Color = Color.Red;
+            _errorDialog.FindGuiElementById<Button>("ConfirmButton").Click += () =>
+            {
+                _errorDialog.IsActive = false;
+                _connectToServerFrame.IsActive = true;
+            };
+            Game.GuiSystem.ArrangeCenteredToScreen(Game, _errorDialog);
+            _panel.AddElement(_errorDialog);
 
             _gameCreationSession = new RemoteGameCreationSession(Game);
-            _lastState = _gameCreationSession.State;
-
-            _listOfGameInstances = new DataTableView(Game, GetRowCount, UpdateTableRow);
-            _listOfGameInstances.AddColumn("Name", 200);
-            _listOfGameInstances.AddColumn("Players", 80);
-            _listOfGameInstances.AddColumn("Running", 80);
-
-            _tableBackgroundBorder = new Border(Game);
-            _tableBackgroundBorder.SetClientSize(_listOfGameInstances.Width, _listOfGameInstances.Height);
-            _tableBackgroundBorder.CenterHorizontal();
-            _tableBackgroundBorder.Y = 100;
-            
-            _listOfGameInstances.X = _tableBackgroundBorder.ClientX;
-            _listOfGameInstances.Y = _tableBackgroundBorder.ClientY;
-        }
-
-        private void UpdateTableRow(int i, DataTableRow dataTableRow)
-        {
-            var currentItem = _gameCreationSession.RunningGameInstances[i];
-            _listOfGameInstances.Draw();
-            dataTableRow.Columns[0] = currentItem.Name;
-            dataTableRow.Columns[1] = currentItem.PlayerCount.ToString("D");
-            dataTableRow.Columns[2] = currentItem.IsRunning ? "Yes" : "No";
-        }
-
-        private int GetRowCount()
-        {
-            return _gameCreationSession.RunningGameInstances.Count;
         }
 
         private void OnBack()
@@ -77,16 +61,17 @@ namespace Bombrush.MonoGame.States
 
         private void OnConnect()
         {
-            var host = _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("ServerTextBox").Text;
-            var name = _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("NickNameTextBox").Text;
+            var host = _connectToServerFrame.FindGuiElementById<TextBox>("ServerTextBox").Text;
+            var name = _connectToServerFrame.FindGuiElementById<TextBox>("NickNameTextBox").Text;
             _gameCreationSession.ConnectToServer(host, name);
             _connectToServerFrame.IsActive = false;
+            _waitDialog.IsActive = true;
         }
 
         protected override void OnEntered(object enterInformation)
         {
-            _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("ServerTextBox").Text = "localhost";
-            _connectToServerFrame.FindGuiElementById<Game2DFramework.Gui.TextBox>("NickNameTextBox").Text = "guest";
+            _connectToServerFrame.FindGuiElementById<TextBox>("ServerTextBox").Text = "localhost";
+            _connectToServerFrame.FindGuiElementById<TextBox>("NickNameTextBox").Text = "guest";
         }
 
         public override void OnLeave()
@@ -96,22 +81,21 @@ namespace Bombrush.MonoGame.States
         public override StateChangeInformation OnUpdate(float elapsedTime)
         {
             base.OnUpdate(elapsedTime);
-            _panel.Update(elapsedTime);
 
             _stateChangeInformation = StateChangeInformation.Empty;
+            _panel.Update(elapsedTime);
 
-            _waitDialog.IsActive = _gameCreationSession.State == GameCreationSessionState.ConnectingToServer;
-
-            _waitDialog.Update(elapsedTime);
-            _timedSplash.Update(elapsedTime);
-            _listOfGameInstances.Update();
-            
-            if (_lastState == GameCreationSessionState.ConnectingToServer &&
-                _gameCreationSession.State == GameCreationSessionState.ConnectionToServerFailed)
+            if (_gameCreationSession.State == GameCreationSessionState.ConnectionToServerFailed)
             {
-                _timedSplash.Start("Unable to connect:" + _gameCreationSession.ConnectionFailedMessage, 2.0f);
+                _waitDialog.IsActive = false;
+                _errorDialog.FindGuiElementById<TextBlock>("MessageText").Text = _gameCreationSession.GetConnectionFailedMessageAndReset();
+                Game.GuiSystem.ArrangeCenteredToScreen(Game, _errorDialog);
+                _errorDialog.IsActive = true;
             }
-            _lastState = _gameCreationSession.State;
+            else if (_gameCreationSession.State == GameCreationSessionState.Connected)
+            {
+                //do different.
+            }
 
             return _stateChangeInformation;
         }
@@ -119,19 +103,7 @@ namespace Bombrush.MonoGame.States
         public override void OnDraw(float elapsedTime)
         {
             base.OnDraw(elapsedTime);
-
             _panel.Draw();
-
-            if (_gameCreationSession.State == GameCreationSessionState.Connected)
-            {
-                _tableBackgroundBorder.Draw();
-                _listOfGameInstances.Draw();
-            }
-            else
-            {
-                _waitDialog.Draw();
-                _timedSplash.Draw(Game.SpriteBatch, false);   
-            }
         }
     }
 }
