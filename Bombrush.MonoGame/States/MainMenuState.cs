@@ -1,8 +1,13 @@
 ﻿using System;
 using Bombrush.MonoGame.Gui;
-using Game2DFramework.Gui;
+using Bombrush.MonoGame.Gui2;
+using Game2DFramework.Drawing;
+using Game2DFramework.Gui2;
+using Game2DFramework.Gui2.Controls;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Bombrush.MonoGame.States
 {
@@ -10,22 +15,23 @@ namespace Bombrush.MonoGame.States
     {
         private StateChangeInformation _stateChangeInformation;
         private TimedSplash _splash;
-        private GuiPanel _panel;
+
+        private UiOverlay _mainOverlay;
 
         protected override void OnInitialize(object enterInformation)
         {
             base.OnInitialize(enterInformation);
             _splash = new TimedSplash(Game);
 
-            var mainMenuFrame = Game.GuiSystem.CreateGuiHierarchyFromXml<GuiElement>("Content/GuiLayouts/MainMenu_Layout.xml");
-            mainMenuFrame.FindGuiElementById<Button>("LocalGameButton").Click += () => DoTransition(typeof(LocalGameConfigurationState));
-            mainMenuFrame.FindGuiElementById<Button>("NetworkGameButton").Click += () => DoTransition(typeof(NetworkGameState));
-            mainMenuFrame.FindGuiElementById<Button>("OptionsButton").Click += () => DoTransition(typeof(OptionMenuState));
-            mainMenuFrame.FindGuiElementById<Button>("CreditsButton").Click += () => DoTransition(typeof(CreditsState));
-            mainMenuFrame.FindGuiElementById<Button>("QuitButton").Click += OnQuitClicked;
-
-            _panel = new GuiPanel(Game);
-            _panel.AddElement(mainMenuFrame);
+            _mainOverlay = new UiOverlay();
+            _mainOverlay.AddElement(new NinePatchImage(new NinePatchSprite(Game.Content.Load<Texture2D>("textures/border"), 12, 12), new Rectangle(0, 200, 200, 220)));
+            _mainOverlay.AddElement(new Button2(Game, "Local Game", new Rectangle(20, 215, 160, 35), () => DoTransition(typeof(LocalGameConfigurationState))));
+            _mainOverlay.AddElement(new Button2(Game, "Network Game", new Rectangle(20, 250, 160, 35), () => DoTransition(typeof(NetworkGameState))));
+            _mainOverlay.AddElement(new Button2(Game, "Options", new Rectangle(20, 285, 160, 35), () => DoTransition(typeof(OptionMenuState))));
+            _mainOverlay.AddElement(new Button2(Game, "Credits", new Rectangle(20, 320, 160, 35), () => DoTransition(typeof(CreditsState))));
+            _mainOverlay.AddElement(new Button2(Game, "Quit", new Rectangle(20, 355, 160, 35), OnQuitClicked));
+            _mainOverlay.Center(Game.GetScreenRectangle(),  false, true);
+            _mainOverlay.AddInputController(new KeyboardInputController(Game));
         }
 
         private void DoTransition(Type targetState)
@@ -41,6 +47,7 @@ namespace Bombrush.MonoGame.States
         protected override void OnEntered(object enterInformation)
         {
             _stateChangeInformation = StateChangeInformation.Empty;
+            _mainOverlay.Show();
 
             if (enterInformation is bool && (bool)enterInformation)
             {
@@ -59,7 +66,7 @@ namespace Bombrush.MonoGame.States
             _stateChangeInformation = StateChangeInformation.Empty;
 
             _splash.Update(elapsedTime);
-            if (!_splash.Running) _panel.Update(elapsedTime);
+            if (!_splash.Running) _mainOverlay.Update(new GameTime(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(elapsedTime)));
 
             return _stateChangeInformation;
         }
@@ -67,7 +74,7 @@ namespace Bombrush.MonoGame.States
         public override void OnDraw(float elapsedTime)
         {
             base.OnDraw(elapsedTime);
-            _panel.Draw();
+            _mainOverlay.Draw(Game.SpriteBatch);
             _splash.Draw(Game.SpriteBatch);
         }
     }

@@ -58,6 +58,8 @@
     <Compile Include="BombGame.cs" />
     <Compile Include="Controller\InputDeviceType.cs" />
     <Compile Include="Controller\PlayerController.cs" />
+    <Compile Include="Gui2\Button2.cs" />
+    <Compile Include="Gui2\KeyboardInputController.cs" />
     <Compile Include="Gui\ActionMenuItem.cs" />
     <Compile Include="Gui\ActionTriggerKind.cs" />
     <Compile Include="Gui\AnimatedBomb.cs" />
@@ -258,6 +260,9 @@
     <Content Include="Content\textures\bombrush_guiskin.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Content\textures\selector.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
