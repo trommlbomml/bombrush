@@ -1,7 +1,8 @@
-﻿using BombRush.Interfaces;
+﻿using System;
+using BombRush.Interfaces;
 using Bombrush.MonoGame.Rendering;
+using Game2DFramework.Animations;
 using Game2DFramework.Drawing;
-using Game2DFramework.Interaction;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework;
@@ -29,8 +30,8 @@ namespace Bombrush.MonoGame.States
             _gameRenderer = GameRendererFactory.CreateGameRenderer(GameRendererType.TwoDe, Game, _gameSession.CurrentLevel);
 
             _finishSlideAnimator = new Animator();
-            _finishSlideAnimator.AddAnimation("RotateText", new Animation(1.0f, RotateAndSetAlphaText));
-            _finishSlideAnimator.AddAnimation("Wait", new Animation(1.5f, s => {}));
+            _finishSlideAnimator.AddAnimation("RotateText", new DeltaAnimation(1.0f, RotateAndSetAlphaText, false));
+            _finishSlideAnimator.AddAnimation("Wait", new WaitAnimation(1.5f));
             _finishSlideAnimator.AddTransition("RotateText", "Wait");
             _finishSlideAnimator.AnimationFinished += OnFinishSlideFinished;
 
@@ -41,7 +42,7 @@ namespace Bombrush.MonoGame.States
             };
         }
 
-        private void OnFinishSlideFinished()
+        private void OnFinishSlideFinished(string name, bool playReversed)
         {
             if (_gameSession.CurrentMatchResultType == MatchResultType.SomeOneWins)
                 _stateChangeInformation = StateChangeInformation.StateChange(typeof(MatchResultState), typeof(FlipTransition), _gameSession);
@@ -70,7 +71,7 @@ namespace Bombrush.MonoGame.States
         {
             _stateChangeInformation = StateChangeInformation.Empty;
 
-            _finishSlideAnimator.Update(elapsedTime);
+            _finishSlideAnimator.Update(new GameTime(TimeSpan.Zero, TimeSpan.FromSeconds(elapsedTime)));
             _gameRenderer.Update(elapsedTime);
 
             if (Game.Keyboard.IsKeyDownOnce(Keys.Escape))
@@ -85,7 +86,7 @@ namespace Bombrush.MonoGame.States
                 case GameUpdateResult.MatchFinished:
                     if (_finishSlideAnimator.CurrentAnimation == null)
                     {
-                        _finishSlideAnimator.PlayAnimation("RotateText");
+                        _finishSlideAnimator.SetAnimation("RotateText");
                         var y = _gameSession.CurrentMatchResultType == MatchResultType.Draw ? 50 : 100;
                         _finishedSprite.SetSourceRectangle(new Rectangle(0, y, 300, 50));
                     }

@@ -1,5 +1,6 @@
-﻿using Game2DFramework.Drawing;
-using Game2DFramework.Interaction;
+﻿using System;
+using Game2DFramework.Animations;
+using Game2DFramework.Drawing;
 using Game2DFramework.States;
 using Game2DFramework.States.Transitions;
 using Microsoft.Xna.Framework;
@@ -22,14 +23,14 @@ namespace Bombrush.MonoGame.States
             };
 
             _iconAnimator = new Animator();
-            _iconAnimator.AddAnimation("BlendIn", new Animation(1.0f, AnimateBlendIn));
-            _iconAnimator.AnimationFinished += () => Game.AddDelayedAction(OnStartTransition, 1.0f);
+            _iconAnimator.AddAnimation("BlendIn", new DeltaAnimation(1.0f, AnimateBlendIn, false));
+            _iconAnimator.AnimationFinished += (s,b) => Game.AddDelayedAction(OnStartTransition, 1.0f);
         }
 
         protected override void OnEntered(object enterInformation)
         {
             Game.Cursor.IsActive = false;
-            _iconAnimator.PlayAnimation("BlendIn");
+            _iconAnimator.SetAnimation("BlendIn");
             _stateChangeInformation = StateChangeInformation.Empty;
         }
 
@@ -53,7 +54,7 @@ namespace Bombrush.MonoGame.States
 
         public override StateChangeInformation OnUpdate(float elapsedTime)
         {
-            _iconAnimator.Update(elapsedTime);
+            _iconAnimator.Update(new GameTime(TimeSpan.Zero, TimeSpan.FromSeconds(elapsedTime)));
 
             return _stateChangeInformation;
         }
