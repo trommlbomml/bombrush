@@ -60,6 +60,7 @@
     <Compile Include="Controller\PlayerController.cs" />
     <Compile Include="Gui2\Button2.cs" />
     <Compile Include="Gui2\KeyboardInputController.cs" />
+    <Compile Include="Gui2\MouseInputController.cs" />
     <Compile Include="Gui\ActionMenuItem.cs" />
     <Compile Include="Gui\ActionTriggerKind.cs" />
     <Compile Include="Gui\AnimatedBomb.cs" />

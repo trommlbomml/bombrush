@@ -12,7 +12,7 @@ namespace Bombrush.MonoGame.Gui2
     internal class Button2 : UiElement
     {
         private NinePatchSprite _currentSprite;
-        private Action _onClick;
+        private readonly Action _onClick;
         public override bool IsInteractable => true;
         public string Text { get; set; }
 
@@ -27,12 +27,7 @@ namespace Bombrush.MonoGame.Gui2
             {
                 _currentSprite,
                 new NinePatchSprite(game.Content.Load<Texture2D>("textures/selector"), new Rectangle(32,0,32,32), 15, 15)
-            }, OnUpdate, true);
-        }
-
-        private void OnUpdate(NinePatchSprite current)
-        {
-            _currentSprite = current;
+            }, c => _currentSprite = c, true);
         }
 
         public override void OnAction()

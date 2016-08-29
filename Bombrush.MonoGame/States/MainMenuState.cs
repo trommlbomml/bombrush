@@ -32,6 +32,7 @@ namespace Bombrush.MonoGame.States
             _mainOverlay.AddElement(new Button2(Game, "Quit", new Rectangle(20, 355, 160, 35), OnQuitClicked));
             _mainOverlay.Center(Game.GetScreenRectangle(),  false, true);
             _mainOverlay.AddInputController(new KeyboardInputController(Game));
+            _mainOverlay.AddInputController(new MouseInputController(Game));
         }
 
         private void DoTransition(Type targetState)
