@@ -27,10 +27,10 @@ namespace BombRush.Logic
         private Dictionary<ItemType, int> _itemTypeCount;
         private List<int> _fringeData;
 
-        public List<Figure> Figures { get { return _figures.Cast<Figure>().ToList(); } } 
-        public Point[] StartupPositions { get { return _startupPositions; } }
+        public List<Figure> Figures => _figures.Cast<Figure>().ToList();
+        public Point[] StartupPositions => _startupPositions;
         public float RemainingGameTime { get; private set; }
-        public List<Bomb> ActualBombs { get { return _bombs; } }
+        public List<Bomb> ActualBombs => _bombs;
 
         public LevelImp(int matchTime)
         {
@@ -66,7 +66,7 @@ namespace BombRush.Logic
             _fringeData = levelData.FringeLayer;
             GenerateContent();
 
-            _startupPositions = new Point[]
+            _startupPositions = new[]
             {
                 levelData.Player1StartupPosition,
                 levelData.Player2StartupPosition,
@@ -151,15 +151,11 @@ namespace BombRush.Logic
             return _explosionOverlayData[t.Y * GameLevelWidth + t.X];
         }
 
-        public List<Bomb> Bombs
-        {
-            get { return _bombs.Cast<Bomb>().ToList(); }
-        }
-
-        public TileBlock[] Data { get { return _data; } }
-        public TileBlock[] Fringe { get { return _fringe; } }
-        public Item[] ItemData { get { return _itemData; } }
-        public ExplosionFragment[] OverlayData { get { return _explosionOverlayData; } }
+        public List<Bomb> Bombs => _bombs.ToList();
+        public TileBlock[] Data => _data;
+        public TileBlock[] Fringe => _fringe;
+        public Item[] ItemData => _itemData;
+        public ExplosionFragment[] OverlayData => _explosionOverlayData;
 
         public bool CurrentlyActiveExplosionsOrBombs()
         {
@@ -190,7 +186,7 @@ namespace BombRush.Logic
 
         public bool MayCollectItem(FigureImp figure, out ItemImp item)
         {
-            Item possibleItem = GetItemData(GetTilePositionFromWorld(figure.Position));
+            var possibleItem = GetItemData(GetTilePositionFromWorld(figure.Position));
             if (possibleItem.IsActive)
             {
                 item = (ItemImp)possibleItem;

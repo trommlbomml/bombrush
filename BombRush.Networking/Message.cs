@@ -8,8 +8,8 @@ namespace BombRush.Networking
     {
         public double TimeStamp { get; private set; }
 
-        public virtual NetDeliveryMethod DeliveryMethod { get { return NetDeliveryMethod.ReliableOrdered; } }
-        public virtual int SequenceChannel { get { return 0; } }
+        public virtual NetDeliveryMethod DeliveryMethod => NetDeliveryMethod.ReliableOrdered;
+        public virtual int SequenceChannel => 0;
 
         protected Message()
         {            

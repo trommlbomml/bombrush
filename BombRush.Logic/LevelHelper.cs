@@ -19,7 +19,7 @@ namespace BombRush.Logic
 
         public static string[] GetLevelNames()
         {
-            string basePath = Path.Combine("Content", FolderOfLevels);
+            var basePath = Path.Combine("Content", FolderOfLevels);
             return Directory.GetFiles(basePath).Where(s => s.EndsWith(".xnb")).Select(Path.GetFileNameWithoutExtension).ToArray();
         }
 
@@ -123,24 +123,22 @@ namespace BombRush.Logic
 
         private static bool TileCollisionDetected(Level level, Point tilePosition, Circle playerCircle)
         {
-            //todo: refactor "15"
-            int linearIndex = tilePosition.Y * 15 + tilePosition.X;
+            var linearIndex = tilePosition.Y * 15 + tilePosition.X;
 
-            TileBlock t = level.Data[linearIndex];
-            TileBlock t2 = level.Fringe[linearIndex];
+            var t = level.Data[linearIndex];
+            var t2 = level.Fringe[linearIndex];
             return ((t2.Type == BlockType.Box && t2.IsActive) || t.Type == BlockType.Wall) &&
                    playerCircle.Intersects(t.Bounds);
         }
 
         private static bool BombCollisionDetected(Level level, Point tilePosition, Circle playerCircle)
         {
-            Bomb bomb = level.Bombs.FirstOrDefault(b => b.TilePosition == tilePosition);
+            var bomb = level.Bombs.FirstOrDefault(b => b.TilePosition == tilePosition);
             return bomb != null && playerCircle.Intersects(bomb.Bounds);
         }
 
         public static bool IsCollidable(Level level, Point t)
         {
-            //todo: refactor "15"
             int linearIndex = t.Y * 15 + t.X;
 
             if (level.Data[linearIndex].Type != BlockType.Ground)

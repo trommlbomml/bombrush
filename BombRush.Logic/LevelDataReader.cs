@@ -29,7 +29,7 @@ namespace BombRush.Logic
             var entries = content.Split(new [] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             Debug.Assert(entries.Length == 15 * 13);
 
-            return entries.Select(e => int.Parse(e)).ToList();
+            return entries.Select(int.Parse).ToList();
         }
 
         public static LevelData ReadLevelFile(string fileName)

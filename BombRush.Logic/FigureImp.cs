@@ -6,17 +6,6 @@ using Game2DFramework.Collision;
 
 namespace BombRush.Logic
 {
-    enum PunishedType
-    {
-        None = 0,
-        InvertControls = 1,
-        AutoDrop = 2,
-        SlowMotion = 3,
-        DoubleSpeed = 4,
-        Invisible = 5,
-        Immortal = 6,
-    }
-
     public class FigureImp : Figure
     {
         private readonly Random _random;
@@ -69,8 +58,7 @@ namespace BombRush.Logic
             IsAlive = false;
         }
 
-        //public double TimeStamp { get; set; }
-        public bool IsVisible { get { return _punishedType != PunishedType.Invisible; } }
+        public bool IsVisible => _punishedType != PunishedType.Invisible;
         public Vector2 Position { get; set; }
 
         private string _name;
@@ -78,14 +66,13 @@ namespace BombRush.Logic
         {
             get
             {
-                if (string.IsNullOrEmpty(_name))
-                    _name = string.Format("Player {0}", Id);
+                if (string.IsNullOrEmpty(_name)) _name = $"Player {Id}";
                 return _name;
             } 
             set { _name = value; }
         }
 
-        public byte Id { get; private set; }
+        public byte Id { get; }
         public int Wins { get; set; }
 
         private float _speed;
@@ -132,22 +119,12 @@ namespace BombRush.Logic
             Direction = FigureDirection.Down;
             CollectedItems.Clear();
             ActiveBombType = BombType.Normal;
-            if (FigureController != null)
-                FigureController.ResetInputs();
+            FigureController?.ResetInputs();
         }
         
-        public Rectangle Bounds 
-        {
-            get
-            {
-                return new Rectangle((int)Position.X - FigureBoundSize / 2, (int)Position.Y - FigureBoundSize / 2, FigureBoundSize, FigureBoundSize);
-            }
-        }
+        public Rectangle Bounds => new Rectangle((int)Position.X - FigureBoundSize / 2, (int)Position.Y - FigureBoundSize / 2, FigureBoundSize, FigureBoundSize);
 
-        public Circle CircleBounds
-        {
-            get { return GetCircleBoundsFor(Position); }
-        }
+        public Circle CircleBounds => GetCircleBoundsFor(Position);
 
         public Circle GetCircleBoundsFor(Vector2 position)
         {
@@ -166,16 +143,14 @@ namespace BombRush.Logic
                     _punishedType = PunishedType.None;
             }
 
-            if (FigureController != null)
-                FigureController.Update(elapsed);
+            FigureController?.Update(elapsed);
 
             Move(level, elapsed);
             HandleItemCollection(level);
             HandleHitByFire(level);
             HandlePlaceBomb(level);
-            
-            if (FigureController != null)
-                FigureController.Reset();
+
+            FigureController?.Reset();
         }
 
         protected bool PlaceBomb(LevelImp level)

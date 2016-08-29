@@ -64,7 +64,9 @@
     <Compile Include="LevelHelper.cs" />
     <Compile Include="LevelImp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PunishedType.cs" />
     <Compile Include="TileBlockImp.cs" />
+    <Compile Include="UpdateResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Levels\Rookie.xml" />

@@ -8,7 +8,7 @@ namespace BombRush.Logic
 {
     public class GameSessionMemberImp : GameSessionMember
     {
-        private GameSessionImp Session { get; set; }
+        private GameSessionImp Session { get; }
 
         public GameSessionMemberImp(GameSessionImp session, byte id, string name, MemberType memberType)
         {
@@ -18,8 +18,8 @@ namespace BombRush.Logic
             Name = name;
         }
 
-        public byte Id { get; private set; }
-        public MemberType Type { get; private set; }
+        public byte Id { get; }
+        public MemberType Type { get; }
         public int PlayerIndex { get; set; }
         public string Name { get; set; }
         public int Wins { get; set; }

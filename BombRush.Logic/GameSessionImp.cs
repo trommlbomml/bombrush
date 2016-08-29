@@ -55,7 +55,7 @@ namespace BombRush.Logic
 
         private int GetNextFreePlayerIndex()
         {
-            int index = 1;
+            var index = 1;
             while (_members.Where(m => m.PlayerIndex > 0).Any(m => m.PlayerIndex == index)) index++;
 
             if (index > 4) throw new InvalidOperationException("More than 4 active players per session are not valid");
@@ -88,6 +88,8 @@ namespace BombRush.Logic
                 case MemberType.Watcher:
                     member.Name = "Watcher";
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(memberType), memberType, null);
             }
         }
 
@@ -96,8 +98,9 @@ namespace BombRush.Logic
             State = GameSessionState.PreparingMatchLoadData;
         }
 
-        public string SessionName { get; private set; }
-        public Level CurrentLevel { get { return _currentLevel; } }
+        public string SessionName { get; }
+
+        public Level CurrentLevel => _currentLevel;
         public GameSessionState State { get; private set; }
         public float RemainingStartupTime { get; private set; }
         public MatchResultType CurrentMatchResultType { get; private set; }
@@ -112,7 +115,7 @@ namespace BombRush.Logic
         {
             _updateResult = GameUpdateResult.None;
 
-            switch (State)
+            switch(State)
             {
                 case GameSessionState.PreparingMatchLoadData:
                     HandlePrepareMatch();
@@ -132,7 +135,7 @@ namespace BombRush.Logic
         {
             _currentLevel = new LevelImp(_matchTimeSeconds);
             _currentLevel.GenerateLevel(_levelAssetPath);
-            foreach (var member in _members.Where(m => m.Type != MemberType.Watcher))
+            foreach(var member in _members.Where(m => m.Type != MemberType.Watcher))
             {
                 _currentLevel.AddFigure(member.SpawnFigure(_currentLevel));
             }
@@ -144,7 +147,7 @@ namespace BombRush.Logic
         private void HandleInGame(float elapsedTime)
         {
             var resulType = _currentLevel.Update(elapsedTime);
-            if (resulType == MatchResultType.None) return;
+            if(resulType == MatchResultType.None) return;
 
             CurrentMatchResultType = resulType;
             _updateResult = GameUpdateResult.MatchFinished;
@@ -154,13 +157,13 @@ namespace BombRush.Logic
         private void HandleSynchronizeStart(float elapsedTime)
         {
             RemainingStartupTime -= elapsedTime;
-            if (RemainingStartupTime <= 0)
+            if(RemainingStartupTime <= 0)
             {
                 State = GameSessionState.InGame;
                 _updateResult = GameUpdateResult.SwitchToGame;
             }
         }
-        
+
         public GameSessionMember[] Members
         {
             get { return _members.Cast<GameSessionMember>().ToArray(); }

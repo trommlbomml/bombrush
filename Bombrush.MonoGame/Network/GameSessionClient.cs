@@ -8,7 +8,7 @@ namespace Bombrush.MonoGame.Network
     class GameSessionClient : GameSession
     {
         private byte _clientId;
-        private NetClient _netClient;
+        private readonly NetClient _netClient;
         private double _serverTimeStamp;
         private FigureController _figureController;
         

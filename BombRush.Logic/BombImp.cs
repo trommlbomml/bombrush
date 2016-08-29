@@ -3,33 +3,20 @@ using Microsoft.Xna.Framework;
 
 namespace BombRush.Logic
 {
-    public enum UpdateResult
-    {
-        Nothing,
-        Exploding,
-    }
-
     public class BombImp : Bomb
     {
         public const float BurnTimeSeconds = 3;
 
         private FigureImp _dropByFigure;
 
-        public byte Id { get; private set; }
+        public byte Id { get; }
         public Point TilePosition { get; set; }
         public bool IsActive { get; private set; }
         public float CurrentBurnTime { get; private set; }
-        public float BurnTime { get; private set; }
-        public BombType BombType { get; private set; }
+        public float BurnTime { get; }
+        public BombType BombType { get; }
 
-        public int ExplosionRange
-        {
-            get
-            {
-                //todo: refactor "15"
-                return BombType == BombType.MaxRange ? 15 : _dropByFigure.BombExplosionRange;
-            }
-        }
+        public int ExplosionRange => BombType == BombType.MaxRange ? 15 : _dropByFigure.BombExplosionRange;
 
         public BombImp(byte id, BombType bombType)
         {
@@ -38,15 +25,10 @@ namespace BombRush.Logic
             BombType = bombType;
         }
 
-        public Rectangle Bounds
-        {
-            get
-            {
-                return new Rectangle(TilePosition.X * TileBlockImp.Tilesize + 2, 
-                                     TilePosition.Y * TileBlockImp.Tilesize + 2, 
-                                     TileBlockImp.Tilesize - 4, TileBlockImp.Tilesize - 4);
-            }
-        }
+        public Rectangle Bounds => new Rectangle(TilePosition.X * TileBlockImp.Tilesize + 2, 
+                                                 TilePosition.Y * TileBlockImp.Tilesize + 2, 
+                                                 TileBlockImp.Tilesize - 4, 
+                                                 TileBlockImp.Tilesize - 4);
 
         public void Drop(FigureImp dropByFigure,Point tilePosition)
         {
